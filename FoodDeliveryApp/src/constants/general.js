@@ -1,21 +1,21 @@
 const WELCOME_CONTENTS = [
     {
         image: 'DISCOVER',
-        title: 'Discover places near you', 
+        title: 'Find the best restaurants near you', 
         content: 
-            'We make it simple to find your favorite food. Enter your address and let us do the rest.',
+            'Discover a wide range of restaurants in your area. Enter your address and explore delicious options.',
     },
     {
         image: 'FAVORITE',
-        title: 'Order your favorite', 
+        title: 'Save your favorite dishes', 
         content: 
-            'We will store your favorite foods based on your search and orders',
+            'Save your most-loved dishes for quick and easy ordering. Never miss out on your favorites again.',
     },
     {
         image: 'DELIVER',
-        title: 'Fastest delivery', 
+        title: 'Fast and reliable delivery', 
         content: 
-            'We will make food ordering fast, easy and free. No matter you paid online or cash',
+            'Enjoy the fastest food delivery service. We ensure your orders reach you in no time, hassle-free.',
     },
 ];
 
