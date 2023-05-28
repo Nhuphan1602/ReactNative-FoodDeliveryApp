@@ -24,7 +24,7 @@ const Pagination = ({index}) => {
     )
 }
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({navigation}) => {
     const [welcomeListIndex, setWelcomeListIndex] = useState(0);
     const welcomeList = useRef()
     const onViewRef = useRef(({changed}) => {
@@ -69,6 +69,7 @@ const WelcomeScreen = () => {
                 <TouchableOpacity 
                     style={styles.gettingStartedButton}
                     activeOpacity={.8}
+                    onPress={() => navigation.navigate("Signin")}
                 >
                     <Text style={styles.gettingStartedButtonText}>Get started</Text>
                 </TouchableOpacity>
