@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 22,
         fontFamily: fonts.POPPINS_BOLD,
+        textAlign: 'center',
     },
     contentText: {
-        fontSize: 18,
+        fontSize: 18,       
         fontFamily: fonts.POPPINS_LIGHT,
         textAlign: 'center',
         marginHorizontal: 20,
