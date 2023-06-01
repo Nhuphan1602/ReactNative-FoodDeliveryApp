@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, Image } from "react-native";
-import { Separator, ToggleButton } from "../components";
+import React, {useState} from 'react';
+import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, Image } from 'react-native';
+import { colors, fonts, images } from '../constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
-import { colors, fonts, images } from "../constants";
+import { Separator } from "../components";
 import { display } from "../utils";
 
-const SigninScreen = ({navigation}) => {
+const SignupScreen = ({navigation}) => {
     const[isPasswordShow,setPasswordShow] = useState(false);
     return (
         <View style={styles.container}>
@@ -22,11 +22,11 @@ const SigninScreen = ({navigation}) => {
                 size={25} 
                 onPress={() => navigation.goBack()} 
                 />
-                <Text style={styles.headerTitle}>Sign In</Text>
+                <Text style={styles.headerTitle}>Sign Up</Text>
             </View>
-            <Text style={styles.title}>Welcome</Text>
+            <Text style={styles.title}>Create Account</Text>
             <Text style={styles.content}>
-                Enter your username and password, and enjoy ordering food
+                Enter your email, choose a username and password
             </Text>
             <View style={styles.inputContainer}>
                 <View style={styles.inputSubContainer}>
@@ -38,6 +38,23 @@ const SigninScreen = ({navigation}) => {
                     />
                     <TextInput 
                     placeholder="Username" 
+                    placeholderTextColor={colors.DEFAULT_GREY}
+                    selectionColor={colors.DEFAULT_GREY}
+                    style={styles.inputText}
+                    />
+                </View>
+            </View>
+            <Separator height={15}/>
+            <View style={styles.inputContainer}>
+                <View style={styles.inputSubContainer}>
+                    <Feather 
+                    name="mail" 
+                    size={22} 
+                    color={colors.DEFAULT_GREY} 
+                    style={{marginRight:10}}
+                    />
+                    <TextInput 
+                    placeholder="Email" 
                     placeholderTextColor={colors.DEFAULT_GREY}
                     selectionColor={colors.DEFAULT_GREY}
                     style={styles.inputText}
@@ -69,27 +86,9 @@ const SigninScreen = ({navigation}) => {
                     />
                 </View>
             </View>
-            <Text></Text>
-            <View style={styles.forgotPasswordContainer}>
-                <View style={styles.toggleContainer}>
-                    <ToggleButton size={0.5}/>
-                    <Text style={styles.rememberMeText}>Remember me</Text>
-                </View>
-                <Text style={styles.forgotPasswordText} 
-                    onPress={() => navigation.navigate("ForgotPassword")}>
-                    Forgot password
-                </Text>
-            </View>
             <TouchableOpacity style={styles.signinButton}>
-                <Text style={styles.signinButtonText}>Sign In</Text>
+                <Text style={styles.signinButtonText}>Create Account</Text>
             </TouchableOpacity>
-            <View style={styles.signupContainer}>
-                <Text style={styles.accountText}>Don't have an account?</Text>
-                <Text style={styles.signupText} 
-                    onPress={() => navigation.navigate('Signup')}>
-                    Sign Up
-                </Text>
-            </View>
             <Text style={styles.orText}>OR</Text>
             <TouchableOpacity style={styles.facebookButton}>
                 <View style={styles.socialButtonContainer}>
@@ -108,13 +107,13 @@ const SigninScreen = ({navigation}) => {
                 </View>
             </TouchableOpacity>
         </View>
-    )
+    );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.DEFAULT_WHITE,
+        backgroundColor: colors.DEFAULT_WHITE
     },
     headerContainer: {
         flexDirection: 'row',
@@ -166,25 +165,6 @@ const styles = StyleSheet.create({
         color: colors.DEFAULT_BLACK,
         flex: 1,
     },
-    forgotPasswordContainer:{
-        marginHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    rememberMeText:{
-        marginLeft: 10,
-        fontSize: 12,
-        lineHeight: 12 * 1.4,
-        color: colors.DEFAULT_GREY,
-        fontFamily: fonts.POPPINS_MEDIUM
-    },
-    forgotPasswordText:{
-        fontSize: 12,
-        lineHeight: 12 * 1.4,
-        color: colors.DEFAULT_GREEN,
-        fontFamily: fonts.POPPINS_BOLD
-    },
     signinButton:{
         backgroundColor: colors.DEFAULT_GREEN,
         borderRadius: 8,
@@ -200,26 +180,6 @@ const styles = StyleSheet.create({
         color: colors.DEFAULT_WHITE,
         fontFamily: fonts.POPPINS_MEDIUM
     },
-    signupContainer:{
-        marginHorizontal: 20,
-        justifyContent: 'center',
-        paddingVertical: 20,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    accountText:{
-        fontSize: 13,
-        lineHeight: 13 * 1.4,
-        color: colors.DEFAULT_BLACK,
-        fontFamily: fonts.POPPINS_MEDIUM
-    },
-    signupText:{
-        fontSize: 13,
-        lineHeight: 13 * 1.4,
-        color: colors.DEFAULT_GREEN,
-        fontFamily: fonts.POPPINS_MEDIUM,
-        marginLeft: 5,
-    },
     orText:{
         fontSize: 15,
         lineHeight: 15 * 1.4,
@@ -227,6 +187,7 @@ const styles = StyleSheet.create({
         fontFamily: fonts.POPPINS_MEDIUM,
         marginLeft: 5,
         alignSelf: 'center',
+        marginTop: 20,
     },
     facebookButton:{
         backgroundColor: colors.FABEBOOK_BLUE,
@@ -245,17 +206,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    signinButtonLogo:{
-        height: 18,
-        width: 18,
-    },
-    signinButtonLogoContainer:{
-        backgroundColor: colors.DEFAULT_WHITE,
-        padding: 2,
-        borderRadius: 3,
-        position: 'absolute',
-        left: 25,
-    },
     socialButtonContainer:{
         flexDirection: 'row',
         alignItems: 'center',
@@ -268,10 +218,17 @@ const styles = StyleSheet.create({
         lineHeight: 13 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
     },
-    toggleContainer:{
-        flexDirection: 'row',
-        alignItems: 'center'
-    }
+    signinButtonLogoContainer:{
+        backgroundColor: colors.DEFAULT_WHITE,
+        padding: 2,
+        borderRadius: 3,
+        position: 'absolute',
+        left: 25,
+    },
+    signinButtonLogo:{
+        height: 18,
+        width: 18,
+    },
 });
 
-export default SigninScreen;
+export default SignupScreen;
