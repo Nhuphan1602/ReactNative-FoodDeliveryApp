@@ -1,5 +1,16 @@
 import React, {useState} from "react";
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, Image } from "react-native";
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    StatusBar, 
+    TextInput, 
+    TouchableOpacity, 
+    Image, 
+    TouchableWithoutFeedback, 
+    KeyboardAvoidingView, 
+    Keyboard 
+} from "react-native";
 import { Separator, ToggleButton } from "../components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
@@ -9,105 +20,109 @@ import { display } from "../utils";
 const SigninScreen = ({navigation}) => {
     const[isPasswordShow,setPasswordShow] = useState(false);
     return (
-        <View style={styles.container}>
-            <StatusBar 
-              barStyle="dark-content" 
-              backgroundColor={colors.DEFAULT_WHITE}
-              translucent
-            />  
-            <Separator height={StatusBar.currentHeight}/>
-            <View style={styles.headerContainer}>
-                <Ionicons 
-                name="chevron-back-outline" 
-                size={25} 
-                onPress={() => navigation.goBack()} 
-                />
-                <Text style={styles.headerTitle}>Sign In</Text>
-            </View>
-            <Text style={styles.title}>Welcome</Text>
-            <Text style={styles.content}>
-                Enter your username and password, and enjoy ordering food
-            </Text>
-            <View style={styles.inputContainer}>
-                <View style={styles.inputSubContainer}>
-                    <Feather 
-                    name="user" 
-                    size={22} 
-                    color={colors.DEFAULT_GREY} 
-                    style={{marginRight:10}}
-                    />
-                    <TextInput 
-                    placeholder="Username" 
-                    placeholderTextColor={colors.DEFAULT_GREY}
-                    selectionColor={colors.DEFAULT_GREY}
-                    style={styles.inputText}
-                    />
-                </View>
-            </View>
-            <Separator height={15}/>
-            <View style={styles.inputContainer}>
-                <View style={styles.inputSubContainer}>
-                    <Feather 
-                    name="lock" 
-                    size={22} 
-                    color={colors.DEFAULT_GREY} 
-                    style={{marginRight:10}}
-                    />
-                    <TextInput
-                    secureTextEntry={isPasswordShow ? false: true}
-                    placeholder="Password" 
-                    placeholderTextColor={colors.DEFAULT_GREY}
-                    selectionColor={colors.DEFAULT_GREY}
-                    style={styles.inputText}
-                    />
-                    <Feather
-                    name={isPasswordShow ? 'eye' : 'eye-off'}
-                    size={22} 
-                    color={colors.DEFAULT_GREY} 
-                    style={{marginRight:10}}
-                    onPress={()=> setPasswordShow(!isPasswordShow)}
-                    />
-                </View>
-            </View>
-            <Text></Text>
-            <View style={styles.forgotPasswordContainer}>
-                <View style={styles.toggleContainer}>
-                    <ToggleButton size={0.5}/>
-                    <Text style={styles.rememberMeText}>Remember me</Text>
-                </View>
-                <Text style={styles.forgotPasswordText} 
-                    onPress={() => navigation.navigate("ForgotPassword")}>
-                    Forgot password
-                </Text>
-            </View>
-            <TouchableOpacity style={styles.signinButton}>
-                <Text style={styles.signinButtonText}>Sign In</Text>
-            </TouchableOpacity>
-            <View style={styles.signupContainer}>
-                <Text style={styles.accountText}>Don't have an account?</Text>
-                <Text style={styles.signupText} 
-                    onPress={() => navigation.navigate('Signup')}>
-                    Sign Up
-                </Text>
-            </View>
-            <Text style={styles.orText}>OR</Text>
-            <TouchableOpacity style={styles.facebookButton}>
-                <View style={styles.socialButtonContainer}>
-                    <View style={styles.signinButtonLogoContainer}>
-                        <Image source={images.FACEBOOK} style={styles.signinButtonLogo}/>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <StatusBar 
+                    barStyle="dark-content" 
+                    backgroundColor={colors.DEFAULT_WHITE}
+                    translucent
+                    />  
+                    <Separator height={StatusBar.currentHeight}/>
+                    <View style={styles.headerContainer}>
+                        <Ionicons 
+                        name="chevron-back-outline" 
+                        size={25} 
+                        onPress={() => navigation.goBack()} 
+                        />
+                        <Text style={styles.headerTitle}>Sign In</Text>
                     </View>
-                    <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.googleButton}>
-                <View style={styles.socialButtonContainer}>
-                    <View style={styles.signinButtonLogoContainer}>
-                        <Image source={images.GOOGLE} style={styles.signinButtonLogo}/>
+                    <Text style={styles.title}>Welcome</Text>
+                    <Text style={styles.content}>
+                        Enter your username and password, and enjoy ordering food
+                    </Text>
+                    <View style={styles.inputContainer}>
+                        <View style={styles.inputSubContainer}>
+                            <Feather 
+                            name="user" 
+                            size={22} 
+                            color={colors.DEFAULT_GREY} 
+                            style={{marginRight:10}}
+                            />
+                            <TextInput 
+                            placeholder="Username" 
+                            placeholderTextColor={colors.DEFAULT_GREY}
+                            selectionColor={colors.DEFAULT_GREY}
+                            style={styles.inputText}
+                            />
+                        </View>
                     </View>
-                    <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
+                    <Separator height={15}/>
+                    <View style={styles.inputContainer}>
+                        <View style={styles.inputSubContainer}>
+                            <Feather 
+                            name="lock" 
+                            size={22} 
+                            color={colors.DEFAULT_GREY} 
+                            style={{marginRight:10}}
+                            />
+                            <TextInput
+                            secureTextEntry={isPasswordShow ? false: true}
+                            placeholder="Password" 
+                            placeholderTextColor={colors.DEFAULT_GREY}
+                            selectionColor={colors.DEFAULT_GREY}
+                            style={styles.inputText}
+                            />
+                            <Feather
+                            name={isPasswordShow ? 'eye' : 'eye-off'}
+                            size={22} 
+                            color={colors.DEFAULT_GREY} 
+                            style={{marginRight:10}}
+                            onPress={()=> setPasswordShow(!isPasswordShow)}
+                            />
+                        </View>
+                    </View>
+                    <Text></Text>
+                    <View style={styles.forgotPasswordContainer}>
+                        <View style={styles.toggleContainer}>
+                            <ToggleButton size={0.5}/>
+                            <Text style={styles.rememberMeText}>Remember me</Text>
+                        </View>
+                        <Text style={styles.forgotPasswordText} 
+                            onPress={() => navigation.navigate("ForgotPassword")}>
+                            Forgot password
+                        </Text>
+                    </View>
+                    <TouchableOpacity style={styles.signinButton}>
+                        <Text style={styles.signinButtonText}>Sign In</Text>
+                    </TouchableOpacity>
+                    <View style={styles.signupContainer}>
+                        <Text style={styles.accountText}>Don't have an account?</Text>
+                        <Text style={styles.signupText} 
+                            onPress={() => navigation.navigate('Signup')}>
+                            Sign Up
+                        </Text>
+                    </View>
+                    <Text style={styles.orText}>OR</Text>
+                    <TouchableOpacity style={styles.facebookButton}>
+                        <View style={styles.socialButtonContainer}>
+                            <View style={styles.signinButtonLogoContainer}>
+                                <Image source={images.FACEBOOK} style={styles.signinButtonLogo}/>
+                            </View>
+                            <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.googleButton}>
+                        <View style={styles.socialButtonContainer}>
+                            <View style={styles.signinButtonLogoContainer}>
+                                <Image source={images.GOOGLE} style={styles.signinButtonLogo}/>
+                            </View>
+                            <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
-        </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 };
 
