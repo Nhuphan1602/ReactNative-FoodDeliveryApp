@@ -8,8 +8,11 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
-import { colors, fonts, images, countryCode } from '../constants';
+import { colors, fonts, countryCode } from '../constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Separator, FlagItem } from "../components";
@@ -38,90 +41,102 @@ const RegisterPhoneScreen = ({navigation}) => {
       }
     }
   };
+
+  const handleContainerPress = () => {
+    Keyboard.dismiss();
+    setIsDropdownOpen(false);
+  };
+  
   return (
-    <View
-      style={styles.container}
-      onStartShouldSetResponder={({nativeEvent: {pageX, pageY}}) =>
-        closeDropdown(pageX, pageY)}
-      >
-      <StatusBar 
-        barStyle="dark-content" 
-        backgroundColor={colors.DEFAULT_WHITE}
-        translucent
-      />  
-      <Separator height={StatusBar.currentHeight}/>
-      <View style={styles.headerContainer}>
-          <Ionicons 
-          name="chevron-back-outline" 
-          size={25} 
-          onPress={() => navigation.goBack()} 
-          />
-          <Text style={styles.headerTitle}>RegisterPhone</Text>
-      </View>
-      <Text style={styles.title}>RegisterPhone</Text>
-      <Text style={styles.content}>
-          Enter your register phone number to login.
-      </Text>
-      <View
-        style={styles.inputsContainer}
-        onLayout={({
-          nativeEvent: {
-            layout: {y},
-          },
-        }) => setInputsContainerY(y)}
-      >
-        <TouchableOpacity 
-          style={styles.countryListContainer}
-          onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-        >
-          <Image
-            source={{uri: StaticImageService.getFlagIcon(selectedCountry.code)}}
-            style={styles.flatIcon}
-          />
-          <Text style={styles.countryCodeText}>{selectedCountry.dial_code}</Text>
-          <MaterialIcons name="keyboard-arrow-down" size={18}/>
-        </TouchableOpacity>
-        <View style={styles.phoneInputContainer}>
-          <TextInput 
-            placeholder='Phone number'
-            placeholderTextColor={colors.DEFAULT_GREY}
-            selectionColor={colors.DEFAULT_GREY}
-            keyboardType='number-pad'
-            onFocus={() =>  setIsDropdownOpen(false)}
-            // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
-            style={styles.inputText} />
-        </View>
-      </View>
-      <TouchableOpacity 
-        style={styles.signinButton} 
-        activeOpacity={0.8}
-      >
-        <Text style={styles.signinButtonText}>Continue</Text>
-      </TouchableOpacity>
-      { isDropdownOpen && (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={{flex: 1}}>
+      <TouchableWithoutFeedback onPress={handleContainerPress}>
         <View
-          style={getDropdownStyle(inputsContainerY)}
-          onLayout={({
-            nativeEvent: {
-              layout: {x, y, height, width},
-            },
-          }) => setDropdownLayout({x, y, height, width})}>
-          <FlatList
-            data={countryCode}
-            keyExtractor={item => item.code}
-            renderItem={({item}) => (
-              <FlagItem
-                {...item}
-                onPress={country => {
-                  setSelectedCountry(country);
-                  setIsDropdownOpen(false);
-                }}
+          style={styles.container}
+          onStartShouldSetResponder={({nativeEvent: {pageX, pageY}}) =>
+            closeDropdown(pageX, pageY)}
+          >
+          <StatusBar 
+            barStyle="dark-content" 
+            backgroundColor={colors.DEFAULT_WHITE}
+            translucent
+          />  
+          <Separator height={StatusBar.currentHeight}/>
+          <View style={styles.headerContainer}>
+              <Ionicons 
+              name="chevron-back-outline" 
+              size={25} 
+              onPress={() => navigation.goBack()} 
               />
-            )}
-          />
+              <Text style={styles.headerTitle}>RegisterPhone</Text>
+          </View>
+          <Text style={styles.title}>RegisterPhone</Text>
+          <Text style={styles.content}>
+              Enter your register phone number to login.
+          </Text>
+          <View
+            style={styles.inputsContainer}
+            onLayout={({
+              nativeEvent: {
+                layout: {y},
+              },
+            }) => setInputsContainerY(y)}
+          >
+            <TouchableOpacity 
+              style={styles.countryListContainer}
+              onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <Image
+                source={{uri: StaticImageService.getFlagIcon(selectedCountry.code)}}
+                style={styles.flatIcon}
+              />
+              <Text style={styles.countryCodeText}>{selectedCountry.dial_code}</Text>
+              <MaterialIcons name="keyboard-arrow-down" size={18}/>
+            </TouchableOpacity>
+            <View style={styles.phoneInputContainer}>
+              <TextInput 
+                placeholder='Phone number'
+                placeholderTextColor={colors.DEFAULT_GREY}
+                selectionColor={colors.DEFAULT_GREY}
+                keyboardType='number-pad'
+                onFocus={() =>  setIsDropdownOpen(false)}
+                // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
+                style={styles.inputText} />
+            </View>
+          </View>
+          <TouchableOpacity 
+            style={styles.signinButton} 
+            activeOpacity={0.8}
+          >
+            <Text style={styles.signinButtonText}>Continue</Text>
+          </TouchableOpacity>
+          { isDropdownOpen && (
+            <View
+              style={getDropdownStyle(inputsContainerY)}
+              onLayout={({
+                nativeEvent: {
+                  layout: {x, y, height, width},
+                },
+              }) => setDropdownLayout({x, y, height, width})}>
+              <FlatList
+                data={countryCode}
+                keyExtractor={item => item.code}
+                renderItem={({item}) => (
+                  <FlagItem
+                    {...item}
+                    onPress={country => {
+                      setSelectedCountry(country);
+                      setIsDropdownOpen(false);
+                    }}
+                  />
+                )}
+              />
+            </View>
+          )}
         </View>
-      )}
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
