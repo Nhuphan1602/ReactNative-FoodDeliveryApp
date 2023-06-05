@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity } from 'react-native';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    StatusBar, 
+    TextInput, 
+    TouchableOpacity, 
+    TouchableWithoutFeedback, 
+    KeyboardAvoidingView, 
+    Keyboard  
+} from 'react-native';
 import { Separator } from "../components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
@@ -8,45 +18,49 @@ import { display } from "../utils";
 
 const ForgotPasswordScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-            <StatusBar 
-              barStyle="dark-content" 
-              backgroundColor={colors.DEFAULT_WHITE}
-              translucent
-            />  
-            <Separator height={StatusBar.currentHeight}/>
-            <View style={styles.headerContainer}>
-                <Ionicons 
-                name="chevron-back-outline" 
-                size={25} 
-                onPress={() => navigation.goBack()} 
-                />
-                <Text style={styles.headerTitle}>Forgot Password</Text>
-            </View>
-            <Text style={styles.title}>Forgot password</Text>
-            <Text style={styles.content}>
-                Enter your email, so that we can help you to recover your password.
-            </Text>
-            <View style={styles.inputContainer}>
-                <View style={styles.inputSubContainer}>
-                    <Feather 
-                    name="mail" 
-                    size={22} 
-                    color={colors.DEFAULT_GREY} 
-                    style={{marginRight:10}}
-                    />
-                    <TextInput 
-                    placeholder="Email" 
-                    placeholderTextColor={colors.DEFAULT_GREY}
-                    selectionColor={colors.DEFAULT_GREY}
-                    style={styles.inputText}
-                    />
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <StatusBar 
+                    barStyle="dark-content" 
+                    backgroundColor={colors.DEFAULT_WHITE}
+                    translucent
+                    />  
+                    <Separator height={StatusBar.currentHeight}/>
+                    <View style={styles.headerContainer}>
+                        <Ionicons 
+                        name="chevron-back-outline" 
+                        size={25} 
+                        onPress={() => navigation.goBack()} 
+                        />
+                        <Text style={styles.headerTitle}>Forgot Password</Text>
+                    </View>
+                    <Text style={styles.title}>Forgot password</Text>
+                    <Text style={styles.content}>
+                        Enter your email, so that we can help you to recover your password.
+                    </Text>
+                    <View style={styles.inputContainer}>
+                        <View style={styles.inputSubContainer}>
+                            <Feather 
+                            name="mail" 
+                            size={22} 
+                            color={colors.DEFAULT_GREY} 
+                            style={{marginRight:10}}
+                            />
+                            <TextInput 
+                            placeholder="Email" 
+                            placeholderTextColor={colors.DEFAULT_GREY}
+                            selectionColor={colors.DEFAULT_GREY}
+                            style={styles.inputText}
+                            />
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.signinButton}>
+                        <Text style={styles.signinButtonText}>Reset Password</Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <TouchableOpacity style={styles.signinButton}>
-                <Text style={styles.signinButtonText}>Reset Password</Text>
-            </TouchableOpacity>
-        </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 };
 
