@@ -1,7 +1,7 @@
 const WELCOME_CONTENTS = [
     {
         image: 'DISCOVER',
-        title: 'Find the best restaurants near you', 
+        title: 'Find the best restaurants', 
         content: 
             'Discover a wide range of restaurants in your area. Enter your address and explore delicious options.',
     },
