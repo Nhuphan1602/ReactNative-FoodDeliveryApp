@@ -28,6 +28,7 @@ const RegisterPhoneScreen = ({navigation}) => {
   const [inputsContainerY, setInputsContainerY] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownLayout, setDropdownLayout] = useState({});
+  const [phoneNumber, setPhoneNumber] = useState("")
 
   const closeDropdown = (pageX, pageY) => {
     if (isDropdownOpen) {
@@ -102,13 +103,14 @@ const RegisterPhoneScreen = ({navigation}) => {
                 keyboardType='number-pad'
                 onFocus={() =>  setIsDropdownOpen(false)}
                 // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
-                style={styles.inputText} />
+                style={styles.inputText}
+                onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} />
             </View>
           </View>
           <TouchableOpacity 
             style={styles.signinButton} 
             activeOpacity={0.8}
-          >
+            onPress={() => navigation.navigate("Verification", {phoneNumber})}>
             <Text style={styles.signinButtonText}>Continue</Text>
           </TouchableOpacity>
           { isDropdownOpen && (
