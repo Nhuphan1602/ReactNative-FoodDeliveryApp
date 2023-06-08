@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Separator } from "../components";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, fonts } from "../constants";
@@ -16,7 +16,10 @@ const VerificationScreen = ({
         const thirdInput = useRef();
         const fourthInput = useRef();
         const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+          
     return (
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
             <StatusBar 
                 barStyle="dark-content" 
@@ -93,6 +96,8 @@ const VerificationScreen = ({
                         <Text style={styles.signinButtonText}>Verify</Text>
             </TouchableOpacity>
         </View>
+        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 
