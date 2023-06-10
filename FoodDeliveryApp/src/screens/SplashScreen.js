@@ -18,7 +18,7 @@ const SplashScreen = ({navigation}) => {
         translucent  
       />
       <Image 
-        source={images.PLATE}
+        source={images.LOGO}
         resizeMode="contain"
         style={styles.image}
       />
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.DEFAULT_GREEN,
   },
   image: {
-    height: display.setHeight(30),
-    width: display.setWidth(60),
+    height: display.setHeight(50),
+    width: display.setWidth(90),
   },
   titleText: {
     color: colors.DEFAULT_WHITE,

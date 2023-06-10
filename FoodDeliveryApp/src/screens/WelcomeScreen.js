@@ -6,7 +6,7 @@ import { display } from "../utils";
 
 const pageStyle = isActive =>
     isActive
-    ? styles.page
+    ? {...styles.page, width: 20}
     : {...styles.page, backgroundColor: colors.DEFAULT_GREY}
 
 const Pagination = ({index}) => {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     },
     page: {
         height: 8,
-        width: 15,
+        width: 8,
         backgroundColor: colors.DEFAULT_GREEN,
         borderRadius: 32,
         marginHorizontal: 5, 
@@ -136,10 +136,10 @@ const styles = StyleSheet.create({
     },
     gettingStartedButton: {
         backgroundColor: colors.DEFAULT_GREEN,
-        paddingVertical: 5,
-        paddingHorizontal: 40,
-        borderRadius: 8,
-        justifyContent: 'center',
+        paddingVertical: 15,
+        paddingHorizontal: 110,
+        borderRadius: 12,
+        justifyContent: 'center',   
         alignItems: 'center',
         elevation: 2,
     },
