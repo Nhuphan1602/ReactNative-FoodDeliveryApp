@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     },
     otpBox: {
         borderRadius: 5,
-        borderColor: colors.DEFAULT_GREEN,
+        borderColor: colors.SECONDARY_RED,
         borderWidth: 0.5,
     },
     otpText: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     signinButton: {
-        backgroundColor: colors.DEFAULT_GREEN,
+        backgroundColor: colors.SECONDARY_RED,
         borderRadius: 8,
         marginHorizontal: 20,
         height: display.setHeight(6),

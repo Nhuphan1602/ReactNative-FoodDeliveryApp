@@ -14,7 +14,7 @@ const SplashScreen = ({navigation}) => {
     <View style={styles.container}>
       <StatusBar 
         barStyle="light-content" 
-        backgroundColor={colors.DEFAULT_GREEN}
+        backgroundColor={colors.SECONDARY_RED}
         translucent  
       />
       <Image 
@@ -22,7 +22,6 @@ const SplashScreen = ({navigation}) => {
         resizeMode="contain"
         style={styles.image}
       />
-      <Text style={styles.titleText}>Food Delivery</Text>
     </View>
   );
 };
@@ -32,16 +31,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.DEFAULT_GREEN,
+    backgroundColor: colors.DEFAULT_WHITE,
   },
   image: {
-    height: display.setHeight(50),
-    width: display.setWidth(90),
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    // height: display.setHeight(50),
+    // width: display.setWidth(90),
   },
   titleText: {
-    color: colors.DEFAULT_WHITE,
+    color: colors.DARK_TWO,
     fontSize: 32,
-    fontFamily: fonts.POPPINS_LIGHT,
+    fontFamily: fonts.POPPINS_BOLD,
   },
 });
 

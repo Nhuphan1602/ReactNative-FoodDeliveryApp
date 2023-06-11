@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     signinButton:{
-        backgroundColor: colors.DEFAULT_GREEN,
+        backgroundColor: colors.SECONDARY_RED,
         borderRadius: 8,
         marginHorizontal: 20,
         height: display.setHeight(6),

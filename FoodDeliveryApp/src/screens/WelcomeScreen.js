@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     page: {
         height: 8,
         width: 8,
-        backgroundColor: colors.DEFAULT_GREEN,
+        backgroundColor: colors.SECONDARY_RED,
         borderRadius: 32,
         marginHorizontal: 5, 
     },
@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
         lineHeight: 16 * 1.4,
     },
     button: {
-        backgroundColor: colors.LIGHT_GREEN,
+        backgroundColor: colors.LIGHT_RED,
         paddingVertical: 20,
         paddingHorizontal: 11,
         borderRadius: 32,
     },
     gettingStartedButton: {
-        backgroundColor: colors.DEFAULT_GREEN,
+        backgroundColor: colors.SECONDARY_RED,
         paddingVertical: 15,
         paddingHorizontal: 110,
         borderRadius: 12,
