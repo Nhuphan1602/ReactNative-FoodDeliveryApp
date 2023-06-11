@@ -72,9 +72,10 @@ const RegisterPhoneScreen = ({navigation}) => {
               />
               <Text style={styles.headerTitle}>RegisterPhone</Text>
           </View>
-          <Text style={styles.title}>RegisterPhone</Text>
+          <Separator height={30}/>
+          <Text style={styles.title}>Enter phone number</Text>
           <Text style={styles.content}>
-              Enter your register phone number to login.
+              Enter your register phone number to continue.
           </Text>
           <View
             style={styles.inputsContainer}
@@ -107,12 +108,14 @@ const RegisterPhoneScreen = ({navigation}) => {
                 onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} />
             </View>
           </View>
+          <View style={{flex:1}}></View>
           <TouchableOpacity 
             style={styles.signinButton} 
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Verification", {phoneNumber})}>
             <Text style={styles.signinButtonText}>Continue</Text>
           </TouchableOpacity>
+          <Separator height={30}/>
           { isDropdownOpen && (
             <View
               style={getDropdownStyle(inputsContainerY)}
@@ -162,25 +165,26 @@ headerTitle: {
   textAlign: 'center',
 },
 title: {
-  fontSize: 20,
-  fontFamily: fonts.POPPINS_MEDIUM,
+  fontSize: 24,
+  fontFamily: fonts.POPPINS_BOLD,
   lineHeight: 20 * 1.4,
-  marginTop: 10,
-  marginBottom: 10,
   marginHorizontal: 20,
+  textAlign: 'center',
 },
 content: {
   fontSize: 15,
   fontFamily: fonts.POPPINS_MEDIUM,
-  marginTop: 10,
+  color: colors.DARK_GRAYISH_BLUE,
+  marginTop: 5,
   marginBottom: 20,
   marginHorizontal: 20,
+  textAlign: 'center',
 },
 inputsContainer: {
   flexDirection: 'row',
   alignItems: 'center',
   marginHorizontal: 20,
-  marginVertical: 50,
+  marginTop: 50,
 },
 countryListContainer: {
   backgroundColor: colors.LIGHT_GREY,

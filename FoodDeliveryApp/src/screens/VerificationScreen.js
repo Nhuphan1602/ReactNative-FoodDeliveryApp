@@ -35,6 +35,7 @@ const VerificationScreen = ({
             />
             <Text style={styles.headerTitle}>OTP Verification</Text>
             </View>
+            <Separator height={30}/>
             <Text style={styles.title}>OTP Verification</Text>
             <Text style={styles.content}>
                 Enter the OTP number just sent you at{' '}
@@ -90,11 +91,21 @@ const VerificationScreen = ({
                        />
                 </View>
             </View>
+            <View style={styles.resendCodeGroup}>
+                <Text style={styles.resendCodeGroupText}>Didn't receive code?</Text>
+                <Text style={[styles.resendCodeGroupText, {color: colors.SECONDARY_RED}]}>Resend (59s)</Text>
+            </View>
+            <View style={{flex: 1}}></View>
             <TouchableOpacity 
-                        style={styles.signinButton} 
-                        onPress={() => console.log(otp)}>
-                        <Text style={styles.signinButtonText}>Verify</Text>
+                style={styles.signinButton} 
+                onPress={() => console.log(otp)}>
+                <Text style={styles.signinButtonText}>Verify</Text>
             </TouchableOpacity>
+            <View style={styles.termGroup}>
+            <Text style={styles.termGroupText}>By signing up, you agree to our</Text>
+            <Text style={[styles.termGroupText, {color: colors.SECONDARY_RED}]}>Terms and Conditions</Text>
+          </View>
+          <Separator height={30}/>
         </View>
         </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -112,29 +123,30 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         marginTop: 30,
-    },
+      },
     headerTitle: {
         fontSize: 20,
         fontFamily: fonts.POPPINS_MEDIUM,
         lineHeight:  20 * 1.4,
         width: display.setWidth(83),
         textAlign: 'center',
-    },
+      },
     title: {
-        fontSize: 20,
-        fontFamily: fonts.POPPINS_MEDIUM,
+        fontSize: 24,
+        fontFamily: fonts.POPPINS_BOLD,
         lineHeight: 20 * 1.4,
-        marginTop: 10,
-        marginBottom: 10,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     content: {
         fontSize: 15,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginTop: 10,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
         marginBottom: 20,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     phoneNumberText: {
         fontSize: 18,
         fontFamily: fonts.POPPINS_REGULAR,
@@ -143,7 +155,6 @@ const styles = StyleSheet.create({
     },
     otpContainer: {
         marginHorizontal: 20,
-        marginBottom: 20,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         flexDirection: 'row'
@@ -152,6 +163,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: colors.SECONDARY_RED,
         borderWidth: 0.5,
+        width: display.setWidth(13),
     },
     otpText: {
         fontSize: 25,
@@ -175,6 +187,43 @@ const styles = StyleSheet.create({
         color: colors.DEFAULT_WHITE,
         fontFamily: fonts.POPPINS_MEDIUM,
     },
+    signinButtonText: {
+        fontSize: 18,
+        lineHeight: 18 * 1.4,
+        color: colors.DEFAULT_WHITE,
+        fontFamily: fonts.POPPINS_MEDIUM,
+      },
+    resendCodeGroup: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 20,
+      },
+    resendCodeGroupText: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 5,
+        textAlign: 'center',
+      },
+    termGroup: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 20,
+      },
+    termGroupText: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
+        marginHorizontal: 5,
+        textAlign: 'center',
+      },
 });
 
 export default VerificationScreen;

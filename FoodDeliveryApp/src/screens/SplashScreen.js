@@ -31,14 +31,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.DEFAULT_WHITE,
+    backgroundColor: colors.SECONDARY_RED,
   },
   image: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    // height: display.setHeight(50),
-    // width: display.setWidth(90),
+
+    borderRadius: 250,
+    height: display.setHeight(50),
+    width: display.setWidth(100),
   },
   titleText: {
     color: colors.DARK_TWO,
