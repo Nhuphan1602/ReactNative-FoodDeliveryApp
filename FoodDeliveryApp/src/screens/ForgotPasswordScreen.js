@@ -8,12 +8,13 @@ import {
     TouchableOpacity, 
     TouchableWithoutFeedback, 
     KeyboardAvoidingView, 
-    Keyboard  
+    Keyboard,
+    Image,
 } from 'react-native';
 import { Separator } from "../components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
-import { colors, fonts } from "../constants";
+import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
 
 const ForgotPasswordScreen = ({navigation}) => {
@@ -30,15 +31,23 @@ const ForgotPasswordScreen = ({navigation}) => {
                     <View style={styles.headerContainer}>
                         <Ionicons 
                         name="chevron-back-outline" 
-                        size={25} 
+                        size={22} 
                         onPress={() => navigation.goBack()} 
                         />
-                        <Text style={styles.headerTitle}>Forgot Password</Text>
-                    </View>
+                        <View style={styles.logoGroup}>
+                            <Image 
+                                style={styles.image} 
+                                source={images.LOGO}
+                                resizeMode="contain"    
+                            />
+                            <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+                        </View>
+                    </View> 
                     <Text style={styles.title}>Forgot password</Text>
                     <Text style={styles.content}>
                         Enter your email, so that we can help you to recover your password.
                     </Text>
+                    <Separator height={15}/>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -55,9 +64,11 @@ const ForgotPasswordScreen = ({navigation}) => {
                             />
                         </View>
                     </View>
+                    <View style={{flex: 1}}/>
                     <TouchableOpacity style={styles.signinButton}>
                         <Text style={styles.signinButtonText}>Reset Password</Text>
                     </TouchableOpacity>
+                    <Separator height={30}/>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -76,43 +87,55 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 30,
     },
-    headerTitle: {
-        fontSize: 20,
+    logoGroup:{
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+      },
+    image: {
+        height: display.setHeight(15),
+        width: display.setWidth(15),
+        overflow: 'visible',
+        borderRadius: 20,
+      },
+    logoGroupText: {
+        fontSize: 14,
         fontFamily: fonts.POPPINS_MEDIUM,
-        lineHeight:  20 * 1.4,
-        width: display.setWidth(83),
-        textAlign: 'center',
-    },
+        color: colors.SECONDARY_RED,
+        marginLeft: 8,
+        marginRight: 25,
+        alignSelf: 'center'
+      },
     title: {
-        fontSize: 20,
-        fontFamily: fonts.POPPINS_MEDIUM,
+        fontSize: 24,
+        fontFamily: fonts.POPPINS_BOLD,
         lineHeight: 20 * 1.4,
-        marginTop: 10,
-        marginBottom: 10,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     content: {
         fontSize: 15,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginTop: 10,
-        marginBottom: 20,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     inputContainer: {
         backgroundColor: colors.LIGHT_GREY,
         paddingHorizontal: 10,
         marginHorizontal: 20,
-        borderRadius: 8,
-        borderWWidth: 0.5,
+        borderRadius: 12,
+        borderWidth: 0.5,
         borderColor: colors.LIGHT_GREY2,
         justifyContent: 'center',
-    },
+      },
     inputSubContainer: {
         flexDirection: 'row',
         alignItems: 'center'
     },
     inputText: {
-        fontSize: 18,
+        fontSize: 16,
         textAlignVertical: 'center',
         padding: 0,
         height: display.setHeight(6),
@@ -121,7 +144,7 @@ const styles = StyleSheet.create({
     },
     signinButton:{
         backgroundColor: colors.SECONDARY_RED,
-        borderRadius: 8,
+        borderRadius: 12,
         marginHorizontal: 20,
         height: display.setHeight(6),
         justifyContent: 'center',

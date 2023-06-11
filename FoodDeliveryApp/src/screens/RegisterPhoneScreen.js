@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { colors, fonts, countryCode } from '../constants';
+import { colors, fonts, countryCode, images } from '../constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Separator, FlagItem } from "../components";
@@ -67,12 +67,18 @@ const RegisterPhoneScreen = ({navigation}) => {
           <View style={styles.headerContainer}>
               <Ionicons 
               name="chevron-back-outline" 
-              size={25} 
-              onPress={() => navigation.goBack()} 
+              size={22} 
+              onPress={() => navigation.goBack()} s
               />
-              <Text style={styles.headerTitle}>RegisterPhone</Text>
-          </View>
-          <Separator height={30}/>
+              <View style={styles.logoGroup}>
+                  <Image 
+                      style={styles.image} 
+                      source={images.LOGO}
+                      resizeMode="contain"    
+                  />
+                  <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+              </View>
+          </View> 
           <Text style={styles.title}>Enter phone number</Text>
           <Text style={styles.content}>
               Enter your register phone number to continue.
@@ -157,12 +163,24 @@ headerContainer: {
   paddingHorizontal: 10,
   marginTop: 30,
 },
-headerTitle: {
-  fontSize: 20,
+logoGroup:{
+  flexDirection: 'row',
+  marginRight: 'auto',
+  marginLeft: 'auto',
+},
+image: {
+  height: display.setHeight(15),
+  width: display.setWidth(15),
+  overflow: 'visible',
+  borderRadius: 20,
+},
+logoGroupText: {
+  fontSize: 14,
   fontFamily: fonts.POPPINS_MEDIUM,
-  lineHeight:  20 * 1.4,
-  width: display.setWidth(83),
-  textAlign: 'center',
+  color: colors.SECONDARY_RED,
+  marginLeft: 8,
+  marginRight: 25,
+  alignSelf: 'center'
 },
 title: {
   fontSize: 24,
@@ -176,7 +194,6 @@ content: {
   fontFamily: fonts.POPPINS_MEDIUM,
   color: colors.DARK_GRAYISH_BLUE,
   marginTop: 5,
-  marginBottom: 20,
   marginHorizontal: 20,
   textAlign: 'center',
 },
@@ -184,13 +201,13 @@ inputsContainer: {
   flexDirection: 'row',
   alignItems: 'center',
   marginHorizontal: 20,
-  marginTop: 50,
+  marginTop: 30,
 },
 countryListContainer: {
   backgroundColor: colors.LIGHT_GREY,
   width: display.setWidth(22),
   marginRight: 10,
-  borderRadius: 8,
+  borderRadius: 12,
   height: display.setHeight(6),
   justifyContent: 'space-evenly',
   alignItems: 'center',
@@ -201,7 +218,7 @@ countryListContainer: {
 phoneInputContainer: {
   backgroundColor: colors.LIGHT_GREY,
   paddingHorizontal: 10,
-  borderRadius: 8,
+  borderRadius: 12,
   borderWidth: 0.5,
   borderColor: colors.LIGHT_GREY2,
   justifyContent: 'center',
@@ -218,7 +235,7 @@ countryCodeText: {
   fontFamily: fonts.POPPINS_MEDIUM,
 },
 inputText: {
-  fontSize: 18,
+  fontSize: 16,
   textAlignVertical: 'center',
   padding: 0,
   height: display.setHeight(6),
@@ -237,7 +254,7 @@ countryDropdown: {
 },
 signinButton: {
   backgroundColor: colors.SECONDARY_RED,
-  borderRadius: 8,
+  borderRadius: 12,
   marginHorizontal: 20,
   height: display.setHeight(6),
   justifyContent: 'center',

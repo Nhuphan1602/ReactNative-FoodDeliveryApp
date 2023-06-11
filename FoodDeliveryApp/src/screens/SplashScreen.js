@@ -18,7 +18,7 @@ const SplashScreen = ({navigation}) => {
         translucent  
       />
       <Image 
-        source={images.LOGO}
+        source={images.WELCOME}
         resizeMode="contain"
         style={styles.image}
       />
@@ -34,8 +34,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.SECONDARY_RED,
   },
   image: {
-
-    borderRadius: 250,
     height: display.setHeight(50),
     width: display.setWidth(100),
   },

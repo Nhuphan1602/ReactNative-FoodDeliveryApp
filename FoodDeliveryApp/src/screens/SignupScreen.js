@@ -35,14 +35,19 @@ const SignupScreen = ({navigation}) => {
                         size={25} 
                         onPress={() => navigation.goBack()} 
                         />
-                        <Text style={styles.headerTitle}>Sign Up</Text>
-                    </View>
-                    <Separator height={30}/>
-                    <Text style={styles.title}>Getting started</Text>
+                        <View style={styles.logoGroup}>
+                            <Image 
+                                style={styles.image} 
+                                source={images.LOGO}
+                                resizeMode="contain"    
+                            />
+                            <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+                        </View>
+                    </View> 
+                    <Text style={styles.title}>Create Account</Text>
                     <Text style={styles.content}>
-                        Enter your email, choose a username and password
+                        Enter your email, username, and password.
                     </Text>
-                    <Separator height={20}/>
                     <Text style={styles.textOnInput}>Username</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
@@ -143,12 +148,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 30,
     },
-    headerTitle: {
-        fontSize: 20,
+    logoGroup:{
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+    },
+    image: {
+        height: display.setHeight(15),
+        width: display.setWidth(15),
+        overflow: 'visible',
+        borderRadius: 20,
+    },
+    logoGroupText: {
+        fontSize: 14,
         fontFamily: fonts.POPPINS_MEDIUM,
-        lineHeight:  20 * 1.4,
-        width: display.setWidth(83),
-        textAlign: 'center',
+        color: colors.SECONDARY_RED,
+        marginLeft: 8,
+        marginRight: 25,
+        alignSelf: 'center'
     },
     title: {
         fontSize: 24,
