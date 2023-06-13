@@ -35,12 +35,20 @@ const SignupScreen = ({navigation}) => {
                         size={25} 
                         onPress={() => navigation.goBack()} 
                         />
-                        <Text style={styles.headerTitle}>Sign Up</Text>
-                    </View>
+                        <View style={styles.logoGroup}>
+                            <Image 
+                                style={styles.image} 
+                                source={images.LOGO}
+                                resizeMode="contain"    
+                            />
+                            <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+                        </View>
+                    </View> 
                     <Text style={styles.title}>Create Account</Text>
                     <Text style={styles.content}>
-                        Enter your email, choose a username and password
+                        Enter your email, username, and password.
                     </Text>
+                    <Text style={styles.textOnInput}>Username</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -50,14 +58,15 @@ const SignupScreen = ({navigation}) => {
                             style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Username" 
+                            placeholder="Please enter the desired username" 
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
                             />
                         </View>
                     </View>
-                    <Separator height={15}/>
+                    <Separator height={8}/>
+                    <Text style={styles.textOnInput}>Email</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -67,14 +76,15 @@ const SignupScreen = ({navigation}) => {
                             style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Email" 
+                            placeholder="Please enter the email of your preference" 
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
                             />
                         </View>
                     </View>
-                    <Separator height={15}/>
+                    <Separator height={8}/>
+                    <Text style={styles.textOnInput}>Password</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -85,14 +95,14 @@ const SignupScreen = ({navigation}) => {
                             />
                             <TextInput
                             secureTextEntry={isPasswordShow ? false: true}
-                            placeholder="Password" 
+                            placeholder="Please enter the password you want" 
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
                             />
                             <Feather
                             name={isPasswordShow ? 'eye' : 'eye-off'}
-                            size={22} 
+                            size={20} 
                             color={colors.DEFAULT_GREY} 
                             style={{marginRight:10}}
                             onPress={()=> setPasswordShow(!isPasswordShow)}
@@ -102,7 +112,7 @@ const SignupScreen = ({navigation}) => {
                     <TouchableOpacity style={styles.signinButton} onPress={() => navigation.navigate("RegisterPhone")}>
                         <Text style={styles.signinButtonText}>Create Account</Text>
                     </TouchableOpacity>
-                    <Text style={styles.orText}>OR</Text>
+                    <View style={{flex: 1}}></View>
                     <TouchableOpacity style={styles.facebookButton}>
                         <View style={styles.socialButtonContainer}>
                             <View style={styles.signinButtonLogoContainer}>
@@ -119,6 +129,7 @@ const SignupScreen = ({navigation}) => {
                             <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
                         </View>
                     </TouchableOpacity>
+                    <Separator height={40}/>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -137,34 +148,56 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 30,
     },
-    headerTitle: {
-        fontSize: 20,
+    logoGroup:{
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+    },
+    image: {
+        height: display.setHeight(15),
+        width: display.setWidth(15),
+        overflow: 'visible',
+        borderRadius: 20,
+    },
+    logoGroupText: {
+        fontSize: 14,
         fontFamily: fonts.POPPINS_MEDIUM,
-        lineHeight:  20 * 1.4,
-        width: display.setWidth(83),
-        textAlign: 'center',
+        color: colors.SECONDARY_RED,
+        marginLeft: 8,
+        marginRight: 25,
+        alignSelf: 'center'
     },
     title: {
-        fontSize: 20,
-        fontFamily: fonts.POPPINS_MEDIUM,
+        fontSize: 24,
+        fontFamily: fonts.POPPINS_BOLD,
         lineHeight: 20 * 1.4,
-        marginTop: 10,
-        marginBottom: 10,
         marginHorizontal: 20,
+        textAlign: 'center',
     },
     content: {
         fontSize: 15,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginTop: 10,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
         marginBottom: 20,
+        marginHorizontal: 20,
+        textAlign: 'center',
+    },
+    textOnInput: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        opacity: 0.5,
+        marginTop: 5,
+        marginBottom: 5,
         marginHorizontal: 20,
     },
     inputContainer: {
         backgroundColor: colors.LIGHT_GREY,
         paddingHorizontal: 10,
         marginHorizontal: 20,
-        borderRadius: 8,
-        borderWWidth: 0.5,
+        borderRadius: 12,
+        borderWidth: 0.5,
         borderColor: colors.LIGHT_GREY2,
         justifyContent: 'center',
     },
@@ -173,16 +206,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputText: {
-        fontSize: 18,
+        fontSize: 14,
         textAlignVertical: 'center',
         padding: 0,
-        height: display.setHeight(6),
+        height: display.setHeight(7),
         color: colors.DEFAULT_BLACK,
         flex: 1,
     },
     signinButton:{
-        backgroundColor: colors.DEFAULT_GREEN,
-        borderRadius: 8,
+        backgroundColor: colors.SECONDARY_RED,
+        borderRadius: 12,
         marginHorizontal: 20,
         height: display.setHeight(6),
         justifyContent: 'center',
@@ -208,7 +241,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.FABEBOOK_BLUE,
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 12,
         marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center'
@@ -217,7 +250,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.GOOGLE_BLUE,
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center'
     },

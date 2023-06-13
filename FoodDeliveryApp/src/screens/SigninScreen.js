@@ -35,12 +35,21 @@ const SigninScreen = ({navigation}) => {
                         size={25} 
                         onPress={() => navigation.goBack()} 
                         />
-                        <Text style={styles.headerTitle}>Sign In</Text>
-                    </View>
-                    <Text style={styles.title}>Welcome</Text>
+                        <View style={styles.logoGroup}>
+                            <Image 
+                                style={styles.image} 
+                                source={images.LOGO}
+                                resizeMode="contain"    
+                            />
+                            <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+                        </View>
+                    </View> 
+                    <Text style={styles.title}>Let's sign you in</Text>
                     <Text style={styles.content}>
-                        Enter your username and password, and enjoy ordering food
+                        Welcome back, you've been missed
                     </Text>
+                    <Separator height={30}/>
+                    <Text style={styles.textOnInput}>Username</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -50,14 +59,15 @@ const SigninScreen = ({navigation}) => {
                             style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Username" 
+                            placeholder="Please enter your username" 
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
                             />
                         </View>
                     </View>
-                    <Separator height={15}/>
+                    <Separator height={8}/>
+                    <Text style={styles.textOnInput}>Password</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -68,21 +78,21 @@ const SigninScreen = ({navigation}) => {
                             />
                             <TextInput
                             secureTextEntry={isPasswordShow ? false: true}
-                            placeholder="Password" 
+                            placeholder="Please enter your password" 
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
                             />
                             <Feather
                             name={isPasswordShow ? 'eye' : 'eye-off'}
-                            size={22} 
+                            size={20} 
                             color={colors.DEFAULT_GREY} 
                             style={{marginRight:10}}
                             onPress={()=> setPasswordShow(!isPasswordShow)}
                             />
                         </View>
                     </View>
-                    <Text></Text>
+                    <Separator height={12}/>
                     <View style={styles.forgotPasswordContainer}>
                         <View style={styles.toggleContainer}>
                             <ToggleButton size={0.5}/>
@@ -90,9 +100,10 @@ const SigninScreen = ({navigation}) => {
                         </View>
                         <Text style={styles.forgotPasswordText} 
                             onPress={() => navigation.navigate("ForgotPassword")}>
-                            Forgot password
+                            Forgot password?
                         </Text>
                     </View>
+                    <Separator height={10}/>
                     <TouchableOpacity style={styles.signinButton}>
                         <Text style={styles.signinButtonText}>Sign In</Text>
                     </TouchableOpacity>
@@ -103,7 +114,7 @@ const SigninScreen = ({navigation}) => {
                             Sign Up
                         </Text>
                     </View>
-                    <Text style={styles.orText}>OR</Text>
+                    <View style={{flex: 1}} />
                     <TouchableOpacity style={styles.facebookButton}>
                         <View style={styles.socialButtonContainer}>
                             <View style={styles.signinButtonLogoContainer}>
@@ -120,6 +131,7 @@ const SigninScreen = ({navigation}) => {
                             <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
                         </View>
                     </TouchableOpacity>
+                    <Separator height={40}/>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -138,34 +150,56 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginTop: 30,
     },
-    headerTitle: {
-        fontSize: 20,
+    logoGroup:{
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+    },
+    image: {
+        height: display.setHeight(15),
+        width: display.setWidth(15),
+        overflow: 'visible',
+        borderRadius: 20,
+    },
+    logoGroupText: {
+        fontSize: 14,
         fontFamily: fonts.POPPINS_MEDIUM,
-        lineHeight:  20 * 1.4,
-        width: display.setWidth(83),
-        textAlign: 'center',
+        color: colors.SECONDARY_RED,
+        marginLeft: 8,
+        marginRight: 25,
+        alignSelf: 'center'
     },
     title: {
-        fontSize: 20,
-        fontFamily: fonts.POPPINS_MEDIUM,
+        fontSize: 24,
+        fontFamily: fonts.POPPINS_BOLD,
         lineHeight: 20 * 1.4,
-        marginTop: 10,
-        marginBottom: 10,
         marginHorizontal: 20,
+        textAlign: 'center',
     },
     content: {
         fontSize: 15,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginTop: 10,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
         marginBottom: 20,
+        marginHorizontal: 20,
+        textAlign: 'center',
+    },
+    textOnInput: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        opacity: 0.5,
+        marginTop: 5,
+        marginBottom: 5,
         marginHorizontal: 20,
     },
     inputContainer: {
         backgroundColor: colors.LIGHT_GREY,
         paddingHorizontal: 10,
         marginHorizontal: 20,
-        borderRadius: 8,
-        borderWWidth: 0.5,
+        borderRadius: 12,
+        borderWidth: 0.5,
         borderColor: colors.LIGHT_GREY2,
         justifyContent: 'center',
     },
@@ -174,10 +208,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputText: {
-        fontSize: 18,
+        fontSize: 14,
         textAlignVertical: 'center',
         padding: 0,
-        height: display.setHeight(6),
+        height: display.setHeight(7),
         color: colors.DEFAULT_BLACK,
         flex: 1,
     },
@@ -197,12 +231,12 @@ const styles = StyleSheet.create({
     forgotPasswordText:{
         fontSize: 12,
         lineHeight: 12 * 1.4,
-        color: colors.DEFAULT_GREEN,
+        color: colors.SECONDARY_RED,
         fontFamily: fonts.POPPINS_BOLD
     },
     signinButton:{
-        backgroundColor: colors.DEFAULT_GREEN,
-        borderRadius: 8,
+        backgroundColor: colors.SECONDARY_RED,
+        borderRadius: 12,
         marginHorizontal: 20,
         height: display.setHeight(6),
         justifyContent: 'center',
@@ -225,40 +259,32 @@ const styles = StyleSheet.create({
     accountText:{
         fontSize: 13,
         lineHeight: 13 * 1.4,
-        color: colors.DEFAULT_BLACK,
+        color: colors.DARK_GRAYISH_BLUE,
         fontFamily: fonts.POPPINS_MEDIUM
     },
     signupText:{
         fontSize: 13,
         lineHeight: 13 * 1.4,
-        color: colors.DEFAULT_GREEN,
+        color: colors.SECONDARY_RED,
         fontFamily: fonts.POPPINS_MEDIUM,
         marginLeft: 5,
-    },
-    orText:{
-        fontSize: 15,
-        lineHeight: 15 * 1.4,
-        color: colors.DEFAULT_BLACK,
-        fontFamily: fonts.POPPINS_MEDIUM,
-        marginLeft: 5,
-        alignSelf: 'center',
     },
     facebookButton:{
         backgroundColor: colors.FABEBOOK_BLUE,
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 12,
         marginVertical: 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     googleButton:{
         backgroundColor: colors.GOOGLE_BLUE,
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 12,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     signinButtonLogo:{
         height: 18,
@@ -275,7 +301,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%'
+        width: '100%',
     },
     socialSigninButtonText:{
         color: colors.DEFAULT_WHITE,

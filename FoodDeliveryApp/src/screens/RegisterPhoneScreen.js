@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { colors, fonts, countryCode } from '../constants';
+import { colors, fonts, countryCode, images } from '../constants';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Separator, FlagItem } from "../components";
@@ -67,14 +67,21 @@ const RegisterPhoneScreen = ({navigation}) => {
           <View style={styles.headerContainer}>
               <Ionicons 
               name="chevron-back-outline" 
-              size={25} 
-              onPress={() => navigation.goBack()} 
+              size={22} 
+              onPress={() => navigation.goBack()} s
               />
-              <Text style={styles.headerTitle}>RegisterPhone</Text>
-          </View>
-          <Text style={styles.title}>RegisterPhone</Text>
+              <View style={styles.logoGroup}>
+                  <Image 
+                      style={styles.image} 
+                      source={images.LOGO}
+                      resizeMode="contain"    
+                  />
+                  <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+              </View>
+          </View> 
+          <Text style={styles.title}>Enter phone number</Text>
           <Text style={styles.content}>
-              Enter your register phone number to login.
+              Enter your register phone number to continue.
           </Text>
           <View
             style={styles.inputsContainer}
@@ -107,12 +114,14 @@ const RegisterPhoneScreen = ({navigation}) => {
                 onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} />
             </View>
           </View>
+          <View style={{flex:1}}></View>
           <TouchableOpacity 
             style={styles.signinButton} 
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Verification", {phoneNumber})}>
             <Text style={styles.signinButtonText}>Continue</Text>
           </TouchableOpacity>
+          <Separator height={30}/>
           { isDropdownOpen && (
             <View
               style={getDropdownStyle(inputsContainerY)}
@@ -154,39 +163,51 @@ headerContainer: {
   paddingHorizontal: 10,
   marginTop: 30,
 },
-headerTitle: {
-  fontSize: 20,
+logoGroup:{
+  flexDirection: 'row',
+  marginRight: 'auto',
+  marginLeft: 'auto',
+},
+image: {
+  height: display.setHeight(15),
+  width: display.setWidth(15),
+  overflow: 'visible',
+  borderRadius: 20,
+},
+logoGroupText: {
+  fontSize: 14,
   fontFamily: fonts.POPPINS_MEDIUM,
-  lineHeight:  20 * 1.4,
-  width: display.setWidth(83),
-  textAlign: 'center',
+  color: colors.SECONDARY_RED,
+  marginLeft: 8,
+  marginRight: 25,
+  alignSelf: 'center'
 },
 title: {
-  fontSize: 20,
-  fontFamily: fonts.POPPINS_MEDIUM,
+  fontSize: 24,
+  fontFamily: fonts.POPPINS_BOLD,
   lineHeight: 20 * 1.4,
-  marginTop: 10,
-  marginBottom: 10,
   marginHorizontal: 20,
+  textAlign: 'center',
 },
 content: {
   fontSize: 15,
   fontFamily: fonts.POPPINS_MEDIUM,
-  marginTop: 10,
-  marginBottom: 20,
+  color: colors.DARK_GRAYISH_BLUE,
+  marginTop: 5,
   marginHorizontal: 20,
+  textAlign: 'center',
 },
 inputsContainer: {
   flexDirection: 'row',
   alignItems: 'center',
   marginHorizontal: 20,
-  marginVertical: 50,
+  marginTop: 30,
 },
 countryListContainer: {
   backgroundColor: colors.LIGHT_GREY,
   width: display.setWidth(22),
   marginRight: 10,
-  borderRadius: 8,
+  borderRadius: 12,
   height: display.setHeight(6),
   justifyContent: 'space-evenly',
   alignItems: 'center',
@@ -197,7 +218,7 @@ countryListContainer: {
 phoneInputContainer: {
   backgroundColor: colors.LIGHT_GREY,
   paddingHorizontal: 10,
-  borderRadius: 8,
+  borderRadius: 12,
   borderWidth: 0.5,
   borderColor: colors.LIGHT_GREY2,
   justifyContent: 'center',
@@ -214,7 +235,7 @@ countryCodeText: {
   fontFamily: fonts.POPPINS_MEDIUM,
 },
 inputText: {
-  fontSize: 18,
+  fontSize: 16,
   textAlignVertical: 'center',
   padding: 0,
   height: display.setHeight(6),
@@ -232,8 +253,8 @@ countryDropdown: {
   zIndex: 3,
 },
 signinButton: {
-  backgroundColor: colors.DEFAULT_GREEN,
-  borderRadius: 8,
+  backgroundColor: colors.SECONDARY_RED,
+  borderRadius: 12,
   marginHorizontal: 20,
   height: display.setHeight(6),
   justifyContent: 'center',
