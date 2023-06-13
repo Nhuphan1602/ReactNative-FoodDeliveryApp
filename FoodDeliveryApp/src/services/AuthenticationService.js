@@ -31,20 +31,20 @@ const login = async user => {
         return {status: false, message: 'Please fill up all fields'};
     }
     try {
-    let requestBody = {
-        username: user?.username,
-        password: user?.password,
-    };
-    let loginResponse = await AuthRequest.post(
-        apiConstants.BACKEND_API.LOGIN,
-        requestBody,
-    );
-    return loginResponse?.data;
+        let requestBody = {
+            username: user?.username,
+            password: user?.password,
+        };
+        let loginResponse = await AuthRequest.post(
+            apiConstants.BACKEND_API.LOGIN,
+            requestBody,
+        );
+        return loginResponse?.data;
     } catch (error) {
         console.log(error);
         return {status: false, message: 'Oops! Something went wrong'};
     }
-};
+  };
 
 
 const checkUserExist = async (type, value) => {

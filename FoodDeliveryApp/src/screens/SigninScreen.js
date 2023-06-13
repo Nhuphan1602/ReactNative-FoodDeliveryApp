@@ -16,8 +16,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
-import { AuthenticationService } from "../services";
+import { AuthenticationService, StorageService} from "../services";
 import LottieView from 'lottie-react-native'
+
 
 const SigninScreen = ({navigation}) => {
     const [isPasswordShow,setPasswordShow] = useState(false);
@@ -33,22 +34,14 @@ const SigninScreen = ({navigation}) => {
           password,
         };
         AuthenticationService.login(user).then(response => {
-
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 2000);
-          
-          if (response?.status) {
-            StorageService.setToken(response?.data).then(() => {
-              dispatch(GeneralAction.setToken(response?.data));
-            });
-          } else {
-            setErrorMessage(response?.message);
-          }
+          setIsLoading(false);
+          console.log(response?.message)
+          if (!response?.status) {
+            setErrorMessage(response?.message)
+          } 
         });
     };
-
-      
+    
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

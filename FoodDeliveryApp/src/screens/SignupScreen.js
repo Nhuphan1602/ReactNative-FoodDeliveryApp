@@ -45,7 +45,7 @@ const showMarker = state => {
         return (
           <AntDesign
             name="checkcircleo"
-            color={Colors.SECONDARY_GREEN}
+            color={colors.SECONDARY_GREEN}
             size={18}
             style={{marginLeft: 5}}
           />
@@ -54,7 +54,7 @@ const showMarker = state => {
         return (
           <AntDesign
             name="closecircleo"
-            color={Colors.DEFAULT_RED}
+            color={colors.DEFAULT_RED}
             size={18}
             style={{marginLeft: 5}}
           />
@@ -149,16 +149,8 @@ const SignupScreen = ({navigation}) => {
                     <Text style={styles.content}>
                         Enter your email, username, and password.
                     </Text>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-                    <Text style={styles.textOnInput}>Username</Text>
->>>>>>> main
-                    <View style={styles.inputContainer}>
-=======
                     <Text style={styles.textOnInput}>Username</Text>
                     <View style={inputStyle(usernameState)}>
->>>>>>> Stashed changes
                         <View style={styles.inputSubContainer}>
                             <Feather 
                                 name="user" 
@@ -167,16 +159,6 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-                            placeholder="Username" 
-=======
-                            placeholder="Please enter the desired username" 
->>>>>>> main
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
-=======
                                 placeholder="Please enter the desired username" 
                                 placeholderTextColor={colors.DEFAULT_GREY}
                                 selectionColor={colors.DEFAULT_GREY}
@@ -185,24 +167,13 @@ const SignupScreen = ({navigation}) => {
                                 onEndEditing={({nativeEvent: {text}}) =>
                                     checkUserExist('username', text)
                                 }
->>>>>>> Stashed changes
                             />
                             {showMarker(usernameState)}
                         </View>
                     </View>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-                    <Separator height={15}/>
-=======
-                    <Separator height={8}/>
-                    <Text style={styles.textOnInput}>Email</Text>
->>>>>>> main
-                    <View style={styles.inputContainer}>
-=======
                     <Text style={styles.errorMessage}>{usernameErrorMessage}</Text>
                     <Text style={styles.textOnInput}>Email</Text>
                     <View  style={inputStyle(emailState)}>
->>>>>>> Stashed changes
                         <View style={styles.inputSubContainer}>
                             <Feather 
                                 name="mail" 
@@ -211,16 +182,6 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-                            placeholder="Email" 
-=======
-                            placeholder="Please enter the email of your preference" 
->>>>>>> main
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
-=======
                                 placeholder="Please enter the email of your preference" 
                                 placeholderTextColor={colors.DEFAULT_GREY}
                                 selectionColor={colors.DEFAULT_GREY}
@@ -229,22 +190,13 @@ const SignupScreen = ({navigation}) => {
                                 onEndEditing={({nativeEvent: {text}}) =>
                                     checkUserExist('email', text)
                                 }
->>>>>>> Stashed changes
                             />
                              {showMarker(emailState)}
                         </View>
                     </View>
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-                    <Separator height={15}/>
-=======
+
                     <Text style={styles.errorMessage}>{emailErrorMessage}</Text>
                     <Text style={styles.textOnInput}>Password</Text>
->>>>>>> Stashed changes
-=======
-                    <Separator height={8}/>
-                    <Text style={styles.textOnInput}>Password</Text>
->>>>>>> main
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
@@ -254,20 +206,6 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput
-<<<<<<< Updated upstream
-                            secureTextEntry={isPasswordShow ? false: true}
-                            placeholder="Please enter the password you want" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
-                            />
-                            <Feather
-                            name={isPasswordShow ? 'eye' : 'eye-off'}
-                            size={20} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
-                            onPress={()=> setPasswordShow(!isPasswordShow)}
-=======
                                 secureTextEntry={isPasswordShow ? false: true}
                                 placeholder="Please enter the password you want" 
                                 placeholderTextColor={colors.DEFAULT_GREY}
@@ -281,7 +219,6 @@ const SignupScreen = ({navigation}) => {
                                 color={colors.DEFAULT_GREY} 
                                 style={{marginRight:10}}
                                 onPress={()=> setPasswordShow(!isPasswordShow)}
->>>>>>> Stashed changes
                             />
                         </View>
                     </View>
