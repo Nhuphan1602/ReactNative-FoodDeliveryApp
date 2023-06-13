@@ -1,8 +1,18 @@
 import React, {useRef, useState} from "react";
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  StatusBar,
+  TextInput, 
+  TouchableOpacity, 
+  KeyboardAvoidingView, 
+  TouchableWithoutFeedback, 
+  Keyboard, 
+  Image } from "react-native";
 import { Separator } from "../components";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors, fonts } from "../constants";
+import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
 
 const VerificationScreen = ({ 
@@ -28,13 +38,20 @@ const VerificationScreen = ({
             />  
             <Separator height={StatusBar.currentHeight}/>
             <View style={styles.headerContainer}>
-            <Ionicons 
-            name="chevron-back-outline" 
-            size={25} 
-            onPress={() => navigation.goBack()} 
-            />
-            <Text style={styles.headerTitle}>OTP Verification</Text>
-            </View>
+              <Ionicons 
+              name="chevron-back-outline" 
+              size={25} 
+              onPress={() => navigation.goBack()} 
+              />
+              <View style={styles.logoGroup}>
+                  <Image 
+                      style={styles.image} 
+                      source={images.LOGO}
+                      resizeMode="contain"    
+                  />
+                  <Text style={styles.logoGroupText}>FOOD EXPRESS</Text>
+              </View>
+            </View> 
             <Text style={styles.title}>OTP Verification</Text>
             <Text style={styles.content}>
                 Enter the OTP number just sent you at{' '}
@@ -90,11 +107,21 @@ const VerificationScreen = ({
                        />
                 </View>
             </View>
+            <View style={styles.resendCodeGroup}>
+                <Text style={styles.resendCodeGroupText}>Didn't receive code?</Text>
+                <Text style={[styles.resendCodeGroupText, {color: colors.SECONDARY_RED}]}>Resend (59s)</Text>
+            </View>
+            <View style={{flex: 1}}></View>
             <TouchableOpacity 
-                        style={styles.signinButton} 
-                        onPress={() => console.log(otp)}>
-                        <Text style={styles.signinButtonText}>Verify</Text>
+                style={styles.signinButton} 
+                onPress={() => console.log(otp)}>
+                <Text style={styles.signinButtonText}>Verify</Text>
             </TouchableOpacity>
+            <View style={styles.termGroup}>
+            <Text style={styles.termGroupText}>By signing up, you agree to our</Text>
+            <Text style={[styles.termGroupText, {color: colors.SECONDARY_RED}]}>Terms and Conditions</Text>
+          </View>
+          <Separator height={30}/>
         </View>
         </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -112,46 +139,59 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10,
         marginTop: 30,
+      },
+    logoGroup:{
+        flexDirection: 'row',
+        marginRight: 'auto',
+        marginLeft: 'auto',
     },
-    headerTitle: {
-        fontSize: 20,
+    image: {
+        height: display.setHeight(15),
+        width: display.setWidth(15),
+        overflow: 'visible',
+        borderRadius: 20,
+    },
+    logoGroupText: {
+        fontSize: 14,
         fontFamily: fonts.POPPINS_MEDIUM,
-        lineHeight:  20 * 1.4,
-        width: display.setWidth(83),
-        textAlign: 'center',
+        color: colors.SECONDARY_RED,
+        marginLeft: 8,
+        marginRight: 25,
+        alignSelf: 'center'
     },
     title: {
-        fontSize: 20,
-        fontFamily: fonts.POPPINS_MEDIUM,
+        fontSize: 24,
+        fontFamily: fonts.POPPINS_BOLD,
         lineHeight: 20 * 1.4,
-        marginTop: 10,
-        marginBottom: 10,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     content: {
         fontSize: 15,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginTop: 10,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
         marginBottom: 20,
         marginHorizontal: 20,
-    },
+        textAlign: 'center',
+      },
     phoneNumberText: {
         fontSize: 18,
         fontFamily: fonts.POPPINS_REGULAR,
         lineHeight: 18 * 1.4,
-        color: colors.DEFAULT_YELLOW,
+        color: colors.SECONDARY_RED,
     },
     otpContainer: {
         marginHorizontal: 20,
-        marginBottom: 20,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         flexDirection: 'row'
     },
     otpBox: {
         borderRadius: 5,
-        borderColor: colors.DEFAULT_GREEN,
+        borderColor: colors.SECONDARY_RED,
         borderWidth: 0.5,
+        width: display.setWidth(13),
     },
     otpText: {
         fontSize: 25,
@@ -162,8 +202,8 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     signinButton: {
-        backgroundColor: colors.DEFAULT_GREEN,
-        borderRadius: 8,
+        backgroundColor: colors.SECONDARY_RED,
+        borderRadius: 12,
         marginHorizontal: 20,
         height: display.setHeight(6),
         justifyContent: 'center',
@@ -175,6 +215,43 @@ const styles = StyleSheet.create({
         color: colors.DEFAULT_WHITE,
         fontFamily: fonts.POPPINS_MEDIUM,
     },
+    signinButtonText: {
+        fontSize: 18,
+        lineHeight: 18 * 1.4,
+        color: colors.DEFAULT_WHITE,
+        fontFamily: fonts.POPPINS_MEDIUM,
+      },
+    resendCodeGroup: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 20,
+      },
+    resendCodeGroupText: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 5,
+        textAlign: 'center',
+      },
+    termGroup: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginBottom: 20,
+        marginHorizontal: 20,
+      },
+    termGroupText: {
+        fontSize: 14,
+        fontFamily: fonts.POPPINS_REGULAR,
+        color: colors.DARK_GRAYISH_BLUE,
+        marginTop: 5,
+        marginHorizontal: 5,
+        textAlign: 'center',
+      },
 });
 
 export default VerificationScreen;
