@@ -13,6 +13,9 @@
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "axios": "^1.4.0",
+    "lottie-ios": "^3.4.1",
+    "lottie-react-native": "^5.1.6",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-gesture-handler": "^2.10.0",
@@ -39,5 +42,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "projectConfig": {
+    "backendApiBaseUrl": "http://192.168.1.45:3000"
   }
 }

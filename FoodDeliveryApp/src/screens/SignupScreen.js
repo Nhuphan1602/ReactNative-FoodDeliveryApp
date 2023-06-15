@@ -16,9 +16,110 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import { Separator } from "../components";
 import { display } from "../utils";
+import { AuthenticationService } from '../services';
+import LottieView from 'lottie-react-native'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+const inputStyle = state => {
+    switch (state) {
+      case 'valid':
+        return {
+          ...styles.inputContainer,
+          borderWidth: 1,
+          borderColor: colors.SECONDARY_GREEN,
+        };
+      case 'invalid':
+        return {
+          ...styles.inputContainer,
+          borderWidth: 1,
+          borderColor: colors.DEFAULT_RED,
+        };
+      default:
+        return styles.inputContainer;
+    }
+};
+
+const showMarker = state => {
+    switch (state) {
+      case 'valid':
+        return (
+          <AntDesign
+            name="checkcircleo"
+            color={colors.SECONDARY_GREEN}
+            size={18}
+            style={{marginLeft: 5}}
+          />
+        );
+      case 'invalid':
+        return (
+          <AntDesign
+            name="closecircleo"
+            color={colors.DEFAULT_RED}
+            size={18}
+            style={{marginLeft: 5}}
+          />
+        );
+      default:
+        return null;
+    }
+};
 
 const SignupScreen = ({navigation}) => {
-    const[isPasswordShow,setPasswordShow] = useState(false);
+    const [isPasswordShow,setPasswordShow] = useState(false);
+    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
+    const [emailErrorMessage, setEmailErrorMessage] = useState('')
+    const [emailState, setEmailState] = useState('default');
+    const [usernameState, setUsernameState] = useState('default');
+
+    const register = () => {
+        let user = {
+            username,
+            email,
+            password
+        }
+        console.log(user)
+        setIsLoading(true)
+        AuthenticationService.register(user).then(response => {
+            console.log(response)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 2000);
+            if(!response?.status) {
+                setErrorMessage(response?.message)
+            }
+        })
+    }
+
+    const checkUserExist = async (type, value) => {
+        if (value?.length > 0) {
+          AuthenticationService.checkUserExist(type, value).then(response => {
+            if (response?.status) {
+                type === 'email' && emailErrorMessage
+                ? setEmailErrorMessage('')
+                : null;
+                type === 'username' && usernameErrorMessage
+                ? setUsernameErrorMessage('')
+                : null;
+
+                type === 'email' ? setEmailState('valid') : null;
+                type === 'username' ? setUsernameState('valid') : null;
+            } else {
+                type === 'email' ? setEmailErrorMessage(response?.message) : null;
+                type === 'username'
+                ? setUsernameErrorMessage(response?.message)
+                : null;
+                type === 'email' ? setEmailState('invalid') : null;
+                type === 'username' ? setUsernameState('invalid') : null;
+            }
+          });
+        }
+      };
+
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -49,68 +150,92 @@ const SignupScreen = ({navigation}) => {
                         Enter your email, username, and password.
                     </Text>
                     <Text style={styles.textOnInput}>Username</Text>
-                    <View style={styles.inputContainer}>
+                    <View style={inputStyle(usernameState)}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="user" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="user" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Please enter the desired username" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
+                                placeholder="Please enter the desired username" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
+                                onChangeText={(text) => setUsername(text)}
+                                onEndEditing={({nativeEvent: {text}}) =>
+                                    checkUserExist('username', text)
+                                }
                             />
+                            {showMarker(usernameState)}
                         </View>
                     </View>
-                    <Separator height={8}/>
+                    <Text style={styles.errorMessage}>{usernameErrorMessage}</Text>
                     <Text style={styles.textOnInput}>Email</Text>
-                    <View style={styles.inputContainer}>
+                    <View  style={inputStyle(emailState)}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="mail" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="mail" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Please enter the email of your preference" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
+                                placeholder="Please enter the email of your preference" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
+                                onChangeText={(text) => setEmail(text)}
+                                onEndEditing={({nativeEvent: {text}}) =>
+                                    checkUserExist('email', text)
+                                }
                             />
+                             {showMarker(emailState)}
                         </View>
                     </View>
-                    <Separator height={8}/>
+
+                    <Text style={styles.errorMessage}>{emailErrorMessage}</Text>
                     <Text style={styles.textOnInput}>Password</Text>
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="lock" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="lock" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput
-                            secureTextEntry={isPasswordShow ? false: true}
-                            placeholder="Please enter the password you want" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
+                                secureTextEntry={isPasswordShow ? false: true}
+                                placeholder="Please enter the password you want" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
+                                onChangeText={(text) => setPassword(text)}
                             />
                             <Feather
-                            name={isPasswordShow ? 'eye' : 'eye-off'}
-                            size={20} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
-                            onPress={()=> setPasswordShow(!isPasswordShow)}
+                                name={isPasswordShow ? 'eye' : 'eye-off'}
+                                size={20} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
+                                onPress={()=> setPasswordShow(!isPasswordShow)}
                             />
                         </View>
                     </View>
-                    <TouchableOpacity style={styles.signinButton} onPress={() => navigation.navigate("RegisterPhone")}>
-                        <Text style={styles.signinButtonText}>Create Account</Text>
+                    <Text style={styles.errorMessage}>{errorMessage}</Text>
+                    <TouchableOpacity 
+                        style={styles.signinButton} 
+                        onPress={() => register()}//navigation.navigate("RegisterPhone")}
+                    >
+                        {isLoading ? (
+                            <LottieView 
+                                source={images.LOADING}
+                                autoPlay
+                            />
+                        ) : (
+                        
+                            <Text style={styles.signinButtonText}>Create Account</Text>
+                        )}
                     </TouchableOpacity>
                     <View style={{flex: 1}}></View>
                     <TouchableOpacity style={styles.facebookButton}>
@@ -277,6 +402,14 @@ const styles = StyleSheet.create({
         height: 18,
         width: 18,
     },
+    errorMessage: {
+        fontSize: 10,
+        lineHeight: 10 * 1.4,
+        color: colors.DEFAULT_RED,
+        fontFamily: fonts.POPPINS_MEDIUM,
+        paddingHorizontal: 20,
+        paddingTop: 10,
+    }
 });
 
 export default SignupScreen;

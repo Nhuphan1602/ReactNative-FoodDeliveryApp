@@ -16,9 +16,32 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
+import { AuthenticationService, StorageService} from "../services";
+import LottieView from 'lottie-react-native'
+
 
 const SigninScreen = ({navigation}) => {
-    const[isPasswordShow,setPasswordShow] = useState(false);
+    const [isPasswordShow,setPasswordShow] = useState(false);
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const signIn = async () => {
+        setIsLoading(true);
+        let user = {
+          username,
+          password,
+        };
+        AuthenticationService.login(user).then(response => {
+          setIsLoading(false);
+          console.log(response?.message)
+          if (!response?.status) {
+            setErrorMessage(response?.message)
+          } 
+        });
+    };
+    
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -63,6 +86,7 @@ const SigninScreen = ({navigation}) => {
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
+                            onChangeText={text => setUsername(text)}
                             />
                         </View>
                     </View>
@@ -82,6 +106,7 @@ const SigninScreen = ({navigation}) => {
                             placeholderTextColor={colors.DEFAULT_GREY}
                             selectionColor={colors.DEFAULT_GREY}
                             style={styles.inputText}
+                            onChangeText={text => setPassword(text)}
                             />
                             <Feather
                             name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -92,7 +117,7 @@ const SigninScreen = ({navigation}) => {
                             />
                         </View>
                     </View>
-                    <Separator height={12}/>
+                    <Text style={styles.errorMessage}>{errorMessage}</Text>
                     <View style={styles.forgotPasswordContainer}>
                         <View style={styles.toggleContainer}>
                             <ToggleButton size={0.5}/>
@@ -104,8 +129,16 @@ const SigninScreen = ({navigation}) => {
                         </Text>
                     </View>
                     <Separator height={10}/>
-                    <TouchableOpacity style={styles.signinButton}>
-                        <Text style={styles.signinButtonText}>Sign In</Text>
+                    <TouchableOpacity style={styles.signinButton} onPress={() => signIn()}>
+                        {isLoading ? (
+                            <LottieView 
+                                source={images.LOADING}
+                                autoPlay
+                            />
+                        ) : (
+                        
+                            <Text style={styles.signinButtonText}>Sign In</Text>
+                        )}
                     </TouchableOpacity>
                     <View style={styles.signupContainer}>
                         <Text style={styles.accountText}>Don't have an account?</Text>
@@ -313,6 +346,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     }
+    ,errorMessage: {
+        fontSize: 10,
+        lineHeight: 10 * 1.4,
+        color: colors.DEFAULT_RED,
+        fontFamily: fonts.POPPINS_MEDIUM,
+        paddingHorizontal: 20,
+        paddingTop: 10,
+    },
 });
 
 export default SigninScreen;
