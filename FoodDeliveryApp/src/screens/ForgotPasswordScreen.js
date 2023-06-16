@@ -57,6 +57,8 @@ const ForgotPasswordScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={12}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Email" 

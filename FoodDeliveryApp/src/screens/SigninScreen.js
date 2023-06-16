@@ -85,6 +85,8 @@ const SigninScreen = ({navigation, setToken}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={20}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Please enter your username" 
@@ -106,6 +108,8 @@ const SigninScreen = ({navigation, setToken}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput
+                                multiline={false}
+                                maxLength={12}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 secureTextEntry={isPasswordShow ? false: true}
@@ -143,7 +147,6 @@ const SigninScreen = ({navigation, setToken}) => {
                                 autoPlay
                             />
                         ) : (
-                        
                             <Text style={styles.signinButtonText}>Sign In</Text>
                         )}
                     </TouchableOpacity>

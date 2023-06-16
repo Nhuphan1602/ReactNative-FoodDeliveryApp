@@ -159,6 +159,8 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={20}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Please enter the desired username" 
@@ -184,6 +186,8 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={20}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Please enter the email of your preference" 
@@ -210,6 +214,8 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput
+                                multiline={false}
+                                maxLength={12}
                                 autoCorrect={false} // Disable auto correction
                                 autoCapitalize="none" // Disable auto capitalization
                                 secureTextEntry={isPasswordShow ? false: true}
