@@ -125,16 +125,16 @@ const SignupScreen = ({navigation}) => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <StatusBar 
-                    barStyle="dark-content" 
-                    backgroundColor={colors.DEFAULT_WHITE}
-                    translucent
+                        barStyle="dark-content" 
+                        backgroundColor={colors.DEFAULT_WHITE}
+                        translucent
                     />  
                     <Separator height={StatusBar.currentHeight}/>
                     <View style={styles.headerContainer}>
                         <Ionicons 
-                        name="chevron-back-outline" 
-                        size={25} 
-                        onPress={() => navigation.goBack()} 
+                            name="chevron-back-outline" 
+                            size={25} 
+                            onPress={() => navigation.goBack()} 
                         />
                         <View style={styles.logoGroup}>
                             <Image 
@@ -159,6 +159,10 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={20}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Please enter the desired username" 
                                 placeholderTextColor={colors.DEFAULT_GREY}
                                 selectionColor={colors.DEFAULT_GREY}
@@ -182,6 +186,10 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput 
+                                multiline={false}
+                                maxLength={20}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
                                 placeholder="Please enter the email of your preference" 
                                 placeholderTextColor={colors.DEFAULT_GREY}
                                 selectionColor={colors.DEFAULT_GREY}
@@ -206,6 +214,10 @@ const SignupScreen = ({navigation}) => {
                                 style={{marginRight:10}}
                             />
                             <TextInput
+                                multiline={false}
+                                maxLength={12}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
                                 secureTextEntry={isPasswordShow ? false: true}
                                 placeholder="Please enter the password you want" 
                                 placeholderTextColor={colors.DEFAULT_GREY}

@@ -30,9 +30,9 @@ const ForgotPasswordScreen = ({navigation}) => {
                     <Separator height={StatusBar.currentHeight}/>
                     <View style={styles.headerContainer}>
                         <Ionicons 
-                        name="chevron-back-outline" 
-                        size={22} 
-                        onPress={() => navigation.goBack()} 
+                            name="chevron-back-outline" 
+                            size={22} 
+                            onPress={() => navigation.goBack()} 
                         />
                         <View style={styles.logoGroup}>
                             <Image 
@@ -51,16 +51,20 @@ const ForgotPasswordScreen = ({navigation}) => {
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="mail" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="mail" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Email" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
+                                multiline={false}
+                                maxLength={12}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
+                                placeholder="Email" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
                             />
                         </View>
                     </View>

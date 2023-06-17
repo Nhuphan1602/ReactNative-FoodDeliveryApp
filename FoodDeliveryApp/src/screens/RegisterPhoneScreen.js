@@ -104,6 +104,10 @@ const RegisterPhoneScreen = ({navigation}) => {
             </TouchableOpacity>
             <View style={styles.phoneInputContainer}>
               <TextInput 
+                multiline={false}
+                maxLength={12}
+                autoCorrect={false} // Disable auto correction
+                autoCapitalize="none" // Disable auto capitalization
                 placeholder='Phone number'
                 placeholderTextColor={colors.DEFAULT_GREY}
                 selectionColor={colors.DEFAULT_GREY}

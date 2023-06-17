@@ -50,16 +50,16 @@ const SigninScreen = ({navigation, setToken}) => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <StatusBar 
-                    barStyle="dark-content" 
-                    backgroundColor={colors.DEFAULT_WHITE}
-                    translucent
+                        barStyle="dark-content" 
+                        backgroundColor={colors.DEFAULT_WHITE}
+                        translucent
                     />  
                     <Separator height={StatusBar.currentHeight}/>
                     <View style={styles.headerContainer}>
                         <Ionicons 
-                        name="chevron-back-outline" 
-                        size={25} 
-                        onPress={() => navigation.goBack()} 
+                            name="chevron-back-outline" 
+                            size={25} 
+                            onPress={() => navigation.goBack()} 
                         />
                         <View style={styles.logoGroup}>
                             <Image 
@@ -79,17 +79,21 @@ const SigninScreen = ({navigation, setToken}) => {
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="user" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="user" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput 
-                            placeholder="Please enter your username" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
-                            onChangeText={text => setUsername(text)}
+                                multiline={false}
+                                maxLength={20}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
+                                placeholder="Please enter your username" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
+                                onChangeText={text => setUsername(text)}
                             />
                         </View>
                     </View>
@@ -98,25 +102,29 @@ const SigninScreen = ({navigation, setToken}) => {
                     <View style={styles.inputContainer}>
                         <View style={styles.inputSubContainer}>
                             <Feather 
-                            name="lock" 
-                            size={22} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
+                                name="lock" 
+                                size={22} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
                             />
                             <TextInput
-                            secureTextEntry={isPasswordShow ? false: true}
-                            placeholder="Please enter your password" 
-                            placeholderTextColor={colors.DEFAULT_GREY}
-                            selectionColor={colors.DEFAULT_GREY}
-                            style={styles.inputText}
-                            onChangeText={text => setPassword(text)}
+                                multiline={false}
+                                maxLength={12}
+                                autoCorrect={false} // Disable auto correction
+                                autoCapitalize="none" // Disable auto capitalization
+                                secureTextEntry={isPasswordShow ? false: true}
+                                placeholder="Please enter your password" 
+                                placeholderTextColor={colors.DEFAULT_GREY}
+                                selectionColor={colors.DEFAULT_GREY}
+                                style={styles.inputText}
+                                onChangeText={text => setPassword(text)}
                             />
                             <Feather
-                            name={isPasswordShow ? 'eye' : 'eye-off'}
-                            size={20} 
-                            color={colors.DEFAULT_GREY} 
-                            style={{marginRight:10}}
-                            onPress={()=> setPasswordShow(!isPasswordShow)}
+                                name={isPasswordShow ? 'eye' : 'eye-off'}
+                                size={20} 
+                                color={colors.DEFAULT_GREY} 
+                                style={{marginRight:10}}
+                                onPress={()=> setPasswordShow(!isPasswordShow)}
                             />
                         </View>
                     </View>
@@ -139,7 +147,6 @@ const SigninScreen = ({navigation, setToken}) => {
                                 autoPlay
                             />
                         ) : (
-                        
                             <Text style={styles.signinButtonText}>Sign In</Text>
                         )}
                     </TouchableOpacity>
