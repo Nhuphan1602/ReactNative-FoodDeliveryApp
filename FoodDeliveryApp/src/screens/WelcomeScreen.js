@@ -3,6 +3,9 @@ import { View, StyleSheet, Text, StatusBar, FlatList, TouchableOpacity} from "re
 import { colors, general, fonts} from "../constants";
 import { WelcomeCard, Separator} from "../components";
 import { display } from "../utils";
+import { StorageService } from "../services";
+import { useDispatch } from "react-redux";
+import { GeneralAction } from "../actions";
 
 const pageStyle = isActive =>
     isActive
@@ -38,6 +41,14 @@ const WelcomeScreen = ({navigation}) => {
             index: welcomeListIndex < 2 ? welcomeListIndex + 1 : welcomeListIndex,
         });
     };
+
+    const dispatch = useDispatch()
+
+    const navigate = () => {
+        StorageService.setFirstTimeUse().then(() => {
+            dispatch(GeneralAction.setIsFirstTimeUse());
+        })
+    }
     
     return (
         <View style= {styles.container}>
@@ -69,7 +80,7 @@ const WelcomeScreen = ({navigation}) => {
                 <TouchableOpacity 
                     style={styles.gettingStartedButton}
                     activeOpacity={.8}
-                    onPress={() => navigation.navigate("Signin")}
+                    onPress={() => navigate()}
                 >
                     <Text style={styles.gettingStartedButtonText}>Get started</Text>
                 </TouchableOpacity>

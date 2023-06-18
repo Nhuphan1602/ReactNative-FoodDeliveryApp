@@ -18,16 +18,17 @@ import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
 import { AuthenticationService, StorageService} from "../services";
 import LottieView from 'lottie-react-native';
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GeneralAction } from "../actions";
 
 
-const SigninScreen = ({navigation, setToken}) => {
+const SigninScreen = ({navigation}) => {
     const [isPasswordShow,setPasswordShow] = useState(false);
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const dispatch = useDispatch()
 
     const signIn = async () => {
         setIsLoading(true);
@@ -37,11 +38,13 @@ const SigninScreen = ({navigation, setToken}) => {
         };
         AuthenticationService.login(user).then(response => {
           setIsLoading(false);
-          setToken(response?.data);
-          console.log(response?.message)
-          if (!response?.status) {
+          if (response?.status) {
+            StorageService.setToken(response?.data).then(() => {
+                dispatch(GeneralAction.setToken(response?.data))
+            }) 
+          } else {
             setErrorMessage(response?.message)
-          } 
+          }
         });
     };
     
@@ -366,10 +369,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setToken: (token) => dispatch(GeneralAction.setToken(token)),
-    }
-}
-
-export default connect(null, mapDispatchToProps)(SigninScreen);
+export default SigninScreen;
