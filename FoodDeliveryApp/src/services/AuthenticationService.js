@@ -59,7 +59,24 @@ const checkUserExist = async (type, value) => {
       console.log(error);
       return {status: false, message: 'Oops! Something went wrong'};
     }
-  };
+};
+
+const refreshToken = async () => {
+    try {
+        let tokenResponse = await AuthRequest.post(
+            apiConstants.BACKEND_API.REFRESH_TOKEN,
+            {headers: authHeader(getToken())},
+        );
+        if (tokenResponse?.status === 200) {
+            return {status: true, data: tokenResponse?.data};
+        } else {
+            return {status: false};
+        }
+    } catch (error) {
+        console.log(error);
+        return {status: false, message: 'Oops! Something went wrong'};
+    }
+    };
 
 
-export default {register, login, checkUserExist};
+export default {register, login, checkUserExist, refreshToken};
