@@ -12,6 +12,8 @@ const BACKEND_API = {
   REGISTER: '/register',
   LOGIN: '/login',
   USER_EXIST: '/user-exist',
+  USER: '/user',
+  REFRESH: '/refresh-token',
 };
 
 
