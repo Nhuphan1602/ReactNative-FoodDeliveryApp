@@ -15,15 +15,15 @@ const HomeScreen = ({navigation}) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-          RestaurantService.getRestaurants().then(response => {
-            if (response?.status) {
-              console.log(response?.data);
-              setRestaurants(response?.data);
-            }
-          });
+            RestaurantService.getRestaurants().then(response => {
+                if (response?.status) {
+                    console.log(response?.data);
+                    setRestaurants(response?.data);
+                }
+            });
         });
         return unsubscribe;
-      }, []);
+    }, []);
     return (
         <View style={styles.container}>
             <StatusBar 
@@ -88,10 +88,10 @@ const HomeScreen = ({navigation}) => {
                     <Text style={styles.listHeaderSubtitle}>See All</Text>
                     </View>
                     <FlatList 
-                    data={restaurants} 
-                    keyExtractor={item => item?.id} 
-                    horizontal 
-                    renderItem={({item}) => <RestaurantCard {...item}/>}/>
+                        data={restaurants} 
+                        keyExtractor={item => item?.id} 
+                        horizontal 
+                        renderItem={({item}) => <RestaurantCard {...item}/>}/>
                 </View>
             </ScrollView>
         </View>

@@ -1,4 +1,4 @@
-import {apiConstants} from '../contants';
+import { apiConstants } from '../contants';
 import axios from 'axios';
 import { authHeader } from '../utils/generator';
 import { getToken } from '../Store';

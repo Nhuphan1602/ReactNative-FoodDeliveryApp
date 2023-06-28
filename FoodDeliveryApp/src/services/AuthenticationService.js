@@ -35,6 +35,7 @@ const login = async user => {
             username: user?.username,
             password: user?.password,
         };
+
         let loginResponse = await AuthRequest.post(
             apiConstants.BACKEND_API.LOGIN,
             requestBody,

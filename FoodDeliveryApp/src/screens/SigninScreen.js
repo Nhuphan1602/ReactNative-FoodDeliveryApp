@@ -37,14 +37,14 @@ const SigninScreen = ({navigation}) => {
           password,
         };
         AuthenticationService.login(user).then(response => {
-          setIsLoading(false);
-          if (response?.status) {
-            StorageService.setToken(response?.data).then(() => {
-                dispatch(GeneralAction.setToken(response?.data))
-            }) 
-          } else {
-            setErrorMessage(response?.message)
-          }
+            setIsLoading(false);
+            if (response?.status) {
+                StorageService.setToken(response?.data).then(() => {
+                    dispatch(GeneralAction.setToken(response?.data))
+                }) 
+            } else {
+              setErrorMessage(response?.message)
+            }
         });
     };
     
