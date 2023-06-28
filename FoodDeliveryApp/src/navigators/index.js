@@ -14,6 +14,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { display } from '../utils';
 import { GeneralAction } from '../actions';
+import { StorageService } from '../services';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,10 @@ const Navigators = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+      StorageService.setToken('').then(() => {
+      dispatch(GeneralAction.setToken(''));
+      dispatch(GeneralAction.setUserData(null));
+      });
     dispatch(GeneralAction.appStart())
   }, [])
 
