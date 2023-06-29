@@ -1,23 +1,41 @@
 import React, { useState, useEffect} from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
-import { CategoryMenuItem, Separator } from "../components";
+import {
+    CategoryMenuItem,
+    RestaurantCard,
+    RestaurantMediumCard,
+    Separator,
+  } from '../components';
 import { colors, fonts, mock } from "../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather"
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { RestaurantService } from "../services";
-import RestaurantCard from "../components/RestaurantCard";
+import { display } from "../utils";
+
+const sortStyle = isActive =>
+  isActive
+    ? styles.sortListItem
+    : {...styles.sortListItem, borderBottomColor: colors.DEFAULT_WHITE};
 
 const HomeScreen = ({navigation}) => {
     const [activeCategory, setActiveCategory] = useState()
     const [restaurants, setRestaurants] = useState(null);
+    const [activeSortItem, setActiveSortItem] = useState('recent');
+
+    const shadowStyle = {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.18,
+        shadowRadius: 1.0,
+        elevation: Platform.OS === "android" ? 1 : 0, // Chỉ áp dụng elevation trên Android
+    };
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             RestaurantService.getRestaurants().then(response => {
                 if (response?.status) {
-                    console.log(response?.data);
                     setRestaurants(response?.data);
                 }
             });
@@ -91,8 +109,48 @@ const HomeScreen = ({navigation}) => {
                         data={restaurants} 
                         keyExtractor={item => item?.id} 
                         horizontal 
-                        renderItem={({item}) => <RestaurantCard {...item}/>}/>
+                        ListHeaderComponent={() => <Separator width={20} />}
+                        ListFooterComponent={() => <Separator width={20} />}
+                        ItemSeparatorComponent={() => <Separator width={10} />}
+                        renderItem={({item}) => <RestaurantCard {...item}/>}
+                    />
                 </View>
+                <View style={[styles.sortListContainer, shadowStyle]}>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'recent')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('recent')}>
+                        <Text style={styles.sortListItemText}>Recent</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'favorite')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('favorite')}>
+                        <Text style={styles.sortListItemText}>Favorite</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'rating')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('rating')}>
+                        <Text style={styles.sortListItemText}>Rating</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'popular')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('popular')}>
+                        <Text style={styles.sortListItemText}>Popular</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={sortStyle(activeSortItem === 'trending')}
+                        activeOpacity={0.8}
+                        onPress={() => setActiveSortItem('trending')}>
+                        <Text style={styles.sortListItemText}>Trending</Text>
+                    </TouchableOpacity>
+                </View>
+                {restaurants?.map(item => (
+                    <RestaurantMediumCard {...item} key={item?.id} />
+                ))}
+                <Separator height={display.setHeight(10)} />
             </ScrollView>
         </View>
     )
@@ -114,7 +172,7 @@ const styles = StyleSheet.create({
         width: 2000,
         borderRadius: 2000,
         alignSelf: 'center',
-        zIndex: -1
+        zIndex: -1,
     },
     locationContainer: {
         flexDirection: 'row',
@@ -182,30 +240,51 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         paddingVertical: 5,
-        zIndex: -5,
-      },
-      horizontalListContainer: {
+        zIndex: -99,
+    },
+    horizontalListContainer: {
         marginTop: 30,
-      },
-      listHeader: {
+    },
+    listHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         marginHorizontal: 20,
         marginBottom: 5,
-      },
-      listHeaderTitle: {
+    },
+    listHeaderTitle: {
         color: colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
-      },
-      listHeaderSubtitle: {
+    },
+    listHeaderSubtitle: {
         color: colors.DEFAULT_YELLOW,
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
-      },
+    },
+    sortListContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        backgroundColor: colors.DEFAULT_WHITE,
+        marginTop: 8,
+    },
+    sortListItem: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: colors.DEFAULT_YELLOW,
+        height: 40,
+    },
+    sortListItemText: {
+        color: colors.DEFAULT_BLACK,
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        fontFamily: fonts.POPPINS_SEMI_BOLD,
+    },
 });
 
 export default HomeScreen;

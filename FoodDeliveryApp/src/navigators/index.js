@@ -11,10 +11,9 @@ import {
   VerificationScreen,
   HomeScreen,
 } from '../screens';
+import HomeTabs from "./BottomTabs"
 import { useSelector, useDispatch } from 'react-redux';
-import { display } from '../utils';
 import { GeneralAction } from '../actions';
-import { StorageService } from '../services';
 const Stack = createStackNavigator();
 
 const Navigators = ({}) => {
@@ -24,12 +23,6 @@ const Navigators = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-    StorageService.setToken('').then(() => {
-      dispatch(GeneralAction.setToken(''));
-      dispatch(GeneralAction.setUserData(null));
-    });
-
     dispatch(GeneralAction.appStart())
   }, [])
 
@@ -50,7 +43,7 @@ const Navigators = ({}) => {
             <Stack.Screen name="Verification" component={VerificationScreen} />
           </>
           ) : (
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HomeTabs" component={HomeTabs} />
           )}
       </Stack.Navigator>
     </NavigationContainer>

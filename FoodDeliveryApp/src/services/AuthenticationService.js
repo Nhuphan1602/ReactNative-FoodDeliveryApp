@@ -10,16 +10,16 @@ const register = async user => {
         return {status: false, message: 'Please fill up all fields'};
     }
     try {
-    let requestBody = {
-        username: user?.username,
-        email: user?.email,
-        password: user?.password,
-    };
-    let registerResponse = await AuthRequest.post(
-        apiConstants.BACKEND_API.REGISTER,
-        requestBody,
-    );
-    return registerResponse?.data;
+        let requestBody = {
+            username: user?.username,
+            email: user?.email,
+            password: user?.password,
+        };
+        let registerResponse = await AuthRequest.post(
+            apiConstants.BACKEND_API.REGISTER,
+            requestBody,
+        );
+        return registerResponse?.data;
     } catch (error) {
         console.log(error);
         return {status: false, message: 'Oops! Something went wrong'};
@@ -50,15 +50,15 @@ const login = async user => {
 
 const checkUserExist = async (type, value) => {
     try {
-      let params = {[type]: value};
-      let userCheckResponse = await AuthRequest.get(
+        let params = {[type]: value};
+        let userCheckResponse = await AuthRequest.get(
         apiConstants.BACKEND_API.USER_EXIST,
         {params},
-      );
-      return userCheckResponse?.data;
+        );
+        return userCheckResponse?.data;
     } catch (error) {
-      console.log(error);
-      return {status: false, message: 'Oops! Something went wrong'};
+        console.log(error);
+        return {status: false, message: 'Oops! Something went wrong'};
     }
 };
 

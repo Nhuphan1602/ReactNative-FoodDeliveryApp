@@ -1,4 +1,4 @@
-import { apiConstants } from '../contants';
+import { apiConstants } from '../constants';
 import axios from 'axios';
 import { authHeader } from '../utils/generator';
 import { getToken } from '../Store';
@@ -16,7 +16,7 @@ const getRestaurants = async () => {
       return {
         status: true,
         message: `Restaurant data fetched`,
-        data: restaurantResponse?.data,
+        data: restaurantResponse?.data?.data,
       };
     } else {
       return {
