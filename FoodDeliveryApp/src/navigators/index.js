@@ -11,10 +11,9 @@ import {
   VerificationScreen,
   HomeScreen,
 } from '../screens';
+import HomeTabs from "./BottomTabs"
 import { useSelector, useDispatch } from 'react-redux';
-import { display } from '../utils';
 import { GeneralAction } from '../actions';
-
 const Stack = createStackNavigator();
 
 const Navigators = ({}) => {
@@ -44,7 +43,7 @@ const Navigators = ({}) => {
             <Stack.Screen name="Verification" component={VerificationScreen} />
           </>
           ) : (
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HomeTabs" component={HomeTabs} />
           )}
       </Stack.Navigator>
     </NavigationContainer>
