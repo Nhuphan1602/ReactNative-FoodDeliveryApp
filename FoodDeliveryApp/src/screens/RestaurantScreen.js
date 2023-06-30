@@ -59,6 +59,7 @@ const RestaurantScreen = ({
     }}) => {
     const [restaurant, setRestaurant] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isBookmarked, setIsBookMarked] = useState(false)
     useEffect(() => {
         RestaurantService.getOneRestaurantById(restaurantId).then(response => {
             setSelectedCategory(response?.data?.categories[0]);
@@ -85,9 +86,11 @@ const RestaurantScreen = ({
                         <View style={styles.titleContainer}>
                             <Text style={styles.title}>{restaurant?.name}</Text>
                             <Ionicons 
-                                name="bookmark-outline" 
+                                name={isBookmarked ? "bookmark" : "bookmark-outline" }
                                 color={colors.DEFAULT_YELLOW} 
-                                size={24}/>
+                                size={24}
+                                onPress={() => setIsBookMarked(!isBookmarked)}
+                            />
                         </View>
                         <Text style={styles.tagText}>{restaurant?.tags?.join(' • ')}</Text>
                         <View style={styles.ratingReviewsContainer}>
