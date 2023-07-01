@@ -15,6 +15,7 @@ import {
 import HomeTabs from "./BottomTabs"
 import { useSelector, useDispatch } from 'react-redux';
 import { GeneralAction } from '../actions';
+import { StorageService } from '../services';
 const Stack = createStackNavigator();
 
 const Navigators = ({}) => {
@@ -24,6 +25,7 @@ const Navigators = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // StorageService.clearFirstTimeUse()
     dispatch(GeneralAction.appStart())
   }, [])
 

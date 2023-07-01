@@ -16,5 +16,13 @@ const getToken = () => {
     return AsyncStorage.getItem("token");
 };
 
+const clearFirstTimeUse = async () => {
+    try {
+      await AsyncStorage.removeItem('isFirstTimeUse');
+      console.log('isFirstTimeUse cleared successfully.');
+    } catch (error) {
+      console.log('Error clearing isFirstTimeUse:', error);
+    }
+  };
 
-export default {setFirstTimeUse, getFirstTimeUse, setToken, getToken};
+export default {setFirstTimeUse, getFirstTimeUse, setToken, getToken, clearFirstTimeUse};
