@@ -7,6 +7,7 @@ import RegisterPhoneScreen from './RegisterPhoneScreen';
 import VerificationScreen from './VerificationScreen';
 import HomeScreen from './HomeScreen';
 import AccountScreen from './AccountScreen';
+import RestaurantScreen from './RestaurantScreen';
 
 export { 
     SplashScreen, 
@@ -17,5 +18,6 @@ export {
     RegisterPhoneScreen,
     VerificationScreen,
     HomeScreen,
-    AccountScreen
+    AccountScreen,
+    RestaurantScreen
 };

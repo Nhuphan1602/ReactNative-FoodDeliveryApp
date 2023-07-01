@@ -19,7 +19,10 @@ const RestaurantCard = ({
   reviews,
 }) => {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+    <TouchableOpacity 
+      style={styles.container} 
+      activeOpacity={0.8} 
+      onPress={() => navigate(id)}>
         <Image
             source={{uri: StaticImageService.getPoster(poster)}}
             style={styles.posterStyle}

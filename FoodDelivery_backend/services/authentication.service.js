@@ -106,7 +106,7 @@ const checkUserExist = async (query) => {
 
 const tokenVerification = async (req, res, next) => {
     console.log(
-        `authentication.service | tokenRefresh | ${req?.originalUrl}`
+        `authentication.service | tokenVerification | ${req?.originalUrl}`
     );
     try {
         if (
