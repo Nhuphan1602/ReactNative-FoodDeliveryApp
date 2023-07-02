@@ -3,12 +3,18 @@ const MongoDB = require("./mongodb.service");
 
 const addToCart = async ({foodId,username}) => {
     try {
-        let updatedCart = await MongoDB.db.collection(mongoConfig.collections.CARTS)
-        .updateOne({foodId, username}, {$inc: {count: 1}}, {upsert: true});
+        let updatedCart = await MongoDB.db
+        .collection(mongoConfig.collections.CARTS)
+        .updateOne(
+            {foodId, username}, 
+            {$inc: {count: 1}}, 
+            {upsert: true});
         if (updatedCart?.modifiedCount > 0 || updatedCart?.upsertedCount > 0) {
+            let cartResponse = await getCartItems({ username });
             return {
                 status: true,
-                message: "Item Added to Cart Successfully"
+                message: "Item Added to Cart Successfully",
+                data: cartResponse?.data,
             }
         }
     } catch (error) {
@@ -38,6 +44,7 @@ const removeFromCart = async ({foodId,username}) => {
         let updatedCart = await MongoDB.db.collection(mongoConfig.collections.CARTS)
         .updateOne({foodId, username}, {$inc: {count: -1}}, {upsert: true});
         if (updatedCart?.modifiedCount > 0 || updatedCart?.upsertedCount > 0) {
+            let cartResponse = await getCartItems({username});
             return {
                 status: true,
                 message: "Item Removed from Cart Successfully",

@@ -22,6 +22,7 @@ const BACKEND_API = {
   USER: '/user',
   REFRESH: '/refresh-token',
   RESTAURANT: '/restaurant',
+  CART: '/cart',
 };
 
 
