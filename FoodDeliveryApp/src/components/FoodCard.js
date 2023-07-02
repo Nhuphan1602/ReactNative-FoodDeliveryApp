@@ -4,9 +4,19 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {apiConstants, colors, fonts} from '../constants';
 import {StaticImageService} from '../services';
 import {display} from '../utils';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import CartAction from '../actions/CartAction';
 
 const FoodCard = ({id, name, description, price, image, navigate}) => {
-    const [itemCount, setItemCount] = useState(0)
+    const dispatch = useDispatch();
+    const itemCount = useSelector (
+      state => 
+        state?.cartState?.cart?.cartItems?.find(item => item?.foodId === id)
+          ?.count,
+    );
+    const addToCart = foodId => dispatch(CartAction.addToCart({foodId}));
+    const removeFromCart = foodId => dispatch(CartAction.removeFromCart({foodId}));
 
     return (
         <View style={styles.container}>
@@ -39,7 +49,7 @@ const FoodCard = ({id, name, description, price, image, navigate}) => {
                         name="minus"
                         color={colors.DEFAULT_YELLOW}
                         size={18}
-                        onPress={() => setItemCount(itemCount - 1)}
+                        onPress={() => removeFromCart(id)}
                     />
                     <Text style={styles.itemCountText}>{itemCount}</Text>
                 </>
@@ -48,7 +58,7 @@ const FoodCard = ({id, name, description, price, image, navigate}) => {
                     name="plus"
                     color={colors.DEFAULT_YELLOW}
                     size={18}
-                    onPress={() => setItemCount(itemCount + 1)}
+                    onPress={() => addToCart(id)}
                 />
             </View>
             </View>

@@ -6,9 +6,9 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (action.types) {
+  switch (action.type) {
     case CartAction.types.GET_CART_ITEMS:
-      return {...state, cartItems: action?.payload};
+      return {...state, cart: action?.payload};
     case CartAction.types.SET_IS_LOADING:
       return {...state, isLoading: action?.payload};
     default:

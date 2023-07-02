@@ -33,15 +33,15 @@ const getOneRestaurantById = async (restaurantId) => {
         let restaurant = await MongoDB.db
         .collection(mongoConfig.collections.RESTAURANTS).aggregate([
             {
-              '$match': {
+              $match: {
                 'id': restaurantId
               }
             }, {
-              '$lookup': {
-                'from': 'foods', 
-                'localField': 'id', 
-                'foreignField': 'restaurantId', 
-                'as': 'foods'
+              $lookup: {
+                from: 'foods', 
+                localField: 'id', 
+                foreignField: 'restaurantId', 
+                as: 'foods'
               }
             }
           ])

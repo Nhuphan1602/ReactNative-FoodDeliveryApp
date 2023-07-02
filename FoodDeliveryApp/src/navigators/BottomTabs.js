@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   AccountScreen,
   HomeScreen,
+  CartScreen
 } from '../screens';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {display} from '../utils';
@@ -23,7 +24,7 @@ export default () => (
         borderTopWidth: 0,
       },
       tabBarShowLabel: false,
-      tabBarActiveTintColor: colors.DEFAULT_GREEN,
+      tabBarActiveTintColor: colors.SECONDARY_RED,
       tabBarInactiveTintColor: colors.INACTIVE_GREY,
     }}
     op>
@@ -42,6 +43,15 @@ export default () => (
       options={{
         tabBarIcon: ({color}) => (
           <Ionicons name="person-outline" size={23} color={color} />
+        ),
+      }}
+    />
+    <BottomTabs.Screen
+      name="Cart"
+      component={CartScreen}
+      options={{
+        tabBarIcon: ({color}) => (
+          <Ionicons name="cart-outline" size={23} color={color} />
         ),
       }}
     />

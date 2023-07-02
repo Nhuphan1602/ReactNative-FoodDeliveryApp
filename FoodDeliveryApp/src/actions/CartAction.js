@@ -1,4 +1,4 @@
-import {CartService} from '../services';
+import CartService from "../services/CartService";
 
 const types = {
   GET_CART_ITEMS: 'GET_CART_ITEMS',

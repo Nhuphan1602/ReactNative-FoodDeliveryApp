@@ -37,6 +37,7 @@ const addToCart = async ({foodId}) => {
     try {
       let response = await axios.post(
         `${apiConstants.BACKEND_API.BASE_API_URL}${apiConstants.BACKEND_API.CART}/${foodId}`,
+        {},
         {
           headers: authHeader(getToken()),
         },
