@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  switch (key) {
+  switch (action.types) {
     case CartAction.types.GET_CART_ITEMS:
       return {...state, cartItems: action?.payload};
     case CartAction.types.SET_IS_LOADING:
