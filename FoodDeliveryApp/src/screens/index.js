@@ -9,6 +9,7 @@ import HomeScreen from './HomeScreen';
 import AccountScreen from './AccountScreen';
 import RestaurantScreen from './RestaurantScreen';
 import CartScreen from './CartScreen';
+import FoodScreen from './FoodScreen';
 
 export { 
     SplashScreen, 
@@ -21,5 +22,6 @@ export {
     HomeScreen,
     AccountScreen,
     RestaurantScreen,
-    CartScreen
+    CartScreen,
+    FoodScreen,
 };

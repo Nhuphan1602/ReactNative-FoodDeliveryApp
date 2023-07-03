@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const { mongoConfig, tokenSecret } = require("../config");
+const { mongoConfig} = require("../config");
 
 class MongoDB {
     static connectToMongoDB = () => {
