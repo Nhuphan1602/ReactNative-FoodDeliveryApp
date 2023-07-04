@@ -19,7 +19,7 @@ const FoodCard = ({id, name, description, price, image, navigate}) => {
     const removeFromCart = foodId => dispatch(CartAction.removeFromCart({foodId}));
 
     return (
-        <View style={styles.container}>
+      <View style={styles.container}>
         <TouchableOpacity onPress={() => navigate()} activeOpacity={0.8}>
             <Image
             style={styles.image}
@@ -63,7 +63,7 @@ const FoodCard = ({id, name, description, price, image, navigate}) => {
             </View>
             </View>
         </View>
-        </View>
+      </View>
     );
 };
 

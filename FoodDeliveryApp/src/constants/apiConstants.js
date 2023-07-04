@@ -23,6 +23,7 @@ const BACKEND_API = {
   REFRESH: '/refresh-token',
   RESTAURANT: '/restaurant',
   CART: '/cart',
+  FOOD: '/food',
 };
 
 
