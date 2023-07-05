@@ -111,7 +111,7 @@ const tokenVerification = async (req, res, next) => {
     try {
         if (
             req?.originalUrl.endsWith("/login") ||
-            req?.originalUrl.endsWith("/user-exist") ||
+            req?.originalUrl.startsWith("/api/user-exist") ||
             req?.originalUrl.endsWith("/register")
         ) 
             return next();

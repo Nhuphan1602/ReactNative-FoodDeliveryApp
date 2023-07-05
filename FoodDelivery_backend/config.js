@@ -9,6 +9,7 @@ module.exports = {
             RESTAURANTS: "restaurants",
             CARTS: "carts",
             FOODS: "foods",
+            BOOKMARKS: "bookmarks",
         },
     },
     serverConfig: {
