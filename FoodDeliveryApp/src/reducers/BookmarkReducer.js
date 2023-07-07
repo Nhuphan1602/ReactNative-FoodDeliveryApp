@@ -1,7 +1,7 @@
 import { BookmarkAction } from '../actions';
 
 const initialState = {
-  bookmarks: {},
+  bookmarks: [],
   isLoading: false,
 };
 
