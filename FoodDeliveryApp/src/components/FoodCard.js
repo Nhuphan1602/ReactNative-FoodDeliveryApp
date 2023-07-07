@@ -4,14 +4,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {apiConstants, colors, fonts} from '../constants';
 import {StaticImageService} from '../services';
 import {display} from '../utils';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'; 
 import CartAction from '../actions/CartAction';
 
 const FoodCard = ({id, name, description, price, image, navigate}) => {
     const dispatch = useDispatch();
-    const itemCount = useSelector (
-      state => 
+    const itemCount = useSelector(
+      state =>
         state?.cartState?.cart?.cartItems?.find(item => item?.foodId === id)
           ?.count,
     );
