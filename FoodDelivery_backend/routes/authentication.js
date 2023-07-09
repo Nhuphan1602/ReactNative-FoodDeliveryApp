@@ -5,11 +5,26 @@ const {
   userLogin, 
   checkUserExist,
   tokenRefresh,
+  sendOTP,
+  verifyOTP,
 } = require("../services/authentication.service")
 
 router.post('/register', async(req, res, next) => {
   let body = req.body;
   let response = await userRegister(body);
+  res.json(response);
+});
+
+router.post('/send-otp', async (req, res, next) => {
+  const phoneNumber = req.body.phoneNumber;
+  console.log(phoneNumber)
+  const response = await sendOTP(phoneNumber);
+  res.json(response);
+});
+
+router.post('/verify-otp', async (req, res, next) => {
+  const { phoneNumber, code } = req.body.requestBody;
+  const response = await verifyOTP({ phoneNumber, code });
   res.json(response);
 });
 

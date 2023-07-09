@@ -53,11 +53,14 @@ const appStart = () => {
                             payload: userResponse?.data
                         });
                         dispatch(CartAction.getCartItems());
-                        dispatch(BookmarkAction.getBookmarks());
-                        dispatch({
-                            type: types.SET_IS_APP_LOADING,
-                            payload: false
-                        });
+
+                        setTimeout(() => {
+                            dispatch({
+                                type: types.SET_IS_APP_LOADING,
+                                payload: false
+                            });
+                        }, 2000);
+                        
                     } else if (userResponse?.message === 'TokenExpiredError'){
                         AuthenticationService.refreshToken().then(tokenResponse => {
                             if(tokenResponse?.status) {
@@ -88,10 +91,13 @@ const appStart = () => {
                 })
             }
         });
-        dispatch({
-            type: types.SET_IS_APP_LOADING,
-            payload: false
-        });
+
+        setTimeout(() => {
+            dispatch({
+                type: types.SET_IS_APP_LOADING,
+                payload: false
+            });
+        }, 2000);
     };
 }
 

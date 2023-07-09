@@ -14,7 +14,8 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.6.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "twilio": "^4.13.0"
   },
   "projectConfig": {
     "mongoConnectionURL": "mongodb://localhost:27017",

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View, 
   Text, 
@@ -17,11 +17,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Separator, FlagItem } from "../components";
 import { display } from "../utils";
-import { StaticImageService } from '../services';
+import { StaticImageService, AuthenticationService } from '../services';
+
 
 const getDropdownStyle = y => ({...styles.countryDropdown, top: y + 60});
 
-const RegisterPhoneScreen = ({navigation}) => {
+const RegisterPhoneScreen = ({ navigation, route }) => {
+  const { user } = route.params;
   const [selectedCountry, setSelectedCountry] = useState(
     countryCode.find(country => country.name === 'Viet Nam'),
   );
@@ -29,7 +31,7 @@ const RegisterPhoneScreen = ({navigation}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownLayout, setDropdownLayout] = useState({});
   const [phoneNumber, setPhoneNumber] = useState("")
-
+  
   const closeDropdown = (pageX, pageY) => {
     if (isDropdownOpen) {
       if (
@@ -48,6 +50,21 @@ const RegisterPhoneScreen = ({navigation}) => {
     setIsDropdownOpen(false);
   };
   
+  const handleSendOTP = async () => {
+    try {
+      //const phoneNumber = selectedCountry?.dial_code + phoneNumber; 
+      AuthenticationService.sendOTP(phoneNumber).then(response => {
+        if (response?.status) { 
+          console.log('OTP sent successfully');
+        } else {
+          console.log('Failed to send OTP:', response?.message);
+        }
+      });
+    } catch (error) {
+      console.log('Error sending OTP:', error);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -115,14 +132,20 @@ const RegisterPhoneScreen = ({navigation}) => {
                 onFocus={() =>  setIsDropdownOpen(false)}
                 // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
                 style={styles.inputText}
-                onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} />
+                onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} 
+                />
+                
             </View>
           </View>
           <View style={{flex:1}}></View>
           <TouchableOpacity 
             style={styles.signinButton} 
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Verification", {phoneNumber})}>
+            onPress={() => {
+              navigation.navigate('Verification', { phoneNumber, user });
+              handleSendOTP();
+            }}
+          >
             <Text style={styles.signinButtonText}>Continue</Text>
           </TouchableOpacity>
           <Separator height={30}/>

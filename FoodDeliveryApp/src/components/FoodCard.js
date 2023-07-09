@@ -21,13 +21,13 @@ const FoodCard = ({id, name, description, price, image, navigate}) => {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => navigate()} activeOpacity={0.8}>
             <Image
-            style={styles.image}
-            source={{
-                uri: StaticImageService.getGalleryImage(
-                image,
-                apiConstants.STATIC_IMAGE.SIZE.SQUARE,
-                ),
-            }}
+              style={styles.image}
+              source={{
+                  uri: StaticImageService.getGalleryImage(
+                  image,
+                  apiConstants.STATIC_IMAGE.SIZE.SQUARE,
+                  ),
+              }}
             />
         </TouchableOpacity>
         <View style={styles.detailsContainer}>

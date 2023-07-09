@@ -14,6 +14,7 @@ const register = async user => {
             username: user?.username,
             email: user?.email,
             password: user?.password,
+            phoneNumber: user?.phoneNumber,
         };
         let registerResponse = await AuthRequest.post(
             apiConstants.BACKEND_API.REGISTER,
@@ -45,7 +46,7 @@ const login = async user => {
         console.log(error);
         return {status: false, message: 'Oops! Something went wrong'};
     }
-  };
+};
 
 
 const checkUserExist = async (type, value) => {
@@ -59,6 +60,39 @@ const checkUserExist = async (type, value) => {
     } catch (error) {
         console.log(error);
         return {status: false, message: 'Oops! Something went wrong'};
+    }
+};
+
+const sendOTP = async (phoneNumber) => {
+    try {
+        console.log(phoneNumber)
+        let sendOTPResponse = await AuthRequest.post(
+        apiConstants.BACKEND_API.SEND_OTP,
+        { phoneNumber }
+        );
+        return sendOTPResponse?.data;
+    } catch (error) {
+        console.log(error);
+        return { status: false, message: 'Oops! Something went wrong' };
+    }
+};
+  
+
+const verifyOTP = async (phoneNumber, code) => {
+    try {
+        console.log(phoneNumber + code)
+        let requestBody = { 
+            phoneNumber: phoneNumber,
+            code: code
+         };
+        let verifyOTPResponse = await AuthRequest.post(
+        apiConstants.BACKEND_API.VERIFY_OTP,
+        { requestBody }
+        );
+        return verifyOTPResponse?.data;
+    } catch (error) {
+        console.log(error);
+        return { status: false, message: 'Oops! Something went wrong' };
     }
 };
 
@@ -80,4 +114,4 @@ const refreshToken = async () => {
     };
 
 
-export default {register, login, checkUserExist, refreshToken};
+export default {register, login, checkUserExist, refreshToken, sendOTP, verifyOTP};

@@ -4,6 +4,76 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 
+// Your AccountSID and Auth Token from console.twilio.com
+const accountSid = 'AC2c4b47585449d85c218ec6043f3d3549';
+const authToken = '65651a1e1ebd0a79dfbc48c34046eb94';
+const serviceId = 'VA936b84f5190fd534213dafc7b157f4a2';
+
+const client = require('twilio')(accountSid, authToken);
+
+const sendOTP = async (phoneNumber) => {
+    try {
+        const verification = await client.verify
+            .v2
+            .services(serviceId)
+            .verifications
+            .create({ to: phoneNumber, channel: 'sms' });
+        
+        console.log(verification.status);
+
+        return {
+            status: true,
+            message: "OTP sent successfully",
+        };
+
+    } catch (error) {
+        console.error(error);
+        return {
+            status: false,
+            message: "Failed to send OTP",
+            error: error?.toString(),
+        };
+    }
+};
+
+const verifyOTP = async body => {
+    try {
+        console.log("Verify OTP Service")
+        console.log(body?.phoneNumber + " " + body?.code)
+        const verificationCheck = await client.verify
+            .v2
+            .services(serviceId)
+            .verificationChecks
+            .create({
+                to: body?.phoneNumber,
+                code: body?.code
+            });
+
+        console.log("Verification " + verificationCheck.status);
+
+        if (verificationCheck.status === 'approved') {
+            return {
+                success: true,
+                message: 'OTP verification successful',
+            };
+        } else {
+            return {
+                success: false,
+                message: 'OTP verification failed',
+            };
+        }
+    } catch (error) {
+        console.error(error);
+
+        return {
+            success: false,
+            message: 'OTP verification failed',
+            error: error?.toString(),
+        };
+    }
+};
+
+
 const userRegister = async(user) => {
     try {
         if (!user?.username || !user?.email || !user?.password)
@@ -12,7 +82,8 @@ const userRegister = async(user) => {
         let userObj = {
             username: user?.username,
             email: user?.email,
-            password: passwordHash
+            password: passwordHash,
+            phoneNumber: user?.phoneNumber,
         }
         let savedUser = await MongoDB.db
             .collection(mongoConfig.collections.USERS)
@@ -112,7 +183,9 @@ const tokenVerification = async (req, res, next) => {
         if (
             req?.originalUrl.endsWith("/login") ||
             req?.originalUrl.startsWith("/api/user-exist") ||
-            req?.originalUrl.endsWith("/register")
+            req?.originalUrl.endsWith("/register") ||
+            req?.originalUrl.startsWith("/api/send-otp") ||
+            req?.originalUrl.startsWith("/api/verify-otp")
         ) 
             return next();
         let token = req?.headers["authorization"];
@@ -208,5 +281,7 @@ module.exports = {
     userLogin, 
     checkUserExist, 
     tokenVerification,
-    tokenRefresh 
+    tokenRefresh,
+    sendOTP,
+    verifyOTP,
 };
