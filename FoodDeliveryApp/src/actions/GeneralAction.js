@@ -95,4 +95,11 @@ const appStart = () => {
     };
 }
 
-export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types};
+const setUserData = userData => {
+    return {
+      type: types.SET_USER_DATA,
+      payload: userData,
+    };
+}
+
+export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData};
