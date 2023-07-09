@@ -65,27 +65,6 @@ const RegisterPhoneScreen = ({ navigation, route }) => {
     }
   };
 
-  const handlePhoneNumberChange = (text) => {
-    // Loại bỏ ký tự không phải chữ số từ số điện thoại
-    const phoneNumberDigits = text.replace(/\D/g, '');
-  
-    // Kiểm tra xem số điện thoại có bắt đầu bằng dial_code của quốc gia đã chọn không
-    const selectedDialCode = selectedCountry?.dial_code;
-    if (phoneNumberDigits.startsWith(selectedDialCode)) {
-      // Nếu bắt đầu bằng dial_code đã chọn, không thay đổi quốc gia
-      setPhoneNumber(phoneNumberDigits);
-    } else {
-      // Nếu không bắt đầu bằng dial_code đã chọn, tìm quốc gia mới dựa trên số điện thoại và thay đổi quốc gia
-      const newCountry = countryCode.find(country => phoneNumberDigits.startsWith(country.dial_code));
-      if (newCountry) {
-        setSelectedCountry(newCountry);
-        setPhoneNumber(phoneNumberDigits.slice(newCountry.dial_code.length));
-      } else {
-        setPhoneNumber(phoneNumberDigits);
-      }
-    }
-  };
-
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -153,13 +132,7 @@ const RegisterPhoneScreen = ({ navigation, route }) => {
                 onFocus={() =>  setIsDropdownOpen(false)}
                 // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
                 style={styles.inputText}
-                // onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} 
-                onChangeText={(text) => {
-                  setPhoneNumber(text)
-                  handlePhoneNumberChange
-                  }
-                }
-
+                onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} 
                 />
                 
             </View>
