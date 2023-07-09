@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View, 
   Text, 
@@ -17,11 +17,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Separator, FlagItem } from "../components";
 import { display } from "../utils";
-import { StaticImageService } from '../services';
+import { StaticImageService, AuthenticationService } from '../services';
+
 
 const getDropdownStyle = y => ({...styles.countryDropdown, top: y + 60});
 
-const RegisterPhoneScreen = ({navigation}) => {
+const RegisterPhoneScreen = ({ navigation, route }) => {
+  const { user } = route.params;
   const [selectedCountry, setSelectedCountry] = useState(
     countryCode.find(country => country.name === 'Viet Nam'),
   );
@@ -29,7 +31,7 @@ const RegisterPhoneScreen = ({navigation}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownLayout, setDropdownLayout] = useState({});
   const [phoneNumber, setPhoneNumber] = useState("")
-
+  
   const closeDropdown = (pageX, pageY) => {
     if (isDropdownOpen) {
       if (
@@ -48,6 +50,42 @@ const RegisterPhoneScreen = ({navigation}) => {
     setIsDropdownOpen(false);
   };
   
+  const handleSendOTP = async () => {
+    try {
+      //const phoneNumber = selectedCountry?.dial_code + phoneNumber; 
+      AuthenticationService.sendOTP(phoneNumber).then(response => {
+        if (response?.status) { 
+          console.log('OTP sent successfully');
+        } else {
+          console.log('Failed to send OTP:', response?.message);
+        }
+      });
+    } catch (error) {
+      console.log('Error sending OTP:', error);
+    }
+  };
+
+  const handlePhoneNumberChange = (text) => {
+    // Loại bỏ ký tự không phải chữ số từ số điện thoại
+    const phoneNumberDigits = text.replace(/\D/g, '');
+  
+    // Kiểm tra xem số điện thoại có bắt đầu bằng dial_code của quốc gia đã chọn không
+    const selectedDialCode = selectedCountry?.dial_code;
+    if (phoneNumberDigits.startsWith(selectedDialCode)) {
+      // Nếu bắt đầu bằng dial_code đã chọn, không thay đổi quốc gia
+      setPhoneNumber(phoneNumberDigits);
+    } else {
+      // Nếu không bắt đầu bằng dial_code đã chọn, tìm quốc gia mới dựa trên số điện thoại và thay đổi quốc gia
+      const newCountry = countryCode.find(country => phoneNumberDigits.startsWith(country.dial_code));
+      if (newCountry) {
+        setSelectedCountry(newCountry);
+        setPhoneNumber(phoneNumberDigits.slice(newCountry.dial_code.length));
+      } else {
+        setPhoneNumber(phoneNumberDigits);
+      }
+    }
+  };
+
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -115,14 +153,26 @@ const RegisterPhoneScreen = ({navigation}) => {
                 onFocus={() =>  setIsDropdownOpen(false)}
                 // vẫn lỗi khi đang focus input => bấm dropdown => bấm input dropdown vẫn k ẩn
                 style={styles.inputText}
-                onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} />
+                // onChangeText={(text) => setPhoneNumber(selectedCountry?.dial_code + text)} 
+                onChangeText={(text) => {
+                  setPhoneNumber(text)
+                  handlePhoneNumberChange
+                  }
+                }
+
+                />
+                
             </View>
           </View>
           <View style={{flex:1}}></View>
           <TouchableOpacity 
             style={styles.signinButton} 
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Verification", {phoneNumber})}>
+            onPress={() => {
+              navigation.navigate('Verification', { phoneNumber, user });
+              handleSendOTP();
+            }}
+          >
             <Text style={styles.signinButtonText}>Continue</Text>
           </TouchableOpacity>
           <Separator height={30}/>

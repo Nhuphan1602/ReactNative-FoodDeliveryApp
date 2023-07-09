@@ -83,16 +83,19 @@ const SignupScreen = ({navigation}) => {
             password
         }
         console.log(user)
-        setIsLoading(true)
-        AuthenticationService.register(user).then(response => {
-            console.log(response)
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 2000);
-            if(!response?.status) {
-                setErrorMessage(response?.message)
-            }
-        })
+        // setIsLoading(true)
+
+        // AuthenticationService.register(user).then(response => {
+        //     console.log(response)
+        //     setTimeout(() => {
+        //         setIsLoading(false)
+        //     }, 2000);
+        //     if(!response?.status) {
+        //         setErrorMessage(response?.message)
+        //     }
+        // })
+        
+        navigation.navigate("RegisterPhone", { user: user });
     }
 
     const checkUserExist = async (type, value) => {

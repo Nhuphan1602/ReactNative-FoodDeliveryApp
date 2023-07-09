@@ -4,7 +4,7 @@ const initialState = {
     isAppLoading: true,
     token: '',
     isFirstTimeUse: true,
-    userData: {}
+    userData: {},
 }
 
 export default (state = initialState, action) => {

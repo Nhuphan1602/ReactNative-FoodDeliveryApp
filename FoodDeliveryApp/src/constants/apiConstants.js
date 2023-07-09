@@ -20,11 +20,12 @@ const BACKEND_API = {
   LOGIN: '/login',
   USER_EXIST: '/user-exist',
   USER: '/user',
+  SEND_OTP: '/send-otp',
+  VERIFY_OTP: '/verify-otp',
   REFRESH: '/refresh-token',
   RESTAURANT: '/restaurant',
   CART: '/cart',
   FOOD: '/food',
 };
-
 
 export default {COUNTRY_FLAG, BACKEND_API, STATIC_IMAGE};

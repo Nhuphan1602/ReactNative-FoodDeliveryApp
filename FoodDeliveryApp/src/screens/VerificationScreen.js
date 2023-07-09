@@ -14,10 +14,11 @@ import { Separator } from "../components";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, fonts, images } from "../constants";
 import { display } from "../utils";
+import { AuthenticationService } from "../services";
 
 const VerificationScreen = ({ 
       route: {
-        params: {phoneNumber}
+        params: {phoneNumber, user}
       },
       navigation
     }) => {
@@ -25,8 +26,38 @@ const VerificationScreen = ({
         const secondInput = useRef();
         const thirdInput = useRef();
         const fourthInput = useRef();
-        const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+        const fifthInput = useRef();
+        const sixthInput = useRef();
+        const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: '', 5: '', 6: ''});
           
+        const handleVerifyOTP = async () => {
+          try {
+            const enteredOTP = Object.values(otp).join(""); // Combine OTP values into a single string
+            console.log(enteredOTP);
+                  
+            console.log("Your regis info: " + user?.username + " " + user?.password);
+            AuthenticationService.verifyOTP(phoneNumber, enteredOTP).then((response) => {
+              if (response?.success) {
+                console.log("OTP verified successfully");
+                AuthenticationService.register({...user, phoneNumber: phoneNumber}).then((response) => {
+                  console.log(response);
+                  // setTimeout(() => {
+                  //   setIsLoading(false);
+                  // }, 2000);
+                  if (!response?.status) {
+                    console.log(response?.message);
+                  } else {
+                    navigation.navigate("Signin");
+                  }
+                });
+              } else {
+                console.log("Failed to verify OTP:", response?.message);
+              }
+            });
+          } catch (error) {
+            console.log("Error verifying OTP:", error);
+          }
+        };
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -102,7 +133,31 @@ const VerificationScreen = ({
                        ref={fourthInput}
                        onChangeText={(text) => {
                           setOtp({...otp, 4: text})
-                          !text && thirdInput.current.focus()
+                          text ? fifthInput.current.focus() : thirdInput.current.focus()
+                       }}
+                       />
+                </View>
+                <View style={styles.otpBox}>
+                    <TextInput 
+                       style={styles.otpText} 
+                       keyboardType="number-pad" 
+                       maxLength={1}
+                       ref={fifthInput}
+                       onChangeText={(text) => {
+                          setOtp({...otp, 5: text})
+                          text ? sixthInput.current.focus() : fourthInput.current.focus()
+                       }}
+                       />
+                </View>
+                <View style={styles.otpBox}>
+                    <TextInput 
+                       style={styles.otpText} 
+                       keyboardType="number-pad" 
+                       maxLength={1}
+                       ref={sixthInput}
+                       onChangeText={(text) => {
+                          setOtp({...otp, 6: text})
+                          !text && fifthInput.current.focus()
                        }}
                        />
                 </View>
@@ -114,7 +169,7 @@ const VerificationScreen = ({
             <View style={{flex: 1}}></View>
             <TouchableOpacity 
                 style={styles.signinButton} 
-                onPress={() => console.log(otp)}>
+                onPress={handleVerifyOTP}>
                 <Text style={styles.signinButtonText}>Verify</Text>
             </TouchableOpacity>
             <View style={styles.termGroup}>
