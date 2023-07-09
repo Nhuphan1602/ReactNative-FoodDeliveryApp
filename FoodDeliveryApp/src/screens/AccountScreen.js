@@ -16,6 +16,7 @@ import {display} from '../utils';
 import {useDispatch} from 'react-redux';
 import {StorageService} from '../services';
 import {GeneralAction} from '../actions';
+import { useSelector } from 'react-redux';
 
 const AccountScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ const AccountScreen = ({navigation}) => {
       dispatch(GeneralAction.setUserData(null));
     });
   };
+  const userInfo = useSelector(
+      state => state?.generalState?.userData);
+  console.log(userInfo);
 
   return (
     <View style={styles.container}>
@@ -56,8 +60,8 @@ const AccountScreen = ({navigation}) => {
           <Image style={styles.profileImage} source={images.AVATAR} />
         </View>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.nameText}>Ameen Farook</Text>
-          <Text style={styles.emailText}>ameeen.faroook@gmail.com</Text>
+          <Text style={styles.nameText}>{userInfo?.data?.username}</Text>
+          <Text style={styles.emailText}>{userInfo?.data?.email}</Text>
         </View>
       </View>
       <View style={styles.menuContainer}>
@@ -244,11 +248,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.POPPINS_REGULAR,
     lineHeight: 14 * 1.4,
     color: colors.DEFAULT_WHITE,
+    paddingBottom: 2,
   },
   emailText: {
     fontSize: 14,
     fontFamily: fonts.POPPINS_REGULAR,
-    lineHeight: 10 * 1.4,
+    lineHeight: 12 * 1.4,
     color: colors.DEFAULT_WHITE,
   },
   menuContainer: {
