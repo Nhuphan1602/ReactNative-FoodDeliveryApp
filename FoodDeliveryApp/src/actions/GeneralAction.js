@@ -40,7 +40,7 @@ const appStart = () => {
                 payload: isFirstTimeUse ? false : true,
             });
         });
-        StorageService.getToken().then(token => {
+        StorageService.getToken().then((token) => {
             if (token) {
                 dispatch({
                     type: types.SET_TOKEN,
@@ -91,7 +91,7 @@ const appStart = () => {
                 })
             }
         });
-
+  
         setTimeout(() => {
             dispatch({
                 type: types.SET_IS_APP_LOADING,
@@ -108,4 +108,17 @@ const setUserData = userData => {
     };
 }
 
-export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData};
+const updateUserData = (userData) => {
+    return async (dispatch) => {
+      const response = await UserService.updateUserData(userData);
+  
+      if (response.status) {
+        dispatch(setUserData(response.data));
+      }
+  
+      return response;
+    };
+  };
+  
+
+export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData, updateUserData};

@@ -11,6 +11,7 @@ import RestaurantScreen from './RestaurantScreen';
 import CartScreen from './CartScreen';
 import FoodScreen from './FoodScreen';
 import BookmarkScreen from './BookmarkScreen';
+import UpdateScreen from './UpdateScreen';
 
 export { 
     SplashScreen, 
@@ -26,4 +27,5 @@ export {
     CartScreen,
     FoodScreen,
     BookmarkScreen,
+    UpdateScreen
 };
