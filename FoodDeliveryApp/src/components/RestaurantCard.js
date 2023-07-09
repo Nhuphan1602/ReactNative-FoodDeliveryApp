@@ -18,11 +18,26 @@ const RestaurantCard = ({
   navigate,
   reviews,
 }) => {
+
+  const dispatch = useDispatch();
+  const isBookmarked = useSelector(
+    state => state?.bookmarkState?.bookmarks?.filter(item => item?.restaurantId === id)?.length > 0
+  );
+  const addBookmark = () => dispatch(BookmarkAction.addBookmark({ restaurantId: id }));
+  const removeBookmark = () => dispatch(BookmarkAction.removeBookmark({ restaurantId: id }));
+
   return (
     <TouchableOpacity 
       style={styles.container} 
       activeOpacity={0.8} 
       onPress={() => navigate(id)}>
+        <Ionicons 
+            name={isBookmarked ? "bookmark" : "bookmark-outline" }
+            color={colors.DEFAULT_YELLOW} 
+            size={24}
+            style={styles.bookmark}
+            onPress={ () => isBookmarked ? removeBookmark() : addBookmark() }
+        />
         <Image
             source={{uri: StaticImageService.getPoster(poster)}}
             style={styles.posterStyle}

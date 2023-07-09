@@ -1,6 +1,7 @@
 import { AuthenticationService, StorageService } from "../services";
 import UserService from "../services/UserService";
 import { display } from "../utils"
+import BookmarkAction from "./BookmarkAction";
 import CartAction from "./CartAction";
 
 const types = {
