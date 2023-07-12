@@ -16,11 +16,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { display } from '../utils';
 import {useSelector} from 'react-redux';
+import { Alert } from 'react-native';
 
 const CartScreen = ({navigation}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
-
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
   const handleModalToggle = () => {
@@ -30,6 +30,22 @@ const CartScreen = ({navigation}) => {
   const handlePaymentMethodChange = (method) => {
     setSelectedPaymentMethod(method);
     setModalVisible(false);
+  };
+
+  const handleCheckout = () => {
+    Alert.alert(
+      'Order Success',
+      'Your order will be placed shortly.',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('OrderTracking');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const cart = useSelector(state => state?.cartState?.cart);
@@ -108,9 +124,10 @@ const CartScreen = ({navigation}) => {
                   {selectedPaymentMethod || 'Cash'}
                 </Text>
                 <Ionicons
-                  name="arrow-forward-outline"
-                  size={30}
-                />
+                name="chevron-forward-outline"
+                size={30}
+                color={colors.DEFAULT_BLACK}
+              />
               </View>
             </TouchableOpacity>
 
@@ -162,9 +179,7 @@ const CartScreen = ({navigation}) => {
 
             <TouchableOpacity 
               style={styles.checkoutButton} 
-              onPress={() => {
-                navigation.navigate('OrderTracking');
-              }}
+              onPress={handleCheckout}
             >
               <View style={styles.rowAndCenter}>
                 <Ionicons
