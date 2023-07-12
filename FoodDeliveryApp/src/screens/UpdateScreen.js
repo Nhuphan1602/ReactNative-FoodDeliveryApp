@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import UserService from '../services/UserService';
 import { GeneralAction } from '../actions';
 import { colors, fonts, images } from '../constants';
 import { display } from '../utils';
@@ -30,21 +31,25 @@ const UpdateAccountScreen = ({ navigation }) => {
       email,
       password: password ? password : undefined,
     };
-  
-    dispatch(GeneralAction.updateUserData(updatedUserData))
-      .then((response) => {
-        if (response.status) {
-          // Data updated successfully
-          navigation.navigate('AccountScreen');
-        } else {
-          // Handle error
-          console.log(response.message);
-        }
-      })
-      .catch((error) => {
+
+    UserService.updateUserData(updatedUserData).then(response => {
+      if (response.status) {
+        // Data updated successfully
+        dispatch(GeneralAction.setUserData(response?.data))
+        console.log("chỉnh sửa thành công ")
+        console.log(response?.data)
+        console.log("chỉnh sửa thành công ")
+
+        navigation.navigate('AccountScreen');
+      } else {
         // Handle error
-        console.error(error);
-      });
+        console.log(response.message);
+      }
+    })
+    .catch((error) => {
+      // Handle error
+      console.error(error);
+    });
   };
   
 

@@ -1,8 +1,7 @@
 import { AuthenticationService, StorageService } from "../services";
 import UserService from "../services/UserService";
-import { display } from "../utils"
-import BookmarkAction from "./BookmarkAction";
 import CartAction from "./CartAction";
+import BookmarkAction from "./BookmarkAction";
 
 const types = {
     SET_IS_APP_LOADING: 'SET_IS_APP_LOADING',
@@ -53,7 +52,7 @@ const appStart = () => {
                             payload: userResponse?.data
                         });
                         dispatch(CartAction.getCartItems());
-
+                        dispatch(BookmarkAction.getBookmarks());
                         setTimeout(() => {
                             dispatch({
                                 type: types.SET_IS_APP_LOADING,
@@ -74,10 +73,12 @@ const appStart = () => {
                                             type: types.SET_USER_DATA,
                                             payload: userResponse?.data
                                         });
-                                        dispatch({
-                                            type: types.SET_IS_APP_LOADING,
-                                            payload: false
-                                        });
+                                        setTimeout(() => {
+                                            dispatch({
+                                                type: types.SET_IS_APP_LOADING,
+                                                payload: false
+                                            });
+                                        }, 2000);
                                     }
                                 });
                             } else {
@@ -108,17 +109,5 @@ const setUserData = userData => {
     };
 }
 
-const updateUserData = (userData) => {
-    return async (dispatch) => {
-      const response = await UserService.updateUserData(userData);
   
-      if (response.status) {
-        dispatch(setUserData(response.data));
-      }
-  
-      return response;
-    };
-  };
-  
-
-export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData, updateUserData};
+export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData};

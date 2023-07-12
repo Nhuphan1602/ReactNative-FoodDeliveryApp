@@ -27,6 +27,7 @@ const AccountScreen = ({navigation}) => {
       dispatch(GeneralAction.setUserData(null));
     });
   };
+
   const userInfo = useSelector(
       state => state?.generalState?.userData);
   console.log(userInfo);

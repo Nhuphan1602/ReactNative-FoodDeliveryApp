@@ -1,7 +1,7 @@
 var express = require("express");
 const { getUserData, updateUserData } = require("../services/user.service");
 var router = express.Router();
-const bcrypt = require("bcrypt");
+
 
 
 router.get("/get-user", async (req, res) => {

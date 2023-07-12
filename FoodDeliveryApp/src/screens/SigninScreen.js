@@ -20,7 +20,8 @@ import { AuthenticationService, StorageService} from "../services";
 import LottieView from 'lottie-react-native';
 import { useDispatch } from "react-redux";
 import { GeneralAction } from "../actions";
-
+import UserService from "../services/UserService";
+import {CartAction, BookmarkAction} from "../actions";
 
 const SigninScreen = ({navigation}) => {
     const [isPasswordShow,setPasswordShow] = useState(false);
@@ -42,6 +43,15 @@ const SigninScreen = ({navigation}) => {
             if (response?.status) {
                 StorageService.setToken(response?.data).then(() => {
                     dispatch(GeneralAction.setToken(response?.data))
+
+                    UserService.getUserData().then(userResponse => {
+                        if(userResponse?.status){
+                            dispatch(GeneralAction.setUserData(userResponse?.data))
+                            dispatch(CartAction.getCartItems())
+                            dispatch(BookmarkAction.getBookmarks())
+                        }
+                    })
+
                 }) 
             } else {
                 setErrorMessage(response?.message)
@@ -60,11 +70,6 @@ const SigninScreen = ({navigation}) => {
                     />  
                     <Separator height={StatusBar.currentHeight}/>
                     <View style={styles.headerContainer}>
-                        <Ionicons 
-                            name="chevron-back-outline" 
-                            size={25} 
-                            onPress={() => navigation.goBack()} 
-                        />
                         <View style={styles.logoGroup}>
                             <Image 
                                 style={styles.image} 

@@ -77,6 +77,3 @@ const updateUserData = async (username, userData) => {
 module.exports = { getUserData, updateUserData };
 
 
-
-  
-module.exports = { getUserData, updateUserData };
