@@ -12,6 +12,7 @@ import CartScreen from './CartScreen';
 import FoodScreen from './FoodScreen';
 import BookmarkScreen from './BookmarkScreen';
 import UpdateScreen from './UpdateScreen';
+import OrderTrackingScreen from './OrderTrackingScreen';
 
 export { 
     SplashScreen, 
@@ -27,5 +28,6 @@ export {
     CartScreen,
     FoodScreen,
     BookmarkScreen,
-    UpdateScreen
+    UpdateScreen,
+    OrderTrackingScreen,
 };

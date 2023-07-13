@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Modal,
 } from 'react-native';
 import { colors,fonts,images } from '../constants';
 import {FoodCard, Separator} from '../components';
@@ -15,8 +16,38 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { display } from '../utils';
 import {useSelector} from 'react-redux';
+import { Alert } from 'react-native';
 
 const CartScreen = ({navigation}) => {
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+
+  const handleModalToggle = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const handlePaymentMethodChange = (method) => {
+    setSelectedPaymentMethod(method);
+    setModalVisible(false);
+  };
+
+  const handleCheckout = () => {
+    Alert.alert(
+      'Order Success',
+      'Your order will be placed shortly.',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('OrderTracking');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const cart = useSelector(state => state?.cartState?.cart);
   return (
     <View style={styles.container}>
@@ -86,7 +117,70 @@ const CartScreen = ({navigation}) => {
                 $ {cart?.metaData?.grandTotal?.toFixed(2)}
               </Text>
             </View>
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity onPress={handleModalToggle}>
+              <View style={styles.totalContainer}>
+                <Text style={styles.totalText}>Payment details</Text>
+                <Text style={styles.checkboxSelectedText}>
+                  {selectedPaymentMethod || 'Cash'}
+                </Text>
+                <Ionicons
+                name="chevron-forward-outline"
+                size={30}
+                color={colors.DEFAULT_BLACK}
+              />
+              </View>
+            </TouchableOpacity>
+
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={handleModalToggle}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Payment Methods</Text>
+                  <View>
+                    <TouchableOpacity onPress={() => handlePaymentMethodChange('Cash')}>
+                      <View style={styles.checkboxContainer}>
+                        <Ionicons name="cash-outline" size={20} style={styles.checkboxIcon} />
+                        <Text style={styles.checkboxText}>Cash</Text>
+                        {selectedPaymentMethod === 'Cash' && (
+                          <Ionicons name="ios-checkmark" size={20} style={styles.checkboxSelectedIcon} />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePaymentMethodChange('ATM')}>
+                      <View style={styles.checkboxContainer}>
+                        <Ionicons name="wallet-outline" size={20} style={styles.checkboxIcon} />
+                        <Text style={styles.checkboxText}>ATM</Text>
+                        {selectedPaymentMethod === 'ATM' && (
+                          <Ionicons name="ios-checkmark" size={20} style={styles.checkboxSelectedIcon} />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handlePaymentMethodChange('Card')}>
+                      <View style={styles.checkboxContainer}>
+                        <Ionicons name="card-outline" size={20} style={styles.checkboxIcon} />
+                        <Text style={styles.checkboxText}>Card</Text>
+                        {selectedPaymentMethod === 'Card' && (
+                          <Ionicons name="ios-checkmark" size={20} style={styles.checkboxSelectedIcon} />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity onPress={handleModalToggle}>
+                    <Text style={styles.closeButton}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+            </Modal>
+
+            <TouchableOpacity 
+              style={styles.checkoutButton} 
+              onPress={handleCheckout}
+            >
               <View style={styles.rowAndCenter}>
                 <Ionicons
                   name="cart-outline"
@@ -259,6 +353,55 @@ const styles = StyleSheet.create({
   emptyCartImage: {
     height: display.setWidth(60),
     width: display.setWidth(60),
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxHeight: '50%',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 8,
+  },
+  checkboxText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#333',
+  },
+  checkboxSelectedText: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'green',
+    marginLeft: 'auto',
+    marginTop: 5,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    color: 'blue',
+  },
+  checkboxSelectedIcon: {
+    marginLeft: 'auto', 
+    color: 'green',
   },
 });
 
