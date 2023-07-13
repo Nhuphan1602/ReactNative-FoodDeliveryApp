@@ -28,6 +28,6 @@ export {
     CartScreen,
     FoodScreen,
     BookmarkScreen,
-    UpdateScreen
+    UpdateScreen,
     OrderTrackingScreen,
 };

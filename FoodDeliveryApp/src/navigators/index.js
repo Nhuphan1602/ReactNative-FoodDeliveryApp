@@ -13,8 +13,8 @@ import {
   RestaurantScreen,
   FoodScreen,
   UpdateScreen,
-  AccountScreen
-  OrderTrackingScreen
+  AccountScreen,
+  OrderTrackingScreen,
 } from '../screens';
 import HomeTabs from "./BottomTabs"
 import { useSelector, useDispatch } from 'react-redux';
