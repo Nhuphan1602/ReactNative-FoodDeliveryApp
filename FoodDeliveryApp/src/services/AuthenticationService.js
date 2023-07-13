@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {apiConstants} from '../constants';
+import { authHeader } from '../utils/generator';
 
 const AuthRequest = axios.create({
     baseURL: apiConstants.BACKEND_API.BASE_API_URL,

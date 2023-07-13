@@ -35,4 +35,27 @@ const getUserData = async () => {
     }
 };
 
-export default {getUserData};
+const updateUserData = async (userData) => {
+  try {
+    const response = await axios.put(
+      `${apiConstants.BACKEND_API.BASE_API_URL}${apiConstants.BACKEND_API.USER}/update-user`,
+      userData,
+      { headers: authHeader(getToken()) }
+    );
+
+    return {
+      status: true,
+      message: 'User data updated successfully',
+      data: response.data
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: false,
+      message: 'User data update failed',
+      error: error?.response?.data?.message || 'User data update failed',
+    };
+  }
+};
+
+export default {getUserData, updateUserData};

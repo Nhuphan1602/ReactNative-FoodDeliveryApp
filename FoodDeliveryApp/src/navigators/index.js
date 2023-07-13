@@ -12,6 +12,8 @@ import {
   HomeScreen,
   RestaurantScreen,
   FoodScreen,
+  UpdateScreen,
+  AccountScreen
   OrderTrackingScreen
 } from '../screens';
 import HomeTabs from "./BottomTabs"
@@ -52,6 +54,9 @@ const Navigators = ({}) => {
               <Stack.Screen name="HomeTabs" component={HomeTabs} />
               <Stack.Screen name="Restaurant" component={RestaurantScreen} />
               <Stack.Screen name="Food" component={FoodScreen} />
+              <Stack.Screen name="UpdateAccount" component={UpdateScreen} />
+              <Stack.Screen name="AccountScreen" component={AccountScreen} />
+
               <Stack.Screen name="OrderTracking" component={OrderTrackingScreen} />
             </>
           )}

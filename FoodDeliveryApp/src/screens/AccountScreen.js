@@ -27,6 +27,7 @@ const AccountScreen = ({navigation}) => {
       dispatch(GeneralAction.setUserData(null));
     });
   };
+
   const userInfo = useSelector(
       state => state?.generalState?.userData);
   console.log(userInfo);
@@ -99,7 +100,7 @@ const AccountScreen = ({navigation}) => {
       </View>
       <View style={styles.mainContainer}>
         <Text style={styles.sectionHeaderText}>My Account</Text>
-        <TouchableOpacity style={styles.sectionContainer} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.sectionContainer} activeOpacity={0.8} onPress={() => navigation.navigate('UpdateAccount')}>
           <View style={styles.sectionTextContainer}>
             <Ionicons
               name="person-outline"

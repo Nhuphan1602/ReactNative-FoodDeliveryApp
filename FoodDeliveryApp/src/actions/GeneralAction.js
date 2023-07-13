@@ -1,8 +1,7 @@
 import { AuthenticationService, StorageService } from "../services";
 import UserService from "../services/UserService";
-import { display } from "../utils"
-import BookmarkAction from "./BookmarkAction";
 import CartAction from "./CartAction";
+import BookmarkAction from "./BookmarkAction";
 
 const types = {
     SET_IS_APP_LOADING: 'SET_IS_APP_LOADING',
@@ -40,7 +39,7 @@ const appStart = () => {
                 payload: isFirstTimeUse ? false : true,
             });
         });
-        StorageService.getToken().then(token => {
+        StorageService.getToken().then((token) => {
             if (token) {
                 dispatch({
                     type: types.SET_TOKEN,
@@ -53,7 +52,7 @@ const appStart = () => {
                             payload: userResponse?.data
                         });
                         dispatch(CartAction.getCartItems());
-
+                        dispatch(BookmarkAction.getBookmarks());
                         setTimeout(() => {
                             dispatch({
                                 type: types.SET_IS_APP_LOADING,
@@ -74,10 +73,12 @@ const appStart = () => {
                                             type: types.SET_USER_DATA,
                                             payload: userResponse?.data
                                         });
-                                        dispatch({
-                                            type: types.SET_IS_APP_LOADING,
-                                            payload: false
-                                        });
+                                        setTimeout(() => {
+                                            dispatch({
+                                                type: types.SET_IS_APP_LOADING,
+                                                payload: false
+                                            });
+                                        }, 2000);
                                     }
                                 });
                             } else {
@@ -91,7 +92,7 @@ const appStart = () => {
                 })
             }
         });
-
+  
         setTimeout(() => {
             dispatch({
                 type: types.SET_IS_APP_LOADING,
@@ -108,4 +109,5 @@ const setUserData = userData => {
     };
 }
 
+  
 export default {setIsAppLoading, setToken, appStart, setIsFirstTimeUse, types, setUserData};

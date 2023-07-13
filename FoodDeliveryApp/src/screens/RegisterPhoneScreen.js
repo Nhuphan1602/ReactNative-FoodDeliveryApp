@@ -56,6 +56,7 @@ const RegisterPhoneScreen = ({ navigation, route }) => {
       AuthenticationService.sendOTP(phoneNumber).then(response => {
         if (response?.status) { 
           console.log('OTP sent successfully');
+          navigation.navigate('Verification', { phoneNumber, user });
         } else {
           console.log('Failed to send OTP:', response?.message);
         }
@@ -142,7 +143,6 @@ const RegisterPhoneScreen = ({ navigation, route }) => {
             style={styles.signinButton} 
             activeOpacity={0.8}
             onPress={() => {
-              navigation.navigate('Verification', { phoneNumber, user });
               handleSendOTP();
             }}
           >
