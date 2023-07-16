@@ -43,27 +43,59 @@ const updateUserData = async (username, userData) => {
       };
     }
 
+    // Handle username update
+    if (userData.username && userData.username !== existingUser.username) {
+      // Update username in the users collection
+      await MongoDB.db
+        .collection(mongoConfig.collections.USERS)
+        .updateOne(
+          { username },
+          { $set: { username: userData.username } }
+        );
+
+      // Update username in the bookmarks collection
+      await MongoDB.db
+        .collection(mongoConfig.collections.BOOKMARKS)
+        .updateMany(
+          { username: existingUser.username },
+          { $set: { username: userData.username } }
+        );
+
+      // Update username in the carts collection
+      await MongoDB.db
+        .collection(mongoConfig.collections.CARTS)
+        .updateMany(
+          { username: existingUser.username },
+          { $set: { username: userData.username } }
+        );
+    }
+
+    // Handle email and password update
+    const updateFields = {};
+
+    if (userData.email && userData.email !== existingUser.email) {
+      updateFields.email = userData.email;
+    }
+
     if (userData.password) {
       const passwordHash = await bcrypt.hash(userData.password, 10);
-      userData.password = passwordHash;
+      updateFields.password = passwordHash;
     }
 
-    const updatedUser = await MongoDB.db
-      .collection(mongoConfig.collections.USERS)
-      .findOneAndUpdate({ username }, { $set: userData }, { returnOriginal: false });
-
-    if (updatedUser.value) {
-      return {
-        status: true,
-        message: "User data updated successfully",
-        data: updatedUser.value,
-      };
-    } else {
-      return {
-        status: false,
-        message: "User data update failed",
-      };
+    // Update user data in the users collection
+    if (Object.keys(updateFields).length > 0) {
+      await MongoDB.db
+        .collection(mongoConfig.collections.USERS)
+        .updateOne(
+          { username: userData.username },
+          { $set: updateFields } 
+        );
     }
+
+    return {
+      status: true,
+      message: "User data updated successfully",
+    };
   } catch (error) {
     console.log(error);
     return {
