@@ -10,7 +10,7 @@ import { colors, fonts, mock } from "../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather"
-import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, ScrollView, TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { RestaurantService } from "../services";
 import { display } from "../utils";
 
@@ -23,6 +23,7 @@ const HomeScreen = ({navigation}) => {
     const [activeCategory, setActiveCategory] = useState()
     const [restaurants, setRestaurants] = useState(null);
     const [activeSortItem, setActiveSortItem] = useState('recent');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const shadowStyle = {
         shadowColor: "#000",
@@ -30,6 +31,10 @@ const HomeScreen = ({navigation}) => {
         shadowOpacity: 0.18,
         shadowRadius: 1.0,
         elevation: Platform.OS === "android" ? 1 : 0, // Chỉ áp dụng elevation trên Android
+    };
+
+    const handleSearch = () => {
+        navigation.navigate("Search", { searchQuery });
     };
 
     useEffect(() => {
@@ -76,15 +81,23 @@ const HomeScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.searchContainer}>
+                    {/* Search Input */}
                     <View style={styles.searchSection}>
-                        <Ionicons name="search-outline" size={25} color={colors.DEFAULT_GREY}/>
-                        <Text style={styles.searchText}>Search..</Text>
+                        <Ionicons name="search-outline" size={25} color={colors.DEFAULT_GREY} />
+                        <TextInput
+                            style={styles.searchText}
+                            value={searchQuery}
+                            onChangeText={(text) => setSearchQuery(text)}
+                            placeholder="Search by name, type, or tags"
+                            placeholderTextColor={colors.DEFAULT_GREY}
+                        />
                     </View>
-                    <Feather 
-                        name="sliders" 
-                        size={20} 
-                        color={colors.DEFAULT_GREEN} 
-                        style={{marginRight: 10}}
+                    <Feather
+                        name="sliders"
+                        size={20}
+                        color={colors.DEFAULT_GREEN}
+                        style={{ marginRight: 10 }}
+                        onPress={handleSearch}
                     />
                 </View>
                 <View style={styles.categoriesContainer}>

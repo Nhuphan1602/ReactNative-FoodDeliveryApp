@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {colors, fonts, images} from '../constants';
 import {StaticImageService} from '../services';
 import {display} from '../utils';
+
 
 const RestaurantMediumCard = ({name, images: {logo}, time, distance, tags}) => {
     const shadowStyle = {
@@ -15,7 +16,9 @@ const RestaurantMediumCard = ({name, images: {logo}, time, distance, tags}) => {
     };
 
     return (
-    <View style={[styles.container, shadowStyle]}>
+    <View 
+      style={[styles.container, shadowStyle]}
+    >
         <Image
             source={{uri: StaticImageService.getLogo(logo)}}
             style={styles.posterStyle}
