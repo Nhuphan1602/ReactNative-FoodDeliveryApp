@@ -28,7 +28,7 @@ const SearchScreen = ({ navigation, route }) => {
       console.error("Error searching restaurants:", error);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -42,7 +42,13 @@ const SearchScreen = ({ navigation, route }) => {
       
       <FlatList
         data={searchResults}
-        renderItem={({ item }) => <RestaurantMediumCard {...item} key={item?.id} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Restaurant", { restaurantId: item?.id })}
+          >
+            <RestaurantMediumCard {...item} />
+          </TouchableOpacity>
+        )}
         keyExtractor={(item) => item?.id}
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={<Text style={styles.emptyListText}>No restaurants found.</Text>}

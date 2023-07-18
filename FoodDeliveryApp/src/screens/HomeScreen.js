@@ -161,7 +161,12 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
                 {restaurants?.map(item => (
-                    <RestaurantMediumCard {...item} key={item?.id} />
+                    <TouchableOpacity
+                        key={item?.id}
+                        onPress={() => navigation.navigate("Restaurant", { restaurantId: item?.id })}
+                    >
+                        <RestaurantMediumCard {...item} />
+                    </TouchableOpacity>
                 ))}
                 <Separator height={display.setHeight(10)} />
             </ScrollView>
