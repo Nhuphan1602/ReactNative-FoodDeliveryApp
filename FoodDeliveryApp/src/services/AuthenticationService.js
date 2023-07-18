@@ -97,6 +97,42 @@ const verifyOTP = async (phoneNumber, code) => {
     }
 };
 
+const checkUserByPhoneNumber = async (phoneNumber) => {
+    try {
+      const userCheckResponse = await AuthRequest.get(
+        apiConstants.BACKEND_API.USER_PHONE_NUMBER,
+        { params: { phoneNumber } }
+      );
+      return userCheckResponse?.data;
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: 'Oops! Something went wrong' };
+    }
+};
+
+const updateUserPasswordByPhoneNumber = async (phoneNumber, newPassword) => {
+    try {
+        let requestBody = { 
+            phoneNumber: phoneNumber,
+            newPassword: newPassword
+         };
+        const updatePasswordResponse = await AuthRequest.put(
+            apiConstants.BACKEND_API.USER_FORGOT_PASSWORD,
+            requestBody
+        );
+        if (updatePasswordResponse?.status) {
+            return {status: true, data: updatePasswordResponse?.data}
+        }   
+        else {
+            return {status: false, data: updatePasswordResponse?.message}
+        }
+        
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: 'Oops! Something went wrong' };
+    }
+};
+  
 const refreshToken = async () => {
     try {
         let tokenResponse = await AuthRequest.post(
@@ -115,4 +151,4 @@ const refreshToken = async () => {
     };
 
 
-export default {register, login, checkUserExist, refreshToken, sendOTP, verifyOTP};
+export default {register, login, checkUserExist, refreshToken, sendOTP, verifyOTP, checkUserByPhoneNumber, updateUserPasswordByPhoneNumber};
