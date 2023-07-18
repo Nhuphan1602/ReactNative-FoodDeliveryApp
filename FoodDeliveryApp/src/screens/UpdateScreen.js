@@ -12,19 +12,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserService from '../services/UserService';
 import { GeneralAction } from '../actions';
 import { colors, fonts } from '../constants';
-import { display } from '../utils';
 import { Separator } from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const UpdateAccountScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state?.generalState?.userData);
   const [fullName, setFullName] = useState(userInfo?.data?.fullName || userInfo?.data?.username);
-  const [email, setEmail] = useState(userInfo?.data?.email || '');
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(userInfo?.data?.dateOfBirth || '');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -38,16 +35,21 @@ const UpdateAccountScreen = ({ navigation }) => {
   const handleUpdate = () => {
     const updatedUserData = {
       fullName,
-      email,
-      password: password ? password : undefined,
       gender,
       dateOfBirth,
+      password: password ? password : undefined,
     };
-
+  
     UserService.updateUserData(updatedUserData)
       .then(response => {
         if (response.status) {
-          navigation.navigate('AccountScreen');
+          UserService.getUserData().then(userResponse => {
+            if(userResponse?.status){
+              console.log(userResponse?.data)
+                dispatch(GeneralAction.setUserData(userResponse?.data));
+            }
+        })
+          navigation.pop();
         } else {
           // Handle error
           console.log(response.message);
@@ -58,6 +60,7 @@ const UpdateAccountScreen = ({ navigation }) => {
         console.error(error);
       });
   };
+  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -112,21 +115,6 @@ const UpdateAccountScreen = ({ navigation }) => {
               selectionColor={colors.DEFAULT_GREY}
               value={fullName}
               onChangeText={setFullName}
-            />
-          </View>
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionText}>Email</Text>
-            <TextInput
-              style={styles.input}
-              multiline={false}
-              maxLength={50}
-              autoCorrect={false}
-              autoCapitalize="none"
-              placeholder="Please enter new email"
-              placeholderTextColor={colors.DEFAULT_GREY}
-              selectionColor={colors.DEFAULT_GREY}
-              value={email}
-              onChangeText={setEmail}
             />
           </View>
           <View style={[styles.sectionContainer, {zIndex: 999}]}>
