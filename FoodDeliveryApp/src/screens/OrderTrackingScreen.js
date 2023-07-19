@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { colors, fonts } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MapView, { Marker } from 'react-native-maps';
-
+import MapView, { Marker, Polyline } from 'react-native-maps';
+import { useSelector } from 'react-redux';
 
 const OrderTracking = ({ navigation }) => {
-  const restaurant = { lat: 37.78825, lng: -122.4324, title: 'Mc Donald', description: 'Fast and Safe' }; // Replace with actual data
-
+  const restaurant = { lat: 10.8274, lng: 106.7049, title: 'Restaurant', description: 'Fast and Safe' }; // Replace with actual data
+  const userLocation = useSelector(state => state?.locationState?.location);
   const handleCancel = () => {
-    // code
+    console.log(userLocation?.currentLongitude)
+    console.log(userLocation?.currentLatitude)
   };
 
+  const [routeCoordinates, setRouteCoordinates] = useState([]);
+
+  useEffect(() => {
+    const fetchedRouteCoordinates = [
+      { latitude: restaurant.lat, longitude: restaurant.lng }, // Restaurant coordinates
+      { latitude: parseFloat(userLocation?.currentLatitude), longitude: parseFloat(userLocation?.currentLongitude) }, // User location coordinates
+    ];
+    setRouteCoordinates(fetchedRouteCoordinates);
+  }, [])
+  
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -25,10 +36,10 @@ const OrderTracking = ({ navigation }) => {
 
       <MapView
         initialRegion={{
-          latitude: restaurant.lat,
-          longitude: restaurant.lng,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
+          latitude:  parseFloat(userLocation?.currentLatitude),
+          longitude:  parseFloat(userLocation?.currentLongitude),
+          latitudeDelta: 0.014,
+          longitudeDelta: 0.014,
         }}
         style={styles.map}
         mapType="standard"
@@ -42,6 +53,27 @@ const OrderTracking = ({ navigation }) => {
           description={restaurant.description}
           pinColor={colors.ORANGE} // Replace with the desired color from your colors constant
         />
+
+         {userLocation?.currentLatitude && userLocation?.currentLongitude && (
+          <Marker
+            coordinate={{
+              latitude: parseFloat(userLocation.currentLatitude),
+              longitude: parseFloat(userLocation.currentLongitude),
+            }}
+            title="Your Location"
+            pinColor={colors.BLUE}
+          />
+        )}
+
+        {/* Draw the polyline for the route */}
+        {routeCoordinates.length > 0 && (
+          <Polyline
+            coordinates={routeCoordinates}
+            strokeColor={colors.DEFAULT_RED}
+            strokeWidth={5}
+          />
+        )}
+
       </MapView>
 
       <View style={styles.deliveryInfoContainer}>

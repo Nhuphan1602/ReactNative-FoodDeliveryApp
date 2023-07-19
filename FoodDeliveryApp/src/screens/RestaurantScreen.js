@@ -7,7 +7,7 @@ import {
     Image, 
     ScrollView, 
     FlatList, 
-    TouchableOpacity } from 'react-native'
+} from 'react-native'
 import { RestaurantService, StaticImageService } from '../services';
 import { display } from '../utils';
 import { apiConstants, colors, fonts, images } from '../constants';
@@ -62,7 +62,6 @@ const RestaurantScreen = ({
     }}) => {
     const [restaurant, setRestaurant] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    // const [isBookmarked, setIsBookMarked] = useState(false);
 
     useEffect(() => {
         RestaurantService.getOneRestaurantById(restaurantId).then(response => {
