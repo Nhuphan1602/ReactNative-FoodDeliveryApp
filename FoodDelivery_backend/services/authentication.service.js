@@ -83,7 +83,11 @@ const userRegister = async(user) => {
             email: user?.email,
             password: passwordHash,
             phoneNumber: user?.phoneNumber,
+            fullName: "",
+            gender: "",
+            dateOfBirth: ""
         }
+
         let savedUser = await MongoDB.db
             .collection(mongoConfig.collections.USERS)
             .insertOne(userObj);

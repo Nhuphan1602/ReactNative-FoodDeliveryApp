@@ -58,7 +58,17 @@ const AccountScreen = ({navigation}) => {
       </View>
       <View style={styles.profileHeaderContainer}>
         <View style={styles.profileImageContainer}>
-          <Image style={styles.profileImage} source={images.AVATAR} />
+          <Image 
+          style={styles.profileImage}             
+          source={
+              userInfo?.data?.gender == "Female"
+                ? images.FEMALE_AVATAR
+                : userInfo?.data?.gender === "Male"
+                ? images.MALE_AVATAR
+                : images.DEFAULT_AVATAR
+          }
+            
+          />
         </View>
         <View style={styles.profileTextContainer}>
           <Text style={styles.nameText}>{userInfo?.data?.fullName || userInfo?.data?.username}</Text>
@@ -95,7 +105,7 @@ const AccountScreen = ({navigation}) => {
               color={colors.SECONDARY_RED}
             />
           </View>
-          <Text style={styles.menuText}>Delivery Addresses</Text>
+          <Text style={styles.menuText}>Delivery {'\n'} Addresses</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.mainContainer}>

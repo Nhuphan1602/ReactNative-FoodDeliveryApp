@@ -16,6 +16,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import {CartAction} from '../actions';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const setStyle = isActive =>
   isActive
@@ -65,6 +66,13 @@ navigation,
                 ),
         }}
         />
+        <View style={styles.headerContainer}>
+            <Ionicons 
+                name="chevron-back-outline" 
+                size={30} 
+                onPress={() => navigation.goBack()}
+            />
+        </View> 
         <ScrollView>
             <Separator height={display.setWidth(100)} />
             <View style={styles.mainContainer}>
@@ -157,6 +165,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.DEFAULT_WHITE,
     },
+    headerContainer: {
+        position: 'absolute',
+        top: 60,
+        paddingLeft: 10,
+        zIndex: 999,
+      },
     image: {
         position: 'absolute',
         height: display.setWidth(100),

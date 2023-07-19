@@ -2,15 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { colors, fonts } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { display } from '../utils';
 import MapView, { Marker } from 'react-native-maps';
 
 
 const OrderTracking = ({ navigation }) => {
-  const restaurant = { lat: 37.78825, lng: -122.4324, title: 'Restaurant Title', description: 'Restaurant Description' }; // Replace with actual data
+  const restaurant = { lat: 37.78825, lng: -122.4324, title: 'Mc Donald', description: 'Fast and Safe' }; // Replace with actual data
 
   const handleCancel = () => {
-    // Add your cancel logic here
+    // code
   };
 
   return (
@@ -24,7 +23,6 @@ const OrderTracking = ({ navigation }) => {
         />
       </View>
 
-      {/* Add your MapView here */}
       <MapView
         initialRegion={{
           latitude: restaurant.lat,
@@ -47,9 +45,6 @@ const OrderTracking = ({ navigation }) => {
       </MapView>
 
       <View style={styles.deliveryInfoContainer}>
-        <TouchableOpacity style={styles.closeButton}>
-          {/* Add your close button content here */}
-        </TouchableOpacity>
         <View style={styles.deliveryDetailsContainer}>
           <View style={styles.deliveryDetails}>
             <Text style={styles.estimatedArrival}>Estimated Arrival</Text>
@@ -59,26 +54,25 @@ const OrderTracking = ({ navigation }) => {
           <Image style={styles.bikeGuyImage} source={require('../assets/images/bikeGuy2.gif')} />
         </View>
 
-
         <View style={styles.riderInfoContainer}>
           <View style={styles.riderImageContainer}>
             <Image style={styles.riderImage} source={require('../assets/images/deliveryGuy.png')} />
           </View>
           <View style={styles.riderDetails}>
-            <Text style={styles.riderName}>Syed Noman</Text>
+            <Text style={styles.riderName}>Alex</Text>
             <Text style={styles.riderText}>Your Rider</Text>
           </View>
           <View style={styles.actionsContainer}>
             <TouchableOpacity style={styles.callButton}>
               <Ionicons
-                name="md-phone-portrait"
+                name="call-sharp"
                 size={30}
-                color={colors.ORANGE}
+                color={colors.SECONDARY_GREEN}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
               <Ionicons
-                name="md-close-outline"
+                name="close-sharp"
                 size={30}
                 color={colors.DEFAULT_RED}
               />
@@ -202,7 +196,7 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: colors.WHITE,
     borderRadius: 30,
-    marginLeft: 10,
+    marginLeft: 2,
   },
 });
 

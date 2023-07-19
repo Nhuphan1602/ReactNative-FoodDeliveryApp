@@ -90,6 +90,7 @@ const HomeScreen = ({navigation}) => {
                             onChangeText={(text) => setSearchQuery(text)}
                             placeholder="Search by name, type, or tags"
                             placeholderTextColor={colors.DEFAULT_GREY}
+                            onSubmitEditing={handleSearch}
                         />
                     </View>
                     <Feather
@@ -246,10 +247,11 @@ const styles = StyleSheet.create({
     }, 
     searchText: {
         color: colors.DEFAULT_GREY,
-        fontSize: 16,
-        lineHeight: 16 * 1.4,
+        fontSize: 14,
+        lineHeight: 14 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginLeft: 10
+        marginLeft: 10,
+        width: '80%'
     },
     categoriesContainer: {
         flexDirection: 'row',

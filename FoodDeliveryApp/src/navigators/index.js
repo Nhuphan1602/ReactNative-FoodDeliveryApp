@@ -30,7 +30,7 @@ const Navigators = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    StorageService.clearFirstTimeUse()
+    // StorageService.clearFirstTimeUse()
     dispatch(GeneralAction.appStart())
   }, [])
 

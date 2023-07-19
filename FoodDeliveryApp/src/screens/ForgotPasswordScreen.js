@@ -167,13 +167,13 @@ const ForgotPasswordScreen = ({navigation}) => {
             </View>
           </View>
           <TouchableOpacity 
-            style={[styles.signinButton, {width: display.setWidth(50), marginLeft: 'auto', marginRight: 'auto', marginTop: 20}]} 
+            style={[styles.signinButton, {width: display.setWidth(40), marginLeft: 'auto', marginRight: 'auto', marginTop: 20}]} 
             activeOpacity={0.8}
             onPress={() => {
               handleSendOTP();
             }}
           >
-            <Text style={styles.signinButtonText}>Send Code</Text>
+            <Text style={styles.signinButtonText}>Send code</Text>
           </TouchableOpacity>
           <Text style={styles.textOnInput}>Verify Code</Text>
           <View style={styles.inputContainer}>
@@ -183,7 +183,7 @@ const ForgotPasswordScreen = ({navigation}) => {
                         maxLength={20}
                         autoCorrect={false} // Disable auto correction
                         autoCapitalize="none" // Disable auto capitalization
-                        placeholder="Please enter your username" 
+                        placeholder="Please enter one time password" 
                         placeholderTextColor={colors.DEFAULT_GREY}
                         selectionColor={colors.DEFAULT_GREY}
                         style={styles.inputText}
@@ -199,7 +199,7 @@ const ForgotPasswordScreen = ({navigation}) => {
                         maxLength={20}
                         autoCorrect={false} // Disable auto correction
                         autoCapitalize="none" // Disable auto capitalization
-                        placeholder="Please enter your username" 
+                        placeholder="Please enter new password" 
                         placeholderTextColor={colors.DEFAULT_GREY}
                         selectionColor={colors.DEFAULT_GREY}
                         style={styles.inputText}
@@ -253,9 +253,8 @@ container: {
 headerContainer: {
   flexDirection: 'row',
   alignItems: 'center',
-  paddingVertical: 10,
+  paddingTop: 20,
   paddingHorizontal: 10,
-  marginTop: 30,
 },
 logoGroup:{
   flexDirection: 'row',

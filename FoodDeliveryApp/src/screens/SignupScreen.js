@@ -84,16 +84,6 @@ const SignupScreen = ({navigation}) => {
         }
         console.log(user)
         // setIsLoading(true)
-
-        // AuthenticationService.register(user).then(response => {
-        //     console.log(response)
-        //     setTimeout(() => {
-        //         setIsLoading(false)
-        //     }, 2000);
-        //     if(!response?.status) {
-        //         setErrorMessage(response?.message)
-        //     }
-        // })
         
         navigation.navigate("RegisterPhone", { user: user });
     }
@@ -238,6 +228,7 @@ const SignupScreen = ({navigation}) => {
                         </View>
                     </View>
                     <Text style={styles.errorMessage}>{errorMessage}</Text>
+                    <View style={{flex: 1}}/>
                     <TouchableOpacity 
                         style={styles.signinButton} 
                         onPress={() => register()}//navigation.navigate("RegisterPhone")}
@@ -252,7 +243,7 @@ const SignupScreen = ({navigation}) => {
                             <Text style={styles.signinButtonText}>Create Account</Text>
                         )}
                     </TouchableOpacity>
-                    <View style={{flex: 1}}></View>
+                    <Text style={styles.orText}> OR </Text>
                     <TouchableOpacity style={styles.facebookButton}>
                         <View style={styles.socialButtonContainer}>
                             <View style={styles.signinButtonLogoContainer}>
@@ -284,9 +275,8 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 10,
+        paddingTop: 20,
         paddingHorizontal: 10,
-        marginTop: 30,
     },
     logoGroup:{
         flexDirection: 'row',
@@ -310,8 +300,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontFamily: fonts.POPPINS_BOLD,
-        lineHeight: 20 * 1.4,
-        marginHorizontal: 20,
+        lineHeight: 24 * 1.4,
         textAlign: 'center',
     },
     content: {
@@ -323,12 +312,19 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         textAlign: 'center',
     },
+    orText: {
+        fontSize: 13,
+        lineHeight: 13 * 1.4,
+        color: colors.DEFAULT_BLACK,
+        fontFamily: fonts.POPPINS_MEDIUM,
+        marginLeft: 5,
+        alignSelf: 'center',
+    },
     textOnInput: {
         fontSize: 14,
         fontFamily: fonts.POPPINS_REGULAR,
         color: colors.DARK_GRAYISH_BLUE,
         opacity: 0.5,
-        marginTop: 5,
         marginBottom: 5,
         marginHorizontal: 20,
     },
@@ -348,7 +344,6 @@ const styles = StyleSheet.create({
     inputText: {
         fontSize: 14,
         textAlignVertical: 'center',
-        padding: 0,
         height: display.setHeight(7),
         color: colors.DEFAULT_BLACK,
         flex: 1,
@@ -360,7 +355,6 @@ const styles = StyleSheet.create({
         height: display.setHeight(6),
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
     },
     signinButtonText:{
         fontSize: 18,
@@ -369,20 +363,21 @@ const styles = StyleSheet.create({
         fontFamily: fonts.POPPINS_MEDIUM
     },
     orText:{
-        fontSize: 15,
-        lineHeight: 15 * 1.4,
-        color: colors.DEFAULT_BLACK,
+        fontSize: 14,
+        lineHeight: 14 * 1.4,
+        color: colors.DARK_GRAYISH_BLUE,
         fontFamily: fonts.POPPINS_MEDIUM,
         marginLeft: 5,
         alignSelf: 'center',
-        marginTop: 20,
+        marginTop: 10,
     },
     facebookButton:{
         backgroundColor: colors.FABEBOOK_BLUE,
         paddingVertical: 15,
         marginHorizontal: 20,
         borderRadius: 12,
-        marginVertical: 20,
+        marginBottom: 10,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },

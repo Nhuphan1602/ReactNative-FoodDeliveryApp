@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from "react-native";
 import { RestaurantService } from "../services";
-import { colors, fonts } from "../constants";
+import { colors, fonts, images } from "../constants";
 import RestaurantMediumCard from "../components/RestaurantMediumCard";
 import Separator from "../components/Separator";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,8 +21,12 @@ const SearchScreen = ({ navigation, route }) => {
       const response = await RestaurantService.searchRestaurants(searchQuery);
       console.log(response)
       console.log(response.status)
-      if (response.status) {
-        setSearchResults((prevResults) => [...prevResults, ...response.data]);
+      if (response?.status) {
+        if(response?.data === undefined) {
+          setSearchResults([]);
+        } else {
+          setSearchResults([...response?.data]);
+        }
       }
     } catch (error) {
       console.error("Error searching restaurants:", error);
@@ -33,11 +37,11 @@ const SearchScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
           <Ionicons 
-          name="chevron-back-outline" 
-          size={22} 
-          onPress={() => navigation.goBack()} s
+            name="chevron-back-outline" 
+            size={22} 
+            onPress={() => navigation.goBack()}
           />
-          <Text style={styles.title}>Search Results for "{searchQuery}"</Text>
+          <Text style={styles.title}>Search Results for "{searchQuery || "all"}"</Text>
       </View> 
       
       <FlatList
@@ -51,7 +55,12 @@ const SearchScreen = ({ navigation, route }) => {
         )}
         keyExtractor={(item) => item?.id}
         contentContainerStyle={styles.listContainer}
-        ListEmptyComponent={<Text style={styles.emptyListText}>No restaurants found.</Text>}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Image source={images.EMPTY_SEARCH} style={styles.emptyImage} />
+            <Text style={styles.emptyListText}>No restaurants found</Text>
+          </View>
+        )}
         ItemSeparatorComponent={() => <Separator height={10} />}
         // onEndReached={handleLoadMore}
         // onEndReachedThreshold={0.1}
@@ -71,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 10,
-    marginTop: 30,
+    marginTop: 35,
   },
   title: {
     fontSize: 18,
@@ -84,11 +93,20 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: 20,
   },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyImage: {
+    width: 300,
+    height: 300,
+    marginBottom: 20,
+  },
   emptyListText: {
     fontSize: 16,
     fontFamily: fonts.POPPINS_MEDIUM,
     textAlign: "center",
-    marginTop: 20,
   },
 });
 
