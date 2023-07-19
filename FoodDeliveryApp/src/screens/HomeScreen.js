@@ -13,6 +13,9 @@ import Feather from "react-native-vector-icons/Feather"
 import { FlatList, ScrollView, TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { RestaurantService } from "../services";
 import { display } from "../utils";
+import Geolocation from '@react-native-community/geolocation';
+import { LocationAction } from "../actions";
+import { useDispatch } from "react-redux";
 
 const sortStyle = isActive =>
   isActive
@@ -24,6 +27,9 @@ const HomeScreen = ({navigation}) => {
     const [restaurants, setRestaurants] = useState(null);
     const [activeSortItem, setActiveSortItem] = useState('recent');
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentLongitude, setCurrentLongitude] = useState('...');
+    const [currentLatitude, setCurrentLatitude] = useState('...');
+    const [locationStatus, setLocationStatus] = useState('');
 
     const shadowStyle = {
         shadowColor: "#000",
@@ -37,7 +43,12 @@ const HomeScreen = ({navigation}) => {
         navigation.navigate("Search", { searchQuery });
     };
 
+    const dispatch = useDispatch();
+    
     useEffect(() => {
+
+        getOneTimeLocation();
+        
         const unsubscribe = navigation.addListener('focus', () => {
             RestaurantService.getRestaurants().then(response => {
                 if (response?.status) {
@@ -47,6 +58,30 @@ const HomeScreen = ({navigation}) => {
         });
         return unsubscribe;
     }, []);
+
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLocationStatus('You are here');
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        setCurrentLongitude(currentLongitude);
+        setCurrentLatitude(currentLatitude);
+    
+        dispatch(LocationAction.setLocation({ currentLongitude: currentLongitude, currentLatitude: currentLatitude }));
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 30000,
+      },
+    );
+  };
+
+
     return (
         <View style={styles.container}>
             <StatusBar 
@@ -63,13 +98,13 @@ const HomeScreen = ({navigation}) => {
                         size={15} 
                         color={colors.DEFAULT_WHITE}
                     />
-                    <Text style={styles.locationText}>Delivery to</Text>
-                    <Text style={styles.selectedLocationText}>HOME</Text>
-                    <MaterialIcons 
-                        name="keyboard-arrow-down" 
-                        size={16} 
-                        color={colors.DEFAULT_GREEN}
-                    />
+                    <Text style={styles.locationText}>
+                        {locationStatus === 'You are here' && (
+                            <Text style={styles.currentLocationText}>
+                                {locationStatus}: ({currentLongitude}, {currentLatitude})
+                            </Text>
+                        )}
+                    </Text>
                     <Feather 
                         name="bell" 
                         size={24} 
@@ -81,7 +116,6 @@ const HomeScreen = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.searchContainer}>
-                    {/* Search Input */}
                     <View style={styles.searchSection}>
                         <Ionicons name="search-outline" size={25} color={colors.DEFAULT_GREY} />
                         <TextInput
@@ -235,7 +269,7 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 8,
         marginHorizontal: 20,
-        marginTop: 20,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
