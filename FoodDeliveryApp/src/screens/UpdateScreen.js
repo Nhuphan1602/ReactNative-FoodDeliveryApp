@@ -4,142 +4,170 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  Image,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import UserService from '../services/UserService';
 import { GeneralAction } from '../actions';
-import { colors, fonts, images } from '../constants';
-import { display } from '../utils';
+import { colors, fonts } from '../constants';
 import { Separator } from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const UpdateAccountScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state?.generalState?.userData);
-  const [username, setUsername] = useState(userInfo?.data?.username);
-  const [email, setEmail] = useState(userInfo?.data?.email);
+  const [fullName, setFullName] = useState(userInfo?.data?.fullName || userInfo?.data?.username);
   const [password, setPassword] = useState('');
-
+  const [dateOfBirth, setDateOfBirth] = useState(userInfo?.data?.dateOfBirth || '');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [gender, setGender] = useState(userInfo?.data?.gender || []);
+  const [items, setItems] = useState([
+    {label: 'Male', value: 'Male'},
+    {label: 'Female', value: 'Female'}
+  ]);
 
   const handleUpdate = () => {
     const updatedUserData = {
-      username,
-      email,
+      fullName,
+      gender,
+      dateOfBirth,
       password: password ? password : undefined,
     };
-
-    UserService.updateUserData(updatedUserData).then(response => {
-      if (response.status) {
-        // Data updated successfully
-        dispatch(GeneralAction.setUserData(response?.data))
-        console.log("chỉnh sửa thành công ")
-        console.log(response?.data)
-        console.log("chỉnh sửa thành công ")
-
-        navigation.navigate('AccountScreen');
-      } else {
+  
+    UserService.updateUserData(updatedUserData)
+      .then(response => {
+        if (response.status) {
+          UserService.getUserData().then(userResponse => {
+            if(userResponse?.status){
+              console.log(userResponse?.data)
+                dispatch(GeneralAction.setUserData(userResponse?.data));
+            }
+        })
+          navigation.pop();
+        } else {
+          // Handle error
+          console.log(response.message);
+        }
+      })
+      .catch(error => {
         // Handle error
-        console.log(response.message);
-      }
-    })
-    .catch((error) => {
-      // Handle error
-      console.error(error);
-    });
+        console.error(error);
+      });
   };
   
 
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleDateConfirm = date => {
+    const formattedDate = date.toISOString().split('T')[0];
+    setDateOfBirth(formattedDate);
+    hideDatePicker();
+  };
+
+
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.SECONDARY_RED} translucent />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.backgroundCurvedContainer} />
-      <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back-outline"
-          size={20}
-          color={colors.DEFAULT_WHITE}
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.headerText}>Update Account</Text>
-        <View>
-          <Feather name="bell" size={20} color={colors.DEFAULT_WHITE} />
-          <View style={styles.alertBadge}>
-            <Text style={styles.alertBadgeText}>12</Text>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // 'padding' behavior for iOS, 'height' behavior for Android
+    style={{flex: 1}}
+    >
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={colors.SECONDARY_RED} translucent />
+        <Separator height={StatusBar.currentHeight} />
+        <View style={styles.backgroundCurvedContainer} />
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name="chevron-back-outline"
+            size={20}
+            color={colors.DEFAULT_WHITE}
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.headerText}>Update Account</Text>
+          <View>
+            <Feather name="bell" size={20} color={colors.DEFAULT_WHITE} />
+            <View style={styles.alertBadge}>
+              <Text style={styles.alertBadgeText}>12</Text>
+            </View>
           </View>
         </View>
+        <View style={styles.mainContainer}>
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionText}>Full Name</Text>
+            <TextInput
+              style={styles.input}
+              multiline={false}
+              maxLength={50}
+              autoCorrect={false}
+              autoCapitalize="words"
+              placeholder="Please enter your full name"
+              placeholderTextColor={colors.DEFAULT_GREY}
+              selectionColor={colors.DEFAULT_GREY}
+              value={fullName}
+              onChangeText={setFullName}
+            />
+          </View>
+          <View style={[styles.sectionContainer, {zIndex: 999}]}>
+            <Text style={styles.sectionText}>Gender</Text>
+            <DropDownPicker
+              open={open}
+              value={gender}
+              items={items}
+              setOpen={setOpen}
+              setValue={setGender}
+              setItems={setItems}
+              style={{borderColor: colors.DEFAULT_GREY}}
+            />
+          </View>
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionText}>Date of Birth</Text>
+            <TouchableOpacity style={styles.datePickerButton} onPress={showDatePicker}>
+              <Text style={styles.datePickerText}>{dateOfBirth || 'Select date'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionText}>Password</Text>
+            <TextInput
+              style={styles.input}
+              multiline={false}
+              maxLength={20}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Please enter new password"
+              placeholderTextColor={colors.DEFAULT_GREY}
+              selectionColor={colors.DEFAULT_GREY}
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.updateButton}
+            onPress={handleUpdate}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.updateButtonText}>Update</Text>
+          </TouchableOpacity>
+        </View>
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleDateConfirm}
+          onCancel={hideDatePicker}
+        />
       </View>
-      <View style={styles.profileHeaderContainer}>
-        <View style={styles.profileImageContainer}>
-          <Image style={styles.profileImage} source={images.AVATAR} />
-        </View>
-        <View style={styles.profileTextContainer}>
-          <Text style={styles.nameText}>{userInfo?.data?.username}</Text>
-          <Text style={styles.emailText}>{userInfo?.data?.email}</Text>
-        </View>
-      </View>
-      <View style={styles.mainContainer}>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionText}>Username</Text>
-          <TextInput
-            style={styles.input}
-            multiline={false}
-            maxLength={20}
-            autoCorrect={false} // Disable auto correction
-            autoCapitalize="none" // Disable auto capitalization
-            placeholder="Please enter new username" 
-            placeholderTextColor={colors.DEFAULT_GREY}
-            selectionColor={colors.DEFAULT_GREY}
-            value={username}
-            onChangeText={setUsername}
-          />
-        </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionText}>Email</Text>
-          <TextInput
-            style={styles.input}
-            multiline={false}
-            maxLength={20}
-            autoCorrect={false} // Disable auto correction
-            autoCapitalize="none" // Disable auto capitalization
-            placeholder="Please enter new email" 
-            placeholderTextColor={colors.DEFAULT_GREY}
-            selectionColor={colors.DEFAULT_GREY}
-            value={email}
-            onChangeText={setEmail}
-          />
-        </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionText}>Password</Text>
-          <TextInput
-            style={styles.input}
-            multiline={false}
-            maxLength={20}
-            autoCorrect={false} // Disable auto correction
-            autoCapitalize="none" // Disable auto capitalization
-            placeholder="Please enter new password" 
-            placeholderTextColor={colors.DEFAULT_GREY}
-            selectionColor={colors.DEFAULT_GREY}
-            value={password}
-            onChangeText={setPassword}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.updateButton}
-          onPress={handleUpdate}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.updateButtonText}>Update</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -178,7 +206,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionContainer: {
-    marginBottom: 10
+    marginBottom: 10,
   },
   alertBadge: {
     backgroundColor: colors.DEFAULT_YELLOW,
@@ -197,41 +225,6 @@ const styles = StyleSheet.create({
     lineHeight: 10 * 1.4,
     color: colors.DEFAULT_WHITE,
   },
-  profileHeaderContainer: {
-    marginHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  profileImageContainer: {
-    backgroundColor: colors.DEFAULT_WHITE,
-    borderRadius: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 1,
-    elevation: 3,
-  },
-  profileImage: {
-    width: display.setWidth(15),
-    height: display.setWidth(15),
-    borderRadius: 32,
-  },
-  profileTextContainer: {
-    marginLeft: 10,
-  },
-  nameText: {
-    fontSize: 15,
-    fontFamily: fonts.POPPINS_REGULAR,
-    lineHeight: 14 * 1.4,
-    color: colors.DEFAULT_WHITE,
-    paddingBottom: 2,
-  },
-  emailText: {
-    fontSize: 14,
-    fontFamily: fonts.POPPINS_REGULAR,
-    lineHeight: 12 * 1.4,
-    color: colors.DEFAULT_WHITE,
-  },
   mainContainer: {
     marginHorizontal: 20,
     marginTop: 60,
@@ -240,6 +233,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     paddingBottom: 30,
+    top: -80,
   },
   input: {
     height: 50,
@@ -256,13 +250,26 @@ const styles = StyleSheet.create({
     backgroundColor: colors.SECONDARY_RED,
     borderRadius: 12,
     paddingVertical: 15,
-    marginTop: 20,
+    marginTop: 15,
     alignItems: 'center',
   },
   updateButtonText: {
     color: colors.DEFAULT_WHITE,
     fontFamily: fonts.POPPINS_MEDIUM,
     fontSize: 16,
+  },
+  datePickerButton: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: colors.DEFAULT_GREY,
+    borderRadius: 12,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  datePickerText: {
+    fontFamily: fonts.POPPINS_REGULAR,
+    fontSize: 14,
+    color: colors.DEFAULT_BLACK,
   },
 });
 

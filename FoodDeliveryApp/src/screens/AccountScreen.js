@@ -61,7 +61,7 @@ const AccountScreen = ({navigation}) => {
           <Image style={styles.profileImage} source={images.AVATAR} />
         </View>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.nameText}>{userInfo?.data?.username}</Text>
+          <Text style={styles.nameText}>{userInfo?.data?.fullName || userInfo?.data?.username}</Text>
           <Text style={styles.emailText}>{userInfo?.data?.email}</Text>
         </View>
       </View>

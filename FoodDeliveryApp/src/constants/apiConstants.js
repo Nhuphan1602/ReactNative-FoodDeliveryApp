@@ -20,6 +20,8 @@ const BACKEND_API = {
   LOGIN: '/login',
   USER_EXIST: '/user-exist',
   USER: '/user',
+  USER_PHONE_NUMBER: 'check-phoneNumber',
+  USER_FORGOT_PASSWORD: 'forgot-password',
   SEND_OTP: '/send-otp',
   VERIFY_OTP: '/verify-otp',
   REFRESH: '/refresh-token',

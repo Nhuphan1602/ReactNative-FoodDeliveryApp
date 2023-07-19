@@ -60,5 +60,38 @@ const getOneRestaurantById = async (restaurantId) => {
     };
   }
 };
+const searchRestaurants = async (searchQuery) => {
+  console.log(`RestaurantService | searchRestaurants: ${searchQuery}`);
+  try {
+    const response = await axios.get(
+      `${apiConstants.BACKEND_API.BASE_API_URL}${apiConstants.BACKEND_API.RESTAURANT}/search`,
+      {
+        params: {
+          query: searchQuery,
+        },
+        headers: authHeader(getToken()),
+      }
+    );
 
-export default {getRestaurants, getOneRestaurantById};
+    if (response?.status === 200) {
+      return {
+        status: true,
+        message: "Restaurants found successfully",
+        data: response?.data?.data,
+      };
+    } else {
+      return {
+        status: false,
+        message: "No restaurants found",
+      };
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: "Restaurant search failed",
+      error: error?.message,
+    };
+  }
+};
+
+export default {getRestaurants, getOneRestaurantById, searchRestaurants};

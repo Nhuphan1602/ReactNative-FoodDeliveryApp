@@ -16,7 +16,7 @@ const getAllRestaurant = async () => {
     } else {
         return {
             status: false,
-            message: "No restaurants found",
+            message: "No restaurants found (get all)",
         };
     }
     } catch (error) {
@@ -56,7 +56,7 @@ const getOneRestaurantById = async (restaurantId) => {
         } else {
             return {
                 status: false,
-                message: "No restaurant found",
+                message: "No restaurant found (get one)",
             };
         }
     } catch (error) {
@@ -68,4 +68,44 @@ const getOneRestaurantById = async (restaurantId) => {
     }
 };
 
-module.exports = { getAllRestaurant, getOneRestaurantById };
+const searchRestaurants = async (query) => {
+    try {
+ 
+        const searchQuery = {
+            $or: [
+                { name: { $regex: new RegExp(query, "i") } },
+                { type: { $regex: new RegExp(query, "i") } },
+                { tags: { $in: [query] } }, // Use $all to match all tags in the array
+            ],
+        };
+        
+        const restaurants = await MongoDB.db
+        .collection(mongoConfig.collections.RESTAURANTS)
+        .find(searchQuery)
+        .toArray();
+
+        console.log(restaurants)
+
+        if (restaurants && restaurants.length > 0) {
+            return {
+                status: true,
+                message: "Restaurants found successfully",
+                data: restaurants,
+            };
+        } else {
+            return {
+                status: false,
+                message: "No restaurants found sss",
+            };
+        }
+    } catch (error) {
+        return {
+            status: false,
+            message: "Restaurant finding failed",
+            error: `Restaurant finding failed: ${error?.message}`,
+        };
+    }
+};
+
+
+module.exports = { getAllRestaurant, getOneRestaurantById, searchRestaurants };

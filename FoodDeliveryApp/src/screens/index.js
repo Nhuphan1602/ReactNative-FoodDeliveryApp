@@ -13,7 +13,7 @@ import FoodScreen from './FoodScreen';
 import BookmarkScreen from './BookmarkScreen';
 import UpdateScreen from './UpdateScreen';
 import OrderTrackingScreen from './OrderTrackingScreen';
-
+import SearchScreen from './SearchScreen';
 export { 
     SplashScreen, 
     WelcomeScreen, 
@@ -30,4 +30,5 @@ export {
     BookmarkScreen,
     UpdateScreen,
     OrderTrackingScreen,
+    SearchScreen,
 };
