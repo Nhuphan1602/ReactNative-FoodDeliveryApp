@@ -21,7 +21,6 @@ import {SP_KEY} from '@env';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import {
   CardField,
-  createToken,
   confirmPayment,
 } from '@stripe/stripe-react-native';
 import PaymentButton from '../components/PaymentButton';
@@ -32,14 +31,12 @@ import { useDispatch } from 'react-redux';
 
 const CartScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
   const handleModalToggle = () => {
     setModalVisible(!modalVisible);
   };
 
-  const handlePaymentMethodChange = method => {
-    setSelectedPaymentMethod(method);
+  const handlePaymentMethod = method => {
     setModalVisible(false);
     handleCheckout();
   };
@@ -68,7 +65,7 @@ const CartScreen = ({navigation}) => {
           res?.data?.paymentIntent,
           {paymentMethodType: 'Card'},
         );
-        handlePaymentMethodChange();
+        handlePaymentMethod();
       }
     } catch (error) {
       console.log('Error raised during payment intent', error);
@@ -174,7 +171,10 @@ const CartScreen = ({navigation}) => {
               onRequestClose={handleModalToggle}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                  <Text style={styles.modalTitle}>Payment Methods</Text>
+                    <TouchableOpacity style={styles.closeButton} onPress={handleModalToggle}>
+                      <Entypo name="cross" size={25} color={colors.DEFAULT_BLACK} />
+                    </TouchableOpacity>
+                  <Text style={styles.modalTitle}>Payment Method</Text>
                   <View>
                     <View>
                       <StripeProvider
@@ -202,66 +202,7 @@ const CartScreen = ({navigation}) => {
                         <PaymentButton onPress={onDone} disabled={!cardInfo} />
                       </StripeProvider>
                     </View>
-
-                    <TouchableOpacity
-                      onPress={() => handlePaymentMethodChange('Cash')}>
-                      <View style={styles.checkboxContainer}>
-                        <Ionicons
-                          name="cash-outline"
-                          size={20}
-                          style={styles.checkboxIcon}
-                        />
-                        <Text style={styles.checkboxText}>Cash</Text>
-                        {selectedPaymentMethod === 'Cash' && (
-                          <Ionicons
-                            name="ios-checkmark"
-                            size={20}
-                            style={styles.checkboxSelectedIcon}
-                          />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handlePaymentMethodChange('ATM')}>
-                      <View style={styles.checkboxContainer}>
-                        <Ionicons
-                          name="wallet-outline"
-                          size={20}
-                          style={styles.checkboxIcon}
-                        />
-                        <Text style={styles.checkboxText}>ATM</Text>
-                        {selectedPaymentMethod === 'ATM' && (
-                          <Ionicons
-                            name="ios-checkmark"
-                            size={20}
-                            style={styles.checkboxSelectedIcon}
-                          />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handlePaymentMethodChange('Card')}>
-                      <View style={styles.checkboxContainer}>
-                        <Ionicons
-                          name="card-outline"
-                          size={20}
-                          style={styles.checkboxIcon}
-                        />
-                        <Text style={styles.checkboxText}>Card</Text>
-                        {selectedPaymentMethod === 'Card' && (
-                          <Ionicons
-                            name="ios-checkmark"
-                            size={20}
-                            style={styles.checkboxSelectedIcon}
-                          />
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-
-                  <TouchableOpacity onPress={handleModalToggle}>
-                    <Text style={styles.closeButton}>Close</Text>
-                  </TouchableOpacity>
+                  </View> 
                 </View>
               </View>
             </Modal>
@@ -454,42 +395,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '80%',
     maxHeight: '50%',
+    position: 'relative',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
     textAlign: 'center',
   },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 8,
-  },
-  checkboxText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#333',
-  },
-  checkboxSelectedText: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: 'green',
-    marginLeft: 'auto',
-    marginTop: 5,
-  },
   closeButton: {
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    color: 'blue',
-  },
-  checkboxSelectedIcon: {
-    marginLeft: 'auto',
-    color: 'green',
+    position: 'absolute',
+    top: 10, 
+    right: 10, 
   },
 });
 
