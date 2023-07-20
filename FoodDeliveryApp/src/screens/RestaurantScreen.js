@@ -7,7 +7,7 @@ import {
     Image, 
     ScrollView, 
     FlatList, 
-    TouchableOpacity } from 'react-native'
+} from 'react-native'
 import { RestaurantService, StaticImageService } from '../services';
 import { display } from '../utils';
 import { apiConstants, colors, fonts, images } from '../constants';
@@ -62,7 +62,6 @@ const RestaurantScreen = ({
     }}) => {
     const [restaurant, setRestaurant] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    // const [isBookmarked, setIsBookMarked] = useState(false);
 
     useEffect(() => {
         RestaurantService.getOneRestaurantById(restaurantId).then(response => {
@@ -91,6 +90,13 @@ const RestaurantScreen = ({
                     }} 
                     style={styles.backgroundImage}
                 />
+                <View style={styles.headerContainer}>
+                  <Ionicons 
+                      name="chevron-back-outline" 
+                      size={30} 
+                      onPress={() => navigation.goBack()}
+                  />
+                </View> 
                 <ScrollView>
                     <Separator height={display.setHeight(35)} />
                     <View style={styles.mainContainer}>
@@ -192,6 +198,12 @@ const styles = StyleSheet.create({
       top: 0,
       height: display.setWidth(100),
       width: display.setWidth(100),
+    },
+    headerContainer: {
+      position: 'absolute',
+      top: 60,
+      paddingLeft: 10,
+      zIndex: 999,
     },
     mainContainer: {
       backgroundColor: colors.SECONDARY_WHITE,

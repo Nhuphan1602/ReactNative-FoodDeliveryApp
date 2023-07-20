@@ -198,9 +198,8 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 10,
+        paddingTop: 20,
         paddingHorizontal: 10,
-        marginTop: 30,
     },
     logoGroup:{
         flexDirection: 'row',
@@ -224,7 +223,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontFamily: fonts.POPPINS_BOLD,
-        lineHeight: 20 * 1.4,
+        lineHeight: 24 * 1.4,
         marginHorizontal: 20,
         textAlign: 'center',
     },
@@ -233,7 +232,6 @@ const styles = StyleSheet.create({
         fontFamily: fonts.POPPINS_MEDIUM,
         color: colors.DARK_GRAYISH_BLUE,
         marginTop: 5,
-        marginBottom: 20,
         marginHorizontal: 20,
         textAlign: 'center',
     },
@@ -360,6 +358,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
+        padding: 2,
     },
     toggleContainer:{
         flexDirection: 'row',

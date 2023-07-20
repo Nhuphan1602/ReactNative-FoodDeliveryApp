@@ -10,9 +10,12 @@ import { colors, fonts, mock } from "../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather"
-import { FlatList, ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, ScrollView, TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { RestaurantService } from "../services";
 import { display } from "../utils";
+import Geolocation from '@react-native-community/geolocation';
+import { LocationAction } from "../actions";
+import { useDispatch } from "react-redux";
 
 const sortStyle = isActive =>
   isActive
@@ -23,6 +26,10 @@ const HomeScreen = ({navigation}) => {
     const [activeCategory, setActiveCategory] = useState()
     const [restaurants, setRestaurants] = useState(null);
     const [activeSortItem, setActiveSortItem] = useState('recent');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [currentLongitude, setCurrentLongitude] = useState('...');
+    const [currentLatitude, setCurrentLatitude] = useState('...');
+    const [locationStatus, setLocationStatus] = useState('');
 
     const shadowStyle = {
         shadowColor: "#000",
@@ -32,7 +39,16 @@ const HomeScreen = ({navigation}) => {
         elevation: Platform.OS === "android" ? 1 : 0, // Chỉ áp dụng elevation trên Android
     };
 
+    const handleSearch = () => {
+        navigation.navigate("Search", { searchQuery });
+    };
+
+    const dispatch = useDispatch();
+    
     useEffect(() => {
+
+        getOneTimeLocation();
+        
         const unsubscribe = navigation.addListener('focus', () => {
             RestaurantService.getRestaurants().then(response => {
                 if (response?.status) {
@@ -42,6 +58,30 @@ const HomeScreen = ({navigation}) => {
         });
         return unsubscribe;
     }, []);
+
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLocationStatus('You are here');
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        setCurrentLongitude(currentLongitude);
+        setCurrentLatitude(currentLatitude);
+    
+        dispatch(LocationAction.setLocation({ currentLongitude: currentLongitude, currentLatitude: currentLatitude }));
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 30000,
+      },
+    );
+  };
+
+
     return (
         <View style={styles.container}>
             <StatusBar 
@@ -58,13 +98,13 @@ const HomeScreen = ({navigation}) => {
                         size={15} 
                         color={colors.DEFAULT_WHITE}
                     />
-                    <Text style={styles.locationText}>Delivery to</Text>
-                    <Text style={styles.selectedLocationText}>HOME</Text>
-                    <MaterialIcons 
-                        name="keyboard-arrow-down" 
-                        size={16} 
-                        color={colors.DEFAULT_GREEN}
-                    />
+                    <Text style={styles.locationText}>
+                        {locationStatus === 'You are here' && (
+                            <Text style={styles.currentLocationText}>
+                                {locationStatus}: ({currentLongitude}, {currentLatitude})
+                            </Text>
+                        )}
+                    </Text>
                     <Feather 
                         name="bell" 
                         size={24} 
@@ -77,14 +117,22 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <View style={styles.searchContainer}>
                     <View style={styles.searchSection}>
-                        <Ionicons name="search-outline" size={25} color={colors.DEFAULT_GREY}/>
-                        <Text style={styles.searchText}>Search..</Text>
+                        <Ionicons name="search-outline" size={25} color={colors.DEFAULT_GREY} />
+                        <TextInput
+                            style={styles.searchText}
+                            value={searchQuery}
+                            onChangeText={(text) => setSearchQuery(text)}
+                            placeholder="Search by name, type, or tags"
+                            placeholderTextColor={colors.DEFAULT_GREY}
+                            onSubmitEditing={handleSearch}
+                        />
                     </View>
-                    <Feather 
-                        name="sliders" 
-                        size={20} 
-                        color={colors.DEFAULT_GREEN} 
-                        style={{marginRight: 10}}
+                    <Feather
+                        name="sliders"
+                        size={20}
+                        color={colors.DEFAULT_GREEN}
+                        style={{ marginRight: 10 }}
+                        onPress={handleSearch}
                     />
                 </View>
                 <View style={styles.categoriesContainer}>
@@ -148,7 +196,12 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
                 {restaurants?.map(item => (
-                    <RestaurantMediumCard {...item} key={item?.id} />
+                    <TouchableOpacity
+                        key={item?.id}
+                        onPress={() => navigation.navigate("Restaurant", { restaurantId: item?.id })}
+                    >
+                        <RestaurantMediumCard {...item} />
+                    </TouchableOpacity>
                 ))}
                 <Separator height={display.setHeight(10)} />
             </ScrollView>
@@ -216,7 +269,7 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 8,
         marginHorizontal: 20,
-        marginTop: 20,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -228,10 +281,11 @@ const styles = StyleSheet.create({
     }, 
     searchText: {
         color: colors.DEFAULT_GREY,
-        fontSize: 16,
-        lineHeight: 16 * 1.4,
+        fontSize: 14,
+        lineHeight: 14 * 1.4,
         fontFamily: fonts.POPPINS_MEDIUM,
-        marginLeft: 10
+        marginLeft: 10,
+        width: '80%'
     },
     categoriesContainer: {
         flexDirection: 'row',

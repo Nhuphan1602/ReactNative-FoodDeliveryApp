@@ -186,9 +186,8 @@ container: {
 headerContainer: {
   flexDirection: 'row',
   alignItems: 'center',
-  paddingVertical: 10,
+  paddingTop: 20,
   paddingHorizontal: 10,
-  marginTop: 30,
 },
 logoGroup:{
   flexDirection: 'row',

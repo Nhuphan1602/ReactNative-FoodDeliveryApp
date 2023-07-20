@@ -184,129 +184,128 @@ const VerificationScreen = ({
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.DEFAULT_WHITE
+  container: {
+      flex: 1,
+      backgroundColor: colors.DEFAULT_WHITE
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingHorizontal: 10,
+  },
+  logoGroup:{
+      flexDirection: 'row',
+      marginRight: 'auto',
+      marginLeft: 'auto',
+  },
+  image: {
+      height: display.setHeight(15),
+      width: display.setWidth(15),
+      overflow: 'visible',
+      borderRadius: 20,
+  },
+  logoGroupText: {
+      fontSize: 14,
+      fontFamily: fonts.POPPINS_MEDIUM,
+      color: colors.SECONDARY_RED,
+      marginLeft: 8,
+      marginRight: 25,
+      alignSelf: 'center'
+  },
+  title: {
+      fontSize: 24,
+      fontFamily: fonts.POPPINS_BOLD,
+      lineHeight: 20 * 1.4,
+      marginHorizontal: 20,
+      textAlign: 'center',
     },
-    headerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        marginTop: 30,
-      },
-    logoGroup:{
-        flexDirection: 'row',
-        marginRight: 'auto',
-        marginLeft: 'auto',
+  content: {
+      fontSize: 15,
+      fontFamily: fonts.POPPINS_MEDIUM,
+      color: colors.DARK_GRAYISH_BLUE,
+      marginTop: 5,
+      marginBottom: 20,
+      marginHorizontal: 20,
+      textAlign: 'center',
     },
-    image: {
-        height: display.setHeight(15),
-        width: display.setWidth(15),
-        overflow: 'visible',
-        borderRadius: 20,
+  phoneNumberText: {
+      fontSize: 18,
+      fontFamily: fonts.POPPINS_REGULAR,
+      lineHeight: 18 * 1.4,
+      color: colors.SECONDARY_RED,
+  },
+  otpContainer: {
+      marginHorizontal: 20,
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      flexDirection: 'row'
+  },
+  otpBox: {
+      borderRadius: 5,
+      borderColor: colors.SECONDARY_RED,
+      borderWidth: 0.5,
+      width: display.setWidth(13),
+  },
+  otpText: {
+      fontSize: 25,
+      color: colors.DEFAULT_BLACK,
+      padding: 0,
+      textAlign: 'center',
+      paddingHorizontal: 18,
+      paddingVertical: 10,
+  },
+  signinButton: {
+      backgroundColor: colors.SECONDARY_RED,
+      borderRadius: 12,
+      marginHorizontal: 20,
+      height: display.setHeight(6),
+      justifyContent: 'center',
+      alignItems: 'center',
+  },
+  signinButtonText: {
+      fontSize: 18,
+      lineHeight: 18 * 1.4,
+      color: colors.DEFAULT_WHITE,
+      fontFamily: fonts.POPPINS_MEDIUM,
+  },
+  signinButtonText: {
+      fontSize: 18,
+      lineHeight: 18 * 1.4,
+      color: colors.DEFAULT_WHITE,
+      fontFamily: fonts.POPPINS_MEDIUM,
     },
-    logoGroupText: {
-        fontSize: 14,
-        fontFamily: fonts.POPPINS_MEDIUM,
-        color: colors.SECONDARY_RED,
-        marginLeft: 8,
-        marginRight: 25,
-        alignSelf: 'center'
+  resendCodeGroup: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: 5,
+      marginBottom: 20,
+      marginHorizontal: 20,
     },
-    title: {
-        fontSize: 24,
-        fontFamily: fonts.POPPINS_BOLD,
-        lineHeight: 20 * 1.4,
-        marginHorizontal: 20,
-        textAlign: 'center',
-      },
-    content: {
-        fontSize: 15,
-        fontFamily: fonts.POPPINS_MEDIUM,
-        color: colors.DARK_GRAYISH_BLUE,
-        marginTop: 5,
-        marginBottom: 20,
-        marginHorizontal: 20,
-        textAlign: 'center',
-      },
-    phoneNumberText: {
-        fontSize: 18,
-        fontFamily: fonts.POPPINS_REGULAR,
-        lineHeight: 18 * 1.4,
-        color: colors.SECONDARY_RED,
+  resendCodeGroupText: {
+      fontSize: 14,
+      fontFamily: fonts.POPPINS_REGULAR,
+      color: colors.DARK_GRAYISH_BLUE,
+      marginTop: 5,
+      marginBottom: 20,
+      marginHorizontal: 5,
+      textAlign: 'center',
     },
-    otpContainer: {
-        marginHorizontal: 20,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        flexDirection: 'row'
+  termGroup: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      marginTop: 5,
+      marginBottom: 20,
+      marginHorizontal: 20,
     },
-    otpBox: {
-        borderRadius: 5,
-        borderColor: colors.SECONDARY_RED,
-        borderWidth: 0.5,
-        width: display.setWidth(13),
+  termGroupText: {
+      fontSize: 14,
+      fontFamily: fonts.POPPINS_REGULAR,
+      color: colors.DARK_GRAYISH_BLUE,
+      marginTop: 5,
+      marginHorizontal: 5,
+      textAlign: 'center',
     },
-    otpText: {
-        fontSize: 25,
-        color: colors.DEFAULT_BLACK,
-        padding: 0,
-        textAlign: 'center',
-        paddingHorizontal: 18,
-        paddingVertical: 10,
-    },
-    signinButton: {
-        backgroundColor: colors.SECONDARY_RED,
-        borderRadius: 12,
-        marginHorizontal: 20,
-        height: display.setHeight(6),
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    signinButtonText: {
-        fontSize: 18,
-        lineHeight: 18 * 1.4,
-        color: colors.DEFAULT_WHITE,
-        fontFamily: fonts.POPPINS_MEDIUM,
-    },
-    signinButtonText: {
-        fontSize: 18,
-        lineHeight: 18 * 1.4,
-        color: colors.DEFAULT_WHITE,
-        fontFamily: fonts.POPPINS_MEDIUM,
-      },
-    resendCodeGroup: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 5,
-        marginBottom: 20,
-        marginHorizontal: 20,
-      },
-    resendCodeGroupText: {
-        fontSize: 14,
-        fontFamily: fonts.POPPINS_REGULAR,
-        color: colors.DARK_GRAYISH_BLUE,
-        marginTop: 5,
-        marginBottom: 20,
-        marginHorizontal: 5,
-        textAlign: 'center',
-      },
-    termGroup: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        marginTop: 5,
-        marginBottom: 20,
-        marginHorizontal: 20,
-      },
-    termGroupText: {
-        fontSize: 14,
-        fontFamily: fonts.POPPINS_REGULAR,
-        color: colors.DARK_GRAYISH_BLUE,
-        marginTop: 5,
-        marginHorizontal: 5,
-        textAlign: 'center',
-      },
 });
 
 export default VerificationScreen;

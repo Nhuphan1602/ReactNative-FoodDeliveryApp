@@ -73,7 +73,6 @@ const verifyOTP = async body => {
     }
 };
 
-
 const userRegister = async(user) => {
     try {
         if (!user?.username || !user?.email || !user?.password)
@@ -84,7 +83,11 @@ const userRegister = async(user) => {
             email: user?.email,
             password: passwordHash,
             phoneNumber: user?.phoneNumber,
+            fullName: "",
+            gender: "",
+            dateOfBirth: ""
         }
+
         let savedUser = await MongoDB.db
             .collection(mongoConfig.collections.USERS)
             .insertOne(userObj);
@@ -160,19 +163,77 @@ const userLogin = async(user) => {
 
 const checkUserExist = async (query) => {
     let messages = {
-      email: "User already exist",
+      email: "User already exists",
       username: "This username is taken",
+      phoneNumber: "Phone number already exists",
     };
     try {
       let queryType = Object.keys(query)[0];
       let userObject = await MongoDB.db
         .collection(mongoConfig.collections.USERS)
         .findOne(query);
-       console.log(userObject);
+      console.log(userObject);
       return !userObject
         ? { status: true, message: `This ${queryType} is not taken` }
         : { status: false, message: messages[queryType] };
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      return { status: false, message: "Error checking user existence" };
+    }
+};
+
+const checkUserByPhoneNumber = async (phoneNumber, newPassword) => {
+    try {
+      // Find the user by phone number
+      const user = await MongoDB.db.collection('users').findOne({ phoneNumber });
+  
+      if (!user) {
+        // If the user does not exist, return an error message
+        return {
+          success: false,
+          message: 'User not found with the provided phone number',
+        };
+      }
+      return {
+        success: true,
+        message: 'User found with the provided phone number',
+        data: user?.data
+      };
+    } catch (error) {
+        console.error(error);
+        return {
+          success: false,
+          message: 'Failed to find user by phone number',
+          error: error.toString(),
+        };
+    }
+
+};
+
+const updateUserPasswordByPhoneNumber = async (phoneNumber, newPassword) => {
+    try {
+      // Generate a new password hash for the new password
+      const saltRounds = 10;
+      const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
+  
+      // Update the user's password with the new password hash in the database
+      await MongoDB.db.collection('users').updateOne(
+        { phoneNumber: phoneNumber },
+        { $set: { password: newPasswordHash } }
+      );
+  
+      return {
+        success: true,
+        message: 'Password updated successfully',
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        success: false,
+        message: 'Failed to update password',
+        error: error.toString(),
+      };
+    }
 };
 
 const tokenVerification = async (req, res, next) => {
@@ -185,7 +246,9 @@ const tokenVerification = async (req, res, next) => {
             req?.originalUrl.startsWith("/api/user-exist") ||
             req?.originalUrl.endsWith("/register") ||
             req?.originalUrl.startsWith("/api/send-otp") ||
-            req?.originalUrl.startsWith("/api/verify-otp")
+            req?.originalUrl.startsWith("/api/verify-otp") ||
+            req?.originalUrl.startsWith("/api/forgot-password") ||
+            req?.originalUrl.startsWith("/api/check-phoneNumber")
         ) 
             return next();
         let token = req?.headers["authorization"];
@@ -218,6 +281,7 @@ const tokenVerification = async (req, res, next) => {
         });
     }
 };
+
 
 const tokenRefresh = async (req, res) => {
     console.log(`authentication.service | tokenRefresh | ${req?.originalUrl}`);
@@ -274,6 +338,8 @@ const tokenRefresh = async (req, res) => {
       });
     }
 };
+
+
   
   
 module.exports = { 
@@ -284,4 +350,6 @@ module.exports = {
     tokenRefresh,
     sendOTP,
     verifyOTP,
+    checkUserByPhoneNumber,
+    updateUserPasswordByPhoneNumber
 };
