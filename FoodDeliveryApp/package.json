@@ -18,6 +18,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/stripe-react-native": "^0.29.0",
     "axios": "^1.4.0",
     "lottie-ios": "^3.4.1",
     "lottie-react-native": "^5.1.6",
@@ -25,6 +26,7 @@
     "react-native": "0.71.8",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-geolocation": "^1.0.0",
+    "react-native-dotenv": "^3.4.9",
     "react-native-gesture-handler": "^2.10.0",
     "react-native-maps": "^1.7.1",
     "react-native-modal-datetime-picker": "^17.0.0",
@@ -56,6 +58,6 @@
     "preset": "react-native"
   },
   "projectConfig": {
-    "backendApiBaseUrl": "http://192.168.0.104:3000"
+    "backendApiBaseUrl": "http://192.168.1.9:3000"
   }
 }

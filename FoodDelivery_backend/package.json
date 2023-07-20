@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -15,11 +16,12 @@
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.6.0",
     "morgan": "~1.9.1",
+    "stripe": "^12.13.0",
     "twilio": "^4.13.0"
   },
   "projectConfig": {
     "mongoConnectionURL": "mongodb://localhost:27017",
-    "serverIP": "192.168.0.104",
+    "serverIP": "192.168.1.9",
     "serverPort": 3000
   }
 }

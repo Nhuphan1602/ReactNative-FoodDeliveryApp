@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     }, 
     alertBadge: {
         borderRadius: 32,
-        backgroundColor: colors.DEFAULT_GREEN,
+        backgroundColor: colors.GOOGLE_BLUE,
         justifyContent: 'center',
         alignItems: 'center',
         height: 16,

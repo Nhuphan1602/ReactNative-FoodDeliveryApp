@@ -1,4 +1,4 @@
-import CartService from "../services/CartService";
+import CartService from '../services/CartService';
 
 const types = {
   GET_CART_ITEMS: 'GET_CART_ITEMS',
@@ -6,81 +6,107 @@ const types = {
 };
 
 const addToCart = ({foodId}) => {
-    return dispatch => {
-      dispatch({
-        type: types.SET_IS_LOADING,
-        payload: true,
-      });
-      CartService.addToCart({foodId})
-        .then(cartResponse => {
-          dispatch({
-            type: types.GET_CART_ITEMS,
-            payload: cartResponse?.data,
-          });
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
-        })
-        .catch(() => {
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
+  return dispatch => {
+    dispatch({
+      type: types.SET_IS_LOADING,
+      payload: true,
+    });
+    CartService.addToCart({foodId})
+      .then(cartResponse => {
+        dispatch({
+          type: types.GET_CART_ITEMS,
+          payload: cartResponse?.data,
         });
-    };
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      });
   };
-  
-  const removeFromCart = ({foodId}) => {
-    return dispatch => {
-      dispatch({
-        type: types.SET_IS_LOADING,
-        payload: true,
-      });
-      CartService.removeFromCart({foodId})
-        .then(cartResponse => {
-          dispatch({
-            type: types.GET_CART_ITEMS,
-            payload: cartResponse?.data,
-          });
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
-        })
-        .catch(() => {
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
-        });
-    };
-  };
-  
-  const getCartItems = () => {
-    return dispatch => {
-      dispatch({
-        type: types.SET_IS_LOADING,
-        payload: true,
-      });
-      CartService.getCartItems()
-        .then(cartResponse => {
-          dispatch({
-            type: types.GET_CART_ITEMS,
-            payload: cartResponse?.data,
-          });
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
-        })
-        .catch(() => {
-          dispatch({
-            type: types.SET_IS_LOADING,
-            payload: false,
-          });
-        });
-    };
-  };  
+};
 
-export default {types, addToCart, removeFromCart, getCartItems};
+const removeFromCart = ({foodId}) => {
+  return dispatch => {
+    dispatch({
+      type: types.SET_IS_LOADING,
+      payload: true,
+    });
+    CartService.removeFromCart({foodId})
+      .then(cartResponse => {
+        dispatch({
+          type: types.GET_CART_ITEMS,
+          payload: cartResponse?.data,
+        });
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      });
+  };
+};
+
+const getCartItems = () => {
+  return dispatch => {
+    dispatch({
+      type: types.SET_IS_LOADING,
+      payload: true,
+    });
+    CartService.getCartItems()
+      .then(cartResponse => {
+        dispatch({
+          type: types.GET_CART_ITEMS,
+          payload: cartResponse?.data,
+        });
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      });
+  };
+};
+
+const removeAllFromCart = () => {
+  return dispatch => {
+    dispatch({
+      type: types.SET_IS_LOADING,
+      payload: true,
+    });
+    CartService.removeAllFromCart()
+      .then(cartResponse => {
+        dispatch({
+          type: types.GET_CART_ITEMS,
+          payload: cartResponse?.data,
+        });
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: types.SET_IS_LOADING,
+          payload: false,
+        });
+      });
+  };
+};
+
+export default {types, addToCart, removeFromCart, getCartItems, removeAllFromCart};
