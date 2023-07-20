@@ -86,7 +86,6 @@ const CartScreen = ({navigation}) => {
             const removeResult = await CartService.removeAllFromCart();
             if (removeResult.status) {
               dispatch(CartAction.getCartItems());
-              console.log("cart?.cartItems?.length: ",cart?.cartItems?.length);
               navigation.navigate('OrderTracking');
             } else {
               Alert.alert('Error', removeResult.message);
