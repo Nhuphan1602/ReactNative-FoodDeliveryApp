@@ -1,28 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { colors, fonts } from '../constants';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {colors, fonts} from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MapView, { Marker, Polyline } from 'react-native-maps';
-import { useSelector } from 'react-redux';
+import MapView, {Marker, Polyline} from 'react-native-maps';
+import {useSelector} from 'react-redux';
 
-const OrderTracking = ({ navigation }) => {
-  const restaurant = { lat: 10.8274, lng: 106.7049, title: 'Restaurant', description: 'Fast and Safe' }; // Replace with actual data
+const OrderTracking = ({navigation}) => {
+  const restaurant = {
+    lat: 10.8274,
+    lng: 106.7049,
+    title: 'Restaurant',
+    description: 'Fast and Safe',
+  }; // Replace with actual data
   const userLocation = useSelector(state => state?.locationState?.location);
   const handleCancel = () => {
-    console.log(userLocation?.currentLongitude)
-    console.log(userLocation?.currentLatitude)
+    console.log(userLocation?.currentLongitude);
+    console.log(userLocation?.currentLatitude);
   };
 
   const [routeCoordinates, setRouteCoordinates] = useState([]);
 
   useEffect(() => {
     const fetchedRouteCoordinates = [
-      { latitude: restaurant.lat, longitude: restaurant.lng }, // Restaurant coordinates
-      { latitude: parseFloat(userLocation?.currentLatitude), longitude: parseFloat(userLocation?.currentLongitude) }, // User location coordinates
+      {latitude: restaurant.lat, longitude: restaurant.lng}, // Restaurant coordinates
+      {
+        latitude: parseFloat(userLocation?.currentLatitude),
+        longitude: parseFloat(userLocation?.currentLongitude),
+      }, // User location coordinates
     ];
     setRouteCoordinates(fetchedRouteCoordinates);
-  }, [])
-  
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -36,14 +44,13 @@ const OrderTracking = ({ navigation }) => {
 
       <MapView
         initialRegion={{
-          latitude:  parseFloat(userLocation?.currentLatitude),
-          longitude:  parseFloat(userLocation?.currentLongitude),
+          latitude: parseFloat(userLocation?.currentLatitude),
+          longitude: parseFloat(userLocation?.currentLongitude),
           latitudeDelta: 0.014,
           longitudeDelta: 0.014,
         }}
         style={styles.map}
-        mapType="standard"
-      >
+        mapType="standard">
         <Marker
           coordinate={{
             latitude: restaurant.lat,
@@ -54,7 +61,7 @@ const OrderTracking = ({ navigation }) => {
           pinColor={colors.ORANGE} // Replace with the desired color from your colors constant
         />
 
-         {userLocation?.currentLatitude && userLocation?.currentLongitude && (
+        {userLocation?.currentLatitude && userLocation?.currentLongitude && (
           <Marker
             coordinate={{
               latitude: parseFloat(userLocation.currentLatitude),
@@ -73,7 +80,6 @@ const OrderTracking = ({ navigation }) => {
             strokeWidth={5}
           />
         )}
-
       </MapView>
 
       <View style={styles.deliveryInfoContainer}>
@@ -83,12 +89,18 @@ const OrderTracking = ({ navigation }) => {
             <Text style={styles.estimatedTime}>20-30 Minutes</Text>
             <Text style={styles.orderStatus}>Your Order is on its way</Text>
           </View>
-          <Image style={styles.bikeGuyImage} source={require('../assets/images/bikeGuy2.gif')} />
+          <Image
+            style={styles.bikeGuyImage}
+            source={require('../assets/images/bikeGuy2.gif')}
+          />
         </View>
 
         <View style={styles.riderInfoContainer}>
           <View style={styles.riderImageContainer}>
-            <Image style={styles.riderImage} source={require('../assets/images/deliveryGuy.png')} />
+            <Image
+              style={styles.riderImage}
+              source={require('../assets/images/deliveryGuy.png')}
+            />
           </View>
           <View style={styles.riderDetails}>
             <Text style={styles.riderName}>Alex</Text>
@@ -102,7 +114,9 @@ const OrderTracking = ({ navigation }) => {
                 color={colors.SECONDARY_GREEN}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
+            <TouchableOpacity
+              onPress={handleCancel}
+              style={styles.cancelButton}>
               <Ionicons
                 name="close-sharp"
                 size={30}
@@ -141,11 +155,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingVertical: 20,
     marginTop: -30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-    elevation: Platform.OS === "android" ? 1 : 0,
+    elevation: Platform.OS === 'android' ? 1 : 0,
   },
   deliveryDetailsContainer: {
     flexDirection: 'row',
@@ -196,7 +210,7 @@ const styles = StyleSheet.create({
     padding: 2,
     borderRadius: 40,
   },
-  riderImage: { 
+  riderImage: {
     width: 80,
     height: 80,
     borderRadius: 40,

@@ -1,5 +1,8 @@
 const { mongoConfig } = require("../config");
 const MongoDB = require("./mongodb.service");
+const stripe = require("stripe")(
+  "sk_test_51NUsHtGqRB2ZDWnDO8N8lONchM6ptsPWuQkR07cjyHxP8PAy5hRfJXwToQTBnEbWv7XEqa822Qc3YbTaECFMOfp500Lw2OXDgq"
+);
 
 const addToCart = async ({ foodId, username }) => {
   try {
@@ -133,4 +136,31 @@ const removeAllFromCart = async ({ username }) => {
   }
 };
 
-module.exports = { addToCart, removeFromCart, getCartItems, removeAllFromCart };
+const paymentHandle = async (data) => {
+  const customer = await stripe.customers.create();
+  const ephemeralKey = await stripe.ephemeralKeys.create(
+    { customer: customer.id },
+    { apiVersion: "2022-11-15" }
+  );
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: data?.amount,
+    currency: data?.currency,
+    customer: customer.id,
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+
+  return {
+    paymentIntent: paymentIntent.client_secret,
+    ephemeralKey: ephemeralKey.secret,
+    customer: customer.id,
+  };
+};
+module.exports = {
+  addToCart,
+  removeFromCart,
+  getCartItems,
+  removeAllFromCart,
+  paymentHandle,
+};

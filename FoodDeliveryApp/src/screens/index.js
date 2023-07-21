@@ -14,21 +14,21 @@ import BookmarkScreen from './BookmarkScreen';
 import UpdateScreen from './UpdateScreen';
 import OrderTrackingScreen from './OrderTrackingScreen';
 import SearchScreen from './SearchScreen';
-export { 
-    SplashScreen, 
-    WelcomeScreen, 
-    SigninScreen, 
-    SignupScreen, 
-    ForgotPasswordScreen,
-    RegisterPhoneScreen,
-    VerificationScreen,
-    HomeScreen,
-    AccountScreen,
-    RestaurantScreen,
-    CartScreen,
-    FoodScreen,
-    BookmarkScreen,
-    UpdateScreen,
-    OrderTrackingScreen,
-    SearchScreen,
+export {
+  SplashScreen,
+  WelcomeScreen,
+  SigninScreen,
+  SignupScreen,
+  ForgotPasswordScreen,
+  RegisterPhoneScreen,
+  VerificationScreen,
+  HomeScreen,
+  AccountScreen,
+  RestaurantScreen,
+  CartScreen,
+  FoodScreen,
+  BookmarkScreen,
+  UpdateScreen,
+  OrderTrackingScreen,
+  SearchScreen,
 };

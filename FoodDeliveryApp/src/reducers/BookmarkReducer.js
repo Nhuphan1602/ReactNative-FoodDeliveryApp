@@ -1,4 +1,4 @@
-import { BookmarkAction } from '../actions';
+import {BookmarkAction} from '../actions';
 
 const initialState = {
   bookmarks: [],

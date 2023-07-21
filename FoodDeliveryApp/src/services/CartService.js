@@ -120,4 +120,29 @@ const removeAllFromCart = async () => {
   }
 };
 
-export default {getCartItems, addToCart, removeFromCart, removeAllFromCart};
+const createPaymentIntent = data => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `${apiConstants.BACKEND_API.BASE_API_URL}${apiConstants.BACKEND_API.CART}${apiConstants.BACKEND_API.PAYMENT}`,
+        data,
+        {
+          headers: authHeader(getToken()),
+        },
+      )
+      .then(function (res) {
+        resolve(res);
+      })
+      .catch(function (error) {
+        reject(error);
+      });
+  });
+};
+
+export default {
+  getCartItems,
+  addToCart,
+  removeFromCart,
+  removeAllFromCart,
+  createPaymentIntent,
+};

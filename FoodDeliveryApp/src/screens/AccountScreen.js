@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Separator, ToggleButton } from '../components';
+import {Separator, ToggleButton} from '../components';
 import {colors, fonts, images} from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -16,7 +16,7 @@ import {display} from '../utils';
 import {useDispatch} from 'react-redux';
 import {StorageService} from '../services';
 import {GeneralAction} from '../actions';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const AccountScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -28,8 +28,7 @@ const AccountScreen = ({navigation}) => {
     });
   };
 
-  const userInfo = useSelector(
-      state => state?.generalState?.userData);
+  const userInfo = useSelector(state => state?.generalState?.userData);
   console.log(userInfo);
 
   return (
@@ -58,20 +57,21 @@ const AccountScreen = ({navigation}) => {
       </View>
       <View style={styles.profileHeaderContainer}>
         <View style={styles.profileImageContainer}>
-          <Image 
-          style={styles.profileImage}             
-          source={
-              userInfo?.data?.gender == "Female"
+          <Image
+            style={styles.profileImage}
+            source={
+              userInfo?.data?.gender == 'Female'
                 ? images.FEMALE_AVATAR
-                : userInfo?.data?.gender === "Male"
+                : userInfo?.data?.gender === 'Male'
                 ? images.MALE_AVATAR
                 : images.DEFAULT_AVATAR
-          }
-            
+            }
           />
         </View>
         <View style={styles.profileTextContainer}>
-          <Text style={styles.nameText}>{userInfo?.data?.fullName || userInfo?.data?.username}</Text>
+          <Text style={styles.nameText}>
+            {userInfo?.data?.fullName || userInfo?.data?.username}
+          </Text>
           <Text style={styles.emailText}>{userInfo?.data?.email}</Text>
         </View>
       </View>
@@ -110,7 +110,10 @@ const AccountScreen = ({navigation}) => {
       </View>
       <View style={styles.mainContainer}>
         <Text style={styles.sectionHeaderText}>My Account</Text>
-        <TouchableOpacity style={styles.sectionContainer} activeOpacity={0.8} onPress={() => navigation.navigate('UpdateAccount')}>
+        <TouchableOpacity
+          style={styles.sectionContainer}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('UpdateAccount')}>
           <View style={styles.sectionTextContainer}>
             <Ionicons
               name="person-outline"
