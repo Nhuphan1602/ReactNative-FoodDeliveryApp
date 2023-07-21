@@ -1,17 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
-import { colors,images,fonts, } from '../constants';
-import { display } from '../utils';
+import {colors, images, fonts} from '../constants';
+import {display} from '../utils';
 
 const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <StatusBar 
-        barStyle="light-content" 
+      <StatusBar
+        barStyle="light-content"
         backgroundColor={colors.SECONDARY_RED}
-        translucent  
+        translucent
       />
-      <Image 
+      <Image
         source={images.WELCOME}
         resizeMode="contain"
         style={styles.image}

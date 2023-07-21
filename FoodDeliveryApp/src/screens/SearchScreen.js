@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from "react-native";
-import { RestaurantService } from "../services";
-import { colors, fonts, images } from "../constants";
-import RestaurantMediumCard from "../components/RestaurantMediumCard";
-import Separator from "../components/Separator";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {RestaurantService} from '../services';
+import {colors, fonts, images} from '../constants';
+import RestaurantMediumCard from '../components/RestaurantMediumCard';
+import Separator from '../components/Separator';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
-const SearchScreen = ({ navigation, route }) => {
-  const { searchQuery } = route.params;
+const SearchScreen = ({navigation, route}) => {
+  const {searchQuery} = route.params;
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -19,41 +25,44 @@ const SearchScreen = ({ navigation, route }) => {
   const loadSearchResults = async () => {
     try {
       const response = await RestaurantService.searchRestaurants(searchQuery);
-      console.log(response)
-      console.log(response.status)
+      console.log(response);
+      console.log(response.status);
       if (response?.status) {
-        if(response?.data === undefined) {
+        if (response?.data === undefined) {
           setSearchResults([]);
         } else {
           setSearchResults([...response?.data]);
         }
       }
     } catch (error) {
-      console.error("Error searching restaurants:", error);
+      console.error('Error searching restaurants:', error);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-          <Ionicons 
-            name="chevron-back-outline" 
-            size={22} 
-            onPress={() => navigation.goBack()}
-          />
-          <Text style={styles.title}>Search Results for "{searchQuery || "all"}"</Text>
-      </View> 
-      
+        <Ionicons
+          name="chevron-back-outline"
+          size={22}
+          onPress={() => navigation.goBack()}
+        />
+        <Text style={styles.title}>
+          Search Results for "{searchQuery || 'all'}"
+        </Text>
+      </View>
+
       <FlatList
         data={searchResults}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Restaurant", { restaurantId: item?.id })}
-          >
+            onPress={() =>
+              navigation.navigate('Restaurant', {restaurantId: item?.id})
+            }>
             <RestaurantMediumCard {...item} />
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item?.id}
+        keyExtractor={item => item?.id}
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={() => (
           <View style={styles.emptyContainer}>
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
   emptyListText: {
     fontSize: 16,
     fontFamily: fonts.POPPINS_MEDIUM,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 

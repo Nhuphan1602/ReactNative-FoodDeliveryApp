@@ -19,15 +19,11 @@ import {useSelector} from 'react-redux';
 import {Alert} from 'react-native';
 import {SP_KEY} from '@env';
 import {StripeProvider} from '@stripe/stripe-react-native';
-import {
-  CardField,
-  confirmPayment,
-} from '@stripe/stripe-react-native';
+import {CardField, confirmPayment} from '@stripe/stripe-react-native';
 import PaymentButton from '../components/PaymentButton';
-import createPaymentIntent from '../api/stripeApi';
 import CartService from '../services/CartService';
-import { CartAction } from '../actions';
-import { useDispatch } from 'react-redux';
+import {CartAction} from '../actions';
+import {useDispatch} from 'react-redux';
 
 const CartScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,7 +55,7 @@ const CartScreen = ({navigation}) => {
       currency: 'eur',
     };
     try {
-      const res = await createPaymentIntent(paymentData);
+      const res = await CartService.createPaymentIntent(paymentData);
       if (res?.data?.paymentIntent) {
         let confirmPaymentIntent = await confirmPayment(
           res?.data?.paymentIntent,
@@ -171,9 +167,15 @@ const CartScreen = ({navigation}) => {
               onRequestClose={handleModalToggle}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <TouchableOpacity style={styles.closeButton} onPress={handleModalToggle}>
-                      <Entypo name="cross" size={25} color={colors.DEFAULT_BLACK} />
-                    </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={handleModalToggle}>
+                    <Entypo
+                      name="cross"
+                      size={25}
+                      color={colors.DEFAULT_BLACK}
+                    />
+                  </TouchableOpacity>
                   <Text style={styles.modalTitle}>Payment Method</Text>
                   <View>
                     <View>
@@ -202,7 +204,7 @@ const CartScreen = ({navigation}) => {
                         <PaymentButton onPress={onDone} disabled={!cardInfo} />
                       </StripeProvider>
                     </View>
-                  </View> 
+                  </View>
                 </View>
               </View>
             </Modal>
@@ -404,8 +406,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 10, 
-    right: 10, 
+    top: 10,
+    right: 10,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,30 +6,34 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import UserService from '../services/UserService';
-import { GeneralAction } from '../actions';
-import { colors, fonts } from '../constants';
-import { Separator } from '../components';
+import {GeneralAction} from '../actions';
+import {colors, fonts} from '../constants';
+import {Separator} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const UpdateAccountScreen = ({ navigation }) => {
+const UpdateAccountScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state?.generalState?.userData);
-  const [fullName, setFullName] = useState(userInfo?.data?.fullName || userInfo?.data?.username);
+  const [fullName, setFullName] = useState(
+    userInfo?.data?.fullName || userInfo?.data?.username,
+  );
   const [password, setPassword] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState(userInfo?.data?.dateOfBirth || '');
+  const [dateOfBirth, setDateOfBirth] = useState(
+    userInfo?.data?.dateOfBirth || '',
+  );
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [open, setOpen] = useState(false);
   const [gender, setGender] = useState(userInfo?.data?.gender || []);
   const [items, setItems] = useState([
     {label: 'Male', value: 'Male'},
-    {label: 'Female', value: 'Female'}
+    {label: 'Female', value: 'Female'},
   ]);
 
   const handleUpdate = () => {
@@ -39,16 +43,16 @@ const UpdateAccountScreen = ({ navigation }) => {
       dateOfBirth,
       password: password ? password : undefined,
     };
-  
+
     UserService.updateUserData(updatedUserData)
       .then(response => {
         if (response.status) {
           UserService.getUserData().then(userResponse => {
-            if(userResponse?.status){
-              console.log(userResponse?.data)
-                dispatch(GeneralAction.setUserData(userResponse?.data));
+            if (userResponse?.status) {
+              console.log(userResponse?.data);
+              dispatch(GeneralAction.setUserData(userResponse?.data));
             }
-        })
+          });
           navigation.pop();
         } else {
           // Handle error
@@ -60,7 +64,6 @@ const UpdateAccountScreen = ({ navigation }) => {
         console.error(error);
       });
   };
-  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -76,14 +79,16 @@ const UpdateAccountScreen = ({ navigation }) => {
     hideDatePicker();
   };
 
-
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // 'padding' behavior for iOS, 'height' behavior for Android
-    style={{flex: 1}}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // 'padding' behavior for iOS, 'height' behavior for Android
+      style={{flex: 1}}>
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor={colors.SECONDARY_RED} translucent />
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={colors.SECONDARY_RED}
+          translucent
+        />
         <Separator height={StatusBar.currentHeight} />
         <View style={styles.backgroundCurvedContainer} />
         <View style={styles.headerContainer}>
@@ -131,8 +136,12 @@ const UpdateAccountScreen = ({ navigation }) => {
           </View>
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionText}>Date of Birth</Text>
-            <TouchableOpacity style={styles.datePickerButton} onPress={showDatePicker}>
-              <Text style={styles.datePickerText}>{dateOfBirth || 'Select date'}</Text>
+            <TouchableOpacity
+              style={styles.datePickerButton}
+              onPress={showDatePicker}>
+              <Text style={styles.datePickerText}>
+                {dateOfBirth || 'Select date'}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.sectionContainer}>
@@ -153,8 +162,7 @@ const UpdateAccountScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.updateButton}
             onPress={handleUpdate}
-            activeOpacity={0.8}
-          >
+            activeOpacity={0.8}>
             <Text style={styles.updateButtonText}>Update</Text>
           </TouchableOpacity>
         </View>
