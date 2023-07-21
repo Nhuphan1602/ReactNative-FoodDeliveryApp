@@ -3,11 +3,11 @@ import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
 import {colors, images, fonts} from '../constants';
 import {display} from '../utils';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
+    <View style={styles.container} testID="splashContainer">
+      <StatusBar 
+        barStyle="light-content" 
         backgroundColor={colors.SECONDARY_RED}
         translucent
       />
@@ -15,6 +15,7 @@ const SplashScreen = ({navigation}) => {
         source={images.WELCOME}
         resizeMode="contain"
         style={styles.image}
+        testID="splashImage"
       />
     </View>
   );
