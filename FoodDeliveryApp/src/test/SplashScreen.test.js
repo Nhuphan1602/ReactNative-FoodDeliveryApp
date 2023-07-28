@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
-import SplashScreen from './SplashScreen';
+import SplashScreen from '../screens/SplashScreen';
 import { colors, images } from '../constants';
 
 describe('SplashScreen', () => {
