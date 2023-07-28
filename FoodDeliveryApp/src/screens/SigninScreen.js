@@ -100,7 +100,7 @@ const SigninScreen = ({navigation}) => {
                 placeholderTextColor={colors.DEFAULT_GREY}
                 selectionColor={colors.DEFAULT_GREY}
                 style={styles.inputText}
-                onChangeText={text => setUsername(text)}
+                onChangeText={text => setUsername(text.toLocaleLowerCase())}
               />
             </View>
           </View>

@@ -75,8 +75,25 @@ const SignupScreen = ({navigation}) => {
   const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [emailState, setEmailState] = useState('default');
   const [usernameState, setUsernameState] = useState('default');
+  const [passwordState, setPasswordState] = useState('default');
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validateUsername = (username) => {
+    const usernameRegex = /^[^\s]{4,}$/;
+    return usernameRegex.test(username);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s]+@[^\s]+\.[^\s]+$/;
+    return emailRegex.test(email);
+  };
 
   const register = () => {
+
     let user = {
       username,
       email,
@@ -88,8 +105,33 @@ const SignupScreen = ({navigation}) => {
     navigation.navigate('RegisterPhone', {user: user});
   };
 
+  const checkPassword = password => {
+    if (!validatePassword(password)) {
+      setErrorMessage('Password must be at least 6 characters long, containing letters, numbers, and at least 1 uppercase letter, without spaces.');
+      setPasswordState('invalid');
+      return;
+    } else {
+      setErrorMessage('');
+      setPasswordState('valid');
+    }
+  };
+  
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
+
+      value = value.toLowerCase();
+      if (type === 'username' && !validateUsername(username)) {
+        setUsernameErrorMessage('Username must be at least 4 characters long and without spaces.');
+        setUsernameState('invalid');
+        return;
+      } 
+  
+      if (type === 'email' && !validateEmail(email)) {
+        setEmailErrorMessage('Please enter a valid email address.');
+        setEmailState('invalid');
+        return;
+      } 
+
       AuthenticationService.checkUserExist(type, value).then(response => {
         if (response?.status) {
           type === 'email' && emailErrorMessage
@@ -200,7 +242,7 @@ const SignupScreen = ({navigation}) => {
 
           <Text style={styles.errorMessage}>{emailErrorMessage}</Text>
           <Text style={styles.textOnInput}>Password</Text>
-          <View style={styles.inputContainer}>
+          <View style={inputStyle(passwordState)}>
             <View style={styles.inputSubContainer}>
               <Feather
                 name="lock"
@@ -219,6 +261,9 @@ const SignupScreen = ({navigation}) => {
                 selectionColor={colors.DEFAULT_GREY}
                 style={styles.inputText}
                 onChangeText={text => setPassword(text)}
+                onEndEditing={({nativeEvent: {text}}) =>
+                  checkPassword(text)
+                }
               />
               <Feather
                 name={isPasswordShow ? 'eye' : 'eye-off'}
