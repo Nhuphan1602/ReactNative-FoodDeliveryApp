@@ -7,11 +7,12 @@ import {
   Image,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import {RestaurantService, StaticImageService} from '../services';
 import {display} from '../utils';
 import {apiConstants, colors, fonts, images} from '../constants';
-import {CategoryListItem, FoodCard, Separator} from '../components';
+import {CategoryListItem, FoodCard, Separator, CartBar} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
@@ -81,7 +82,7 @@ const RestaurantScreen = ({
     dispatch(BookmarkAction.addBookmark({restaurantId}));
   const removeBookmark = () =>
     dispatch(BookmarkAction.removeBookmark({restaurantId}));
-
+    const cart = useSelector(state => state?.cartState?.cart);
   return (
     <View style={styles.container}>
       <StatusBar barStyle="default" translucent backgroundColor="transparent" />
@@ -102,6 +103,13 @@ const RestaurantScreen = ({
             onPress={() => navigation.goBack()}
           />
         </View>
+        {cart?.cartItems?.length > 0 && (
+          <TouchableOpacity style={styles.cartBarStyle} onPress={() => {
+             navigation.navigate('Cart'); 
+          }}>
+            <CartBar count={cart?.cartItems?.length} price={cart?.metaData?.grandTotal?.toFixed(0)} />
+          </TouchableOpacity>
+        )}
         <ScrollView>
           <Separator height={display.setHeight(35)} />
           <View style={styles.mainContainer}>
@@ -300,6 +308,13 @@ const styles = StyleSheet.create({
   },
   foodList: {
     marginHorizontal: 15,
+  },
+  cartBarStyle: {
+    position: 'absolute',
+    bottom: 20,
+    height: display.setHeight(8),
+    width: '100%',
+    zIndex: 99999,
   },
 });
 

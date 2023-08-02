@@ -20,6 +20,8 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@stripe/stripe-react-native": "^0.29.0",
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "lottie-ios": "^3.4.1",
     "lottie-react-native": "^5.1.6",
     "react": "18.2.0",

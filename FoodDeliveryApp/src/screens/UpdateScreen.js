@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import {
   View,
@@ -17,6 +18,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { display } from '../utils';
+import { StorageService } from '../services';
+import bcrypt from 'bcryptjs';
+
 
 const UpdateAccountScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -35,6 +40,27 @@ const UpdateAccountScreen = ({navigation}) => {
     {label: 'Male', value: 'Male'},
     {label: 'Female', value: 'Female'},
   ]);
+  const [oldPassword, setOldPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [updateStatus, setUpdateStatus] = useState(true);
+
+  const checkPassword = async (password) => {
+    try {
+
+      const isPasswordMatched = await bcrypt.compare(password, userInfo?.data?.password);
+      console.log(password + userInfo?.data?.password)
+      console.log(isPasswordMatched)
+      if (!isPasswordMatched) {
+        setErrorMessage('Old password incorrect');
+        setUpdateStatus(false)
+      } else {
+        setErrorMessage('Correct');
+        setUpdateStatus(true)
+      }
+    } catch (error) {
+      console.error('Error comparing passwords:', error);
+    }
+  };
 
   const handleUpdate = () => {
     const updatedUserData = {
@@ -53,7 +79,17 @@ const UpdateAccountScreen = ({navigation}) => {
               dispatch(GeneralAction.setUserData(userResponse?.data));
             }
           });
-          navigation.pop();
+          if(password!='') {
+
+            StorageService.setToken('').then(() => {
+              dispatch(GeneralAction.setToken(''));
+              dispatch(GeneralAction.setUserData(null));
+            });
+          } else {
+            navigation.pop();
+          }
+
+
         } else {
           // Handle error
           console.log(response.message);
@@ -63,6 +99,8 @@ const UpdateAccountScreen = ({navigation}) => {
         // Handle error
         console.error(error);
       });
+
+
   };
 
   const showDatePicker = () => {
@@ -144,8 +182,27 @@ const UpdateAccountScreen = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.sectionContainer}>
-            <Text style={styles.sectionText}>Password</Text>
+          <View>
+            <Text style={styles.sectionText}>Old Password</Text>
+            <TextInput
+              style={styles.input}
+              multiline={false}
+              maxLength={20}
+              autoCorrect={false}
+              autoCapitalize="none"
+              placeholder="Please enter old password"
+              placeholderTextColor={colors.DEFAULT_GREY}
+              selectionColor={colors.DEFAULT_GREY}
+              value={oldPassword}
+              onChangeText={setOldPassword}
+              onEndEditing={({nativeEvent: {text}}) =>
+                  checkPassword(text)
+                }
+            />
+          </View>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <View style={[styles.sectionContainer, {marginTop: 10}]}>
+            <Text style={[styles.sectionText, {marginTop: 0}]}>New Password</Text>
             <TextInput
               style={styles.input}
               multiline={false}
@@ -162,7 +219,8 @@ const UpdateAccountScreen = ({navigation}) => {
           <TouchableOpacity
             style={styles.updateButton}
             onPress={handleUpdate}
-            activeOpacity={0.8}>
+            activeOpacity={0.8}
+            disabled={!updateStatus}>
             <Text style={styles.updateButtonText}>Update</Text>
           </TouchableOpacity>
         </View>
@@ -278,6 +336,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.POPPINS_REGULAR,
     fontSize: 14,
     color: colors.DEFAULT_BLACK,
+  },
+  inputText: {
+    fontSize: 14,
+    textAlignVertical: 'center',
+    height: display.setHeight(7),
+    color: colors.DEFAULT_BLACK,
+    flex: 1,
+  },
+  errorMessage: {
+    fontSize: 10,
+    lineHeight: 10 * 1.4,
+    color: colors.DEFAULT_RED,
+    fontFamily: fonts.POPPINS_MEDIUM,
   },
 });
 

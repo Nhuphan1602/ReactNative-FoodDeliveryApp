@@ -6,7 +6,7 @@ const config = require("../config");
 
 // Your AccountSID and Auth Token from console.twilio.com
 const accountSid = 'AC2c4b47585449d85c218ec6043f3d3549';
-const authToken = '65651a1e1ebd0a79dfbc48c34046eb94';
+const authToken = '599b606acf1e689e9614bf5e08cee475';
 const serviceId = 'VA936b84f5190fd534213dafc7b157f4a2';
 
 const client = require('twilio')(accountSid, authToken);

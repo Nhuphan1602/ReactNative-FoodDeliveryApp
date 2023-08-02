@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     color: colors.DEFAULT_WHITE,
   },
   alertBadge: {
-    backgroundColor: colors.DEFAULT_YELLOW,
+    backgroundColor: colors.GOOGLE_BLUE,
     position: 'absolute',
     height: 16,
     width: 16,
