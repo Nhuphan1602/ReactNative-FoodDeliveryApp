@@ -36,7 +36,23 @@ for ios:
 for android:
     You can refer to the official React Native documentation for detailed instructions on setting up the Android development environment: https://reactnative.dev/docs/environment-setup
 
-### 3. Build the app
+### 3. Setup backend at terminal
+
+```sh
+# get ip address
+ipconfig getifaddr en0
+```
+
+```sh
+# setup mongoDB
+source ~/.bashrc  
+echo $PATH
+mongod --dbpath ~/Documents/mongodb-data
+```
+
+### 4. Build the app
+
+Get the IP address above and assign it to package.json file of both backend and app folders
 
 ```sh
 # navigate to app directory,build on ios
