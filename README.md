@@ -55,6 +55,11 @@ mongod --dbpath ~/Documents/mongodb-data
 Get the IP address above and assign it to package.json file of both backend and app folders
 
 ```sh
+# navigate to backend app directory
+npm start
+```
+
+```sh
 # navigate to app directory,build on ios
 npx react-native run-ios or npm run ios
 ```
