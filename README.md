@@ -39,7 +39,7 @@ for android:
 ### 3. Setup backend at terminal
 
 ```sh
-# get ip address
+# get ip address, you need to change the IP address in the package.json files for both the backend and the app, to get ip adrres:
 ipconfig getifaddr en0
 ```
 
@@ -49,6 +49,10 @@ source ~/.bashrc
 echo $PATH
 mongod --dbpath ~/Documents/mongodb-data
 ```
+
+Next, you must create collections in mongodb: bookmarks, carts, foods, restaurants, users.
+Mock data in the collections "foods" and "restaurants" can be imported from 2 files in the "init data" folder (inside the backend folder).
+
 
 ### 4. Build the app
 
